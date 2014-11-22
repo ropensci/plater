@@ -63,7 +63,6 @@ test_that("validatePlate() fails for incorrect 384-well row labels", {
    expect_that(validatePlate(wrongRowLabels), throws_error()) 
 })
 
-
 test_that("validatePlate() passes with valid 384-well input", {
    # no error
    plate <- readPlate(paste0(path, "validPlate384Well.csv"))
@@ -73,3 +72,29 @@ test_that("validatePlate() passes with valid 384-well input", {
 ################################################################################
 context("testing wrongRowLabelsErrorMessage()")
 ################################################################################
+test_that("wrongRowLabelsErrorMessage() fails for valid plate", {
+   validPlate <- readPlate(paste0(path, "validPlate384Well.csv"))
+   expect_that(wrongRowLabelsErrorMessage(validPlate), throws_error())
+})
+
+test_that("wrongRowLabelsErrorMessage() fails for invalid plate dimensions", {
+   missingRow <- readPlate(paste0(path, "missingBottomRow.csv"))
+   expect_that(wrongRowLabelsErrorMessage(validPlate), throws_error())
+})
+
+test_that("wrongRowLabelsErrorMessage() 96-well", {
+   incorrectRowLabels <- readPlate(paste0(path, "incorrectRowLabels.csv"))
+   message <- wrongRowLabelsErrorMessage(incorrectRowLabels)
+   expect_that(message, matches(
+      paste0("Correct row labels not found. Found 'X B C D E F G H' but ",
+               "expected 'a b c d e f g h' or 'A B C D E F G H'.")))
+})
+
+test_that("wrongRowLabelsErrorMessage() 384-well", {
+   incorrectRowLabels384 <- readPlate(paste0(path, "384incorrectRowLabels.csv"))
+   message <- wrongRowLabelsErrorMessage(incorrectRowLabels384)
+   expect_that(message, matches(
+      paste0("Correct row labels not found. Found 'A B C D E F G H N P K L M N",
+            " O P' but expected 'a b c d e f g h i j k l m n o p' or 'A B C D",
+            " E F G H I J K L M N O P'.")))
+})
