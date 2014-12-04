@@ -1,7 +1,6 @@
-id <- sapply(formatC(1:12, width = 2, flag = "0"),
-   FUN = function(i) paste(LETTERS[1:8], i, sep = ""))
-id <- as.vector(t(id))
-
+setwd("H:\\R\\annotatePlate")
+source("annotatePlate.R") # for getWellIds
+id <- getWellIds(96)
 data <- data.frame(wellIds = id, values = sample(96) + 0.0001)
 
 
