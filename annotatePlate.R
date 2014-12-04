@@ -37,7 +37,8 @@ annotateNWellPlate <- function(filename, columnName) {
    # generate well labels,
    wells <- getWellIds(rows * cols)
    
-   df <- data.frame(wellIds = wells, columnName = plate)
+   df <- data.frame(wellIds = wells, columnName = plate, 
+         stringsAsFactors = FALSE)
    names(df) <- c("wellIds", columnName)
    
    return (df)   
@@ -67,7 +68,7 @@ getWellIds <- function(plateSize) {
 readPlate <- function(filename) {
    read.table(filename, sep = ",", 
       skip = 1,  
-      na.strings = "")
+      na.strings = "", stringsAsFactors = FALSE)
 }
 
 # requires:    plate is non-null
