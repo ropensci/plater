@@ -10,6 +10,8 @@
 # The file must be formatted as follows...
 
 
+### add test for blank columns
+
 
 ################################################################################
 annotate96WellPlate <- function(filename, columnName) {
@@ -38,6 +40,7 @@ annotateNWellPlate <- function(filename, columnName) {
    wells <- as.vector(t(wells))
    
    df <- data.frame(wellIds = wells, columnName = plate)
+   names(df) <- c("wellIds", columnName)
    
    return (df)   
 }
