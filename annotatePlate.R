@@ -1,5 +1,6 @@
-
-
+################################################################################
+# annotatePlate
+################################################################################
 # annotate96WellPlate() and annotate384WellPlate() map data from a microtiter
 # plate layout to columns identified by well names. 
 #
@@ -7,16 +8,40 @@
 # data frame with two columns: one with wellIds (A01, A02..H12) and one with the
 # contents of each well within the plate. 
 #
-# The file must be formatted as follows...
-
-
-### add test for blank columns
-
-
+# The file must be formatted as follows. The top-left most cell is empty. The 
+# subsequent wells in the top row should be labeled 1-12 (for 96-well plates) or 
+# 1-24 (for 384-well plates). The subsequent cells in the first column should be 
+# labeled A-H (for 96-well plates) or A-P (for 384-well plates). In other words:
+#
+#     | 1 | 2 | 3 |...
+#  ---+---+---+---+---
+#   A |   |   |   |   
+#  ---+---+---+---+---
+#   B |   |   |   |   
+#  ---+---+---+---+---
+#  ...|   |   |   |   
+# 
+# Each cell within the plate (i.e. the cells inside the bounds indicated by the 
+# row and column labels) may contain arbitrary characters: numbers, letters, or 
+# punctuation, excepting the R comment character '#'. Any cell may also be 
+# blank. 
+#
 ################################################################################
-annotate96WellPlate <- function(filename, columnName) {
+
+test_dir("H:/R/annotatePlate/test")
+
+# PUBLIC
+# requires:    filename points to a valid file in the format described above
+# param:       filename the path of the .csv file to get the data from
+# param:       columnName the name to give the column with the data on output
+#              Defaults to "values"
+# returns:     a two-column data frame, with one column called wellIds (A01, 
+#              A02..H12) and the other called columnName (containing the values 
+#              in the indicated wells). Empty wells are indicated with NA. 
+annotate96WellPlate <- function(filename, columnName = "values") {
    return (annotateNWellPlate(filename, columnName))
 }
+
 
 annotateNWellPlate <- function(filename, columnName) {
    plate <- readPlate(filename)
