@@ -1,7 +1,5 @@
 require(testthat)
-setwd("H:\\R\\annotatePlate\\test")
-source("../annotatePlate.R")
-path <- paste0(getwd(), "/testData/")
+path <- "H:/R/annotatePlate/test/testData/"
 
 ################################################################################
 context("testing validatePlate()")
@@ -135,4 +133,10 @@ test_that("annotate96WellPlate() gives correct output with some empty wells", {
    expect_that(sum(is.na(plate$contents)), equals(27))
    plate <- plate[!is.na(plate$contents), ]
    expect_that(plate$contents, is_identical_to(plate$wellIds))
+})
+
+test_that("annotate96WellPlate() gives correct output with blank columnName", {
+   # every well present, all have own ID as contents
+   plate <- annotate96WellPlate(paste0(path, "allWellIds.csv"))
+   expect_that(plate$values, is_identical_to(plate$wellIds))
 })
