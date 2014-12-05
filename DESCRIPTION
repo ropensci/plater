@@ -1,0 +1,8 @@
+Package: annotatePlate
+Title: Microtiter plate tools
+Version: 0.1
+Authors@R: "Sean Hughes <smhughes@uw.edu>"
+Description: Tools for interacting with data in the form of microtiter plates/
+Depends: R (>= 3.1.0)
+License: What license is it under?
+LazyData: true
