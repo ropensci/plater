@@ -1,43 +1,31 @@
-################################################################################
-# annotatePlate
-################################################################################
-# annotate96WellPlate() and annotate384WellPlate() map data from a microtiter
-# plate layout to columns identified by well names. 
-#
-# The functions take a .csv file formatted as a microtiter plate and return a 
-# data frame with two columns: one with wellIds (A01, A02..H12) and one with the
-# contents of each well within the plate. 
-#
-# The file must be formatted as follows. The top-left most cell is empty. The 
-# subsequent wells in the top row should be labeled 1-12 (for 96-well plates) or 
-# 1-24 (for 384-well plates). The subsequent cells in the first column should be 
-# labeled A-H (for 96-well plates) or A-P (for 384-well plates). In other words:
-#
-#     | 1 | 2 | 3 |...
-#  ---+---+---+---+---
-#   A |   |   |   |   
-#  ---+---+---+---+---
-#   B |   |   |   |   
-#  ---+---+---+---+---
-#  ...|   |   |   |   
-# 
-# Each cell within the plate (i.e. the cells inside the bounds indicated by the 
-# row and column labels) may contain arbitrary characters: numbers, letters, or 
-# punctuation, excepting the R comment character '#'. Any cell may also be 
-# blank. 
-#
-################################################################################
-
-test_dir("H:/R/annotatePlate/test")
-
-# PUBLIC
-# requires:    filename points to a valid file in the format described above
-# param:       filename the path of the .csv file to get the data from
-# param:       columnName the name to give the column with the data on output
-#              Defaults to "values"
-# returns:     a two-column data frame, with one column called wellIds (A01, 
-#              A02..H12) and the other called columnName (containing the values 
-#              in the indicated wells). Empty wells are indicated with NA. 
+#' Annotates a 96-well plate. 
+#'  
+#' annotate96WellPlate() maps data from a microtiter plate layout to columns 
+#' identified by well names. 
+#'
+#' @param filename The path of a .csv file formatted as described below.
+#' @param columnName The name to give the data column on output. Default: "values"
+#' @return Returns a two-column data frame, with one column called wellIds (A01, 
+#'              A02..H12) and the other called columnName (containing the values 
+#'              in the indicated wells). Empty wells are indicated with NA. 
+#'              
+#' @section File format:
+#' The .csv file should be formatted as a microtiter plate. The top-left most 
+#' cell is empty. The subsequent wells in the top row should be labeled 1-12. 
+#' The subsequent cells in the first column should be labeled A-H. In other  
+#' words:
+#'
+#' \tabular{ccccc}{
+#'              \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\cr
+#' \strong{A}   \tab A01        \tab A02        \tab A03        \tab ... \cr
+#' \strong{B}   \tab B01        \tab B02        \tab B03        \tab ... \cr
+#' \strong{...} \tab ...        \tab ...        \tab ...        \tab ... \cr
+#' }
+#' 
+#' In this example, the cells within the plate contain the well IDs ("A01", 
+#' "A02"), but they may contain arbitrary characters: numbers, letters, or 
+#' punctuation, excepting the R comment character "#". Any cell may also be 
+#' blank. 
 annotate96WellPlate <- function(filename, columnName = "values") {
    return (annotateNWellPlate(filename, columnName))
 }
@@ -69,9 +57,9 @@ annotateNWellPlate <- function(filename, columnName) {
    return (df)   
 }
 
-# requires:    plateSize == 96 or 384
-# returns:     a character vector of well IDs (e.g. A01..B05..H12) of length 96 
-#              or 384 
+#' requires:    plateSize == 96 or 384
+#' returns:     a character vector of well IDs (e.g. A01..B05..H12) of length 96 
+#'              or 384 
 getWellIds <- function(plateSize) {
    if(plateSize == 96) {
       cols = 12
@@ -88,18 +76,18 @@ getWellIds <- function(plateSize) {
    return(wells)
 }
 
-# requires:    filename points to a valid .csv file, as specified above
-# returns:     a data frame created from the .csv file
+#' requires:    filename points to a valid .csv file, as specified above
+#' returns:     a data frame created from the .csv file
 readPlate <- function(filename) {
    read.table(filename, sep = ",", 
       skip = 1,  
       na.strings = "", stringsAsFactors = FALSE)
 }
 
-# requires:    plate is non-null
-# param:       plate    a data frame
-# throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
-#              or (16, 24) or if row labels are incorrect (not A:H or A:P)
+#' requires:    plate is non-null
+#' param:       plate    a data frame
+#' throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
+#'              or (16, 24) or if row labels are incorrect (not A:H or A:P)
 validatePlate <- function(plate) {
    if (!arePlateDimensionsValid(plate)) {
       stop(paste("Invalid plate dimensions. Found", nrow(plate), "rows and", 
@@ -112,10 +100,10 @@ validatePlate <- function(plate) {
    }
 }
 
-# requires:    plate is non-null and has at least one row and column
-# param:       plate    a data frame
-# returns:     true if dimensions of plate (minus one column) are not (8, 12) 
-#              or (16, 24)
+#' requires:    plate is non-null and has at least one row and column
+#' param:       plate    a data frame
+#' returns:     true if dimensions of plate (minus one column) are not (8, 12) 
+#'              or (16, 24)
 arePlateDimensionsValid <- function(plate) {
    rows <- nrow(plate)
    cols <- ncol(plate) - 1
@@ -126,20 +114,20 @@ arePlateDimensionsValid <- function(plate) {
    return(is96 || is384)
 }
 
-# requires:    plate is non-null and has at least 1 column
-# param:       plate    a data frame
-# returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
-#              lower-, or mixed-case.
+#' requires:    plate is non-null and has at least 1 column
+#' param:       plate    a data frame
+#' returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
+#'              lower-, or mixed-case.
 areRowLabelsValid <- function(plate) {
    return(identical(letters[1:8], tolower(plate[[1]])) ||
          identical(letters[1:16], tolower(plate[[1]]))) 
 }
 
-# requires:    plate is non-null and has valid dimensions, but the row labels 
-#              are incorrect
-# param:       plate    a data frame
-# returns:     an error message, describing the row labels found and the row 
-#              labels that were expected
+#' requires:    plate is non-null and has valid dimensions, but the row labels 
+#'              are incorrect
+#' param:       plate    a data frame
+#' returns:     an error message, describing the row labels found and the row 
+#'              labels that were expected
 wrongRowLabelsErrorMessage <- function(plate) {
    if (!arePlateDimensionsValid(plate)) {
       stop("plate must have valid dimensions")
