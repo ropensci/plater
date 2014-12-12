@@ -1,6 +1,4 @@
-setwd("H:\\R\\annotatePlate")
-source("annotatePlate.R") # for getWellIds
-id <- getWellIds(96)
+id <- getWellIds(96) # from annotatePlate
 data <- data.frame(wellIds = id, values = sample(96) + 0.0001)
 
 
