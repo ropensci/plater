@@ -3,3 +3,5 @@
 .RData
 *.csv
 *.Rproj
+.Rbuildignore
+man
