@@ -2,7 +2,7 @@ require(testthat)
 path <- "testData/"
 
 ################################################################################
-context("testing validatePlate()")
+context("testing annotatePlate-validatePlate()")
 ################################################################################
 
 test_that("validate plate fails for incorrect 96-well plate dimensions", {
@@ -72,7 +72,7 @@ test_that("validatePlate() passes with valid 384-well input", {
 })
 
 ################################################################################
-context("testing wrongRowLabelsErrorMessage()")
+context("testing annotatePlate-wrongRowLabelsErrorMessage()")
 ################################################################################
 test_that("wrongRowLabelsErrorMessage() fails for valid plate", {
    validPlate <- readPlate(paste0(path, "validPlate384Well.csv"))
@@ -102,7 +102,7 @@ test_that("wrongRowLabelsErrorMessage() 384-well", {
 })
 
 ################################################################################
-context("testing getWellIds()")
+context("testing annotatePlate-getWellIds()")
 ################################################################################
 test_that("getWellIds() fails for non 96 or 384 input", {
    expect_that(getWellIds(95), throws_error())
@@ -119,7 +119,7 @@ test_that("getWellIds(384) gives correct output", {
 })
 
 ################################################################################
-context("testing annotate96WellPlate")
+context("testing annotatePlate-annotate96WellPlate")
 ################################################################################
 test_that("annotate96WellPlate() gives correct output", {
    # every well present, all have own ID as contents
