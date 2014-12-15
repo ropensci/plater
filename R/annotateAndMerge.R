@@ -7,7 +7,7 @@
 #' @param wellIdsColumn The name of the column in data containing the well IDs. 
 #' @param filename The path of a .csv file formatted as described in 
 #' \code{\link{annotate96WellPlate}}.
-#' @param columnName The name to give the new column on output. Default: "values"
+#' @inheritParams annotate96WellPlate 
 #' @return Returns data with one new column containing the information in 
 #' filename, merged by well ID. Empty wells are indicated with NA. 
 annotateAndMerge96WellPlate <- function(data, wellIdsColumn, filename, columnName) {
