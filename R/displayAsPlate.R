@@ -1,21 +1,27 @@
-id <- getWellIds(96) # from annotatePlate
-data <- data.frame(wellIds = id, values = sample(96) + 0.01)
+#id <- getWellIds(96) # from annotatePlate
+#data <- data.frame(wellIds = id, values = sample(96) + 0.01)
 # how many decimals or whatever to show? 
 
 
 #' Displays the data in the form of a microtiter plate
 #'  
-displayAs96WellPlate <- function(data) {
+displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
    # get plate size
-   # ensure plate has all well IDs for its size
-      # fill missing ones with blanks
+   
+   
+   # ensure the well IDs are correct
+   data <- ensureCorrectWellIds(data, wellIdColumn, 96)
    
    # transform
    # sort by wellIds 
-   data <- data[order(data$wellIds), ]
+   data <- data[order(data[ , wellIdColumn]), ]
+   
+   # get data to display and replace NA with '.'
+   toDisplay <- data[[columnToDisplay]]
+   toDisplay <- ifelse(is.na(toDisplay), ".", toDisplay)
    
    # create result and name rows and columns
-   result <- data.frame(matrix(data$values, nrow = 8, byrow = TRUE))
+   result <- data.frame(matrix(toDisplay, nrow = 8, byrow = TRUE))
    rownames(result) <- LETTERS[1:8]
    colnames(result) <- 1:12
    
@@ -36,16 +42,19 @@ ensureCorrectWellIds <- function(data, wellIdColumn, plateSize) {
          "data$", wellIdColumn, " has ", length(wells), " elements, which is ",
          "longer than plateSize = ", plateSize))
    }
+   #if any well IDs are wrong, stop
    
    if (areWellIdsCorrect(wells, 96)) {
-      return(TRUE)
+      return(data)
    } else {
       # else take corrective action
-         # if length(wells) < plateSize
-            # fill in missing with blanks
-            # recursively call this function
          # if leading zeroes are missing
             # correct them
+            # recursively call this function
+      if (length(wells) < plateSize) {
+         return(fillInMissingWellIds(data, wellIdColumn, plateSize))
+      }
+            # fill in missing with blanks
          # else 
             # stop   
    }
@@ -65,6 +74,11 @@ areWellIdsCorrect <- function(wells, plateSize) {
 
 #' Returns data with NAs included for all missing wells 
 fillInMissingWellIds <- function(data, wellIdColumn, plateSize) {
+   if (nrow(data) >= plateSize) {
+      stop(paste0("data has ", nrow(data), " rows, which is >= the plate size ",
+         "(", plateSize, "). It should have fewer rows."))
+   }
+   
    # find which are missing
    wells <- as.character(data[, wellIdColumn])
    complete <- getWellIds(plateSize)
@@ -85,8 +99,42 @@ fillInMissingWellIds <- function(data, wellIdColumn, plateSize) {
    # if user provided factor wellIds, make sure full set of levels are there 
    if (is.factor(data$wells)) {
       data[, wellIdColumn] <- factor(data[, wellIdColumn], levels = complete)
-      temp$wellsToAdd <- factor(temp$wellsToAdd, levels = complete)
+      temp[, wellIdColumn] <- factor(temp[, wellIdColumn], levels = complete)
    }
    
    return(rbind(data, temp))
+}
+
+correctLeadingZeroes <- function(data, wellIdColumn, plateSize) {
+   # convert to character and store if needed to be changed back to factor   
+   wasFactor <- FALSE
+   if(is.factor(data[[wellIdColumn]])) {
+      wasFactor <- TRUE
+      data[, wellIdColumn] <- as.character(data[, wellIdColumn]) 
+   }   
+   
+   # build lookup table
+   missing <- getWellIdsWithoutLeadingZeroes(plateSize)
+   correct <- getWellIds(plateSize)
+   lookup <- data.frame(correct = correct, missing = missing, 
+      stringsAsFactors = FALSE)
+   
+   # look up and add results as new column to data
+   matches <- match(data[ , wellIdColumn], lookup$missing)
+   data$temp <- lookup$correct[matches]
+   
+   # replace well ID with itself or with the value from the lookup table
+   data[ , wellIdColumn] <- ifelse(is.na(data$temp), 
+         as.character(data[ , wellIdColumn]), 
+         as.character(data$temp))
+
+   # remove temporary column
+   data <- data[ , !(names(data) =="temp")]
+   
+   # return to factor if needed
+   if(wasFactor) {
+      data[ , wellIdColumn] <- factor(data[ , wellIdColumn])
+   }
+
+   return(data)
 }
