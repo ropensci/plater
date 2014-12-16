@@ -118,6 +118,17 @@ test_that("getWellIds(384) gives correct output", {
    expect_that(getWellIds(384), is_identical_to(expected))
 })
 
+
+################################################################################
+context("testing annotatePlate-getWellIdsWithoutLeadingZeroes()")
+################################################################################
+
+# TODO
+test_that("todo", {
+   expect_that(TRUE, is_false())
+})
+
+
 ################################################################################
 context("testing annotatePlate-annotate96WellPlate")
 ################################################################################

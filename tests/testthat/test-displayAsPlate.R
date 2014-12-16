@@ -11,9 +11,10 @@ test_that("ensureCorrectWellIds stops if more wells than plate size", {
       throws_error())
 })
 
-test_that("ensureCorrectWellIds returns true for valid input", {
-   expect_that(ensureCorrectWellIds(data.frame(Ids = wells), "Ids", 96), 
-      is_true())
+test_that("ensureCorrectWellIds returns valid input", {
+   temp <- data.frame(Ids = wells)
+   expect_that(ensureCorrectWellIds(temp, "Ids", 96), 
+      is_identical_to(temp))
 })
 
 ################################################################################
@@ -98,7 +99,9 @@ test_that("fillInMissingWellIds() works with zero rows, one columns", {
 # test with well ids as factor and as character
 
 
-
+test_that("todo", {
+   expect_that(TRUE, is_false())
+})
 
 
 
@@ -110,10 +113,12 @@ test_that("fillInMissingWellIds() works with zero rows, one columns", {
 ################################################################################
 context("testing displayAsPlate-correctLeadingZeroes()")
 ################################################################################
-function(data, wellIdColumn, plateSize)
    
    # test with no missing leading zeroes
    # test with leading zeroes missing
    # test with invalid well IDs
    # test with incorrect plateSize
    # test with well ids as factor and as character
+test_that("todo", {
+   expect_that(TRUE, is_false())
+})
