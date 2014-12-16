@@ -75,6 +75,14 @@ getWellIds <- function(plateSize) {
    return(wells)
 }
 
+getWellIdsWithoutLeadingZeroes <- function(plateSize) {
+   wells <- getWellIds(plateSize)
+   wells <- ifelse(substr(wells, 2, 2) == "0", 
+      paste0(substr(wells, 1, 1), substr(wells, 3, 3)), 
+      wells)
+   return(wells)
+}
+
 #' requires:    filename points to a valid .csv file, as specified above
 #' returns:     a data frame created from the .csv file
 readPlate <- function(filename) {
