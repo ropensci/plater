@@ -46,19 +46,74 @@ test_that("areWellIdsCorrect() returns true for correct but out of order", {
 ################################################################################
 context("testing displayAsPlate-fillInMissingWellIds()")
 ################################################################################
+# set up data frame
+text <- paste0(letters[1:24], LETTERS[26:3])
+numbers <- sample(1:1000, 96)
+data <- data.frame(wells = getWellIds(96), text = text, numbers = numbers)
+
+# helper function
+validate <- function(result, data, bounds) {
+   expect_that(result$wells, is_identical_to(data$wells))
+   expect_that(result[0:bounds, ], is_identical_to(data[0:bounds, ]))
+   expect_that(colnames(result), is_identical_to(colnames(data)))
+}
+
+test_that("fillInMissingWellIds() fails with equal or more rows than wells", {
+   expect_that(fillInMissingWellIds(data, "wells", 96), throws_error())
+   expect_that(fillInMissingWellIds(rbind(data, data), "wells", 96), 
+      throws_error())
+})
+
+test_that("fillInMissingWellIds() works with three columns", {
+   result <- fillInMissingWellIds(data[1:10, ], "wells", 96)
+   validate(result, data, 10)
+})
+
+test_that("fillInMissingWellIds() works with only well column", {
+   # use drop = FALSE to prevent data frame becoming vector
+   result <- fillInMissingWellIds(data[1:10, "wells", drop = FALSE], "wells", 96)
+   validate(result, data[ , "wells", drop = FALSE], 10)
+})
+
+test_that("fillInMissingWellIds() works with zero rows, three columns", {
+   result <- fillInMissingWellIds(data[0, ], "wells", 96)
+   expect_that(result$wells, is_identical_to(data$wells))
+   
+   # if a data frame with no rows is put it, the column order is different from 
+   # expected: it orders according to internal processing ("temp"), not the
+   # order in the input data frame
+   expect_that(colnames(result), is_identical_to(colnames(data)))   
+   expect_that(sum(is.na(result$text)), equals(96))
+   expect_that(sum(is.na(result$numbers)), equals(96))
+})
+
+test_that("fillInMissingWellIds() works with zero rows, one columns", {
+   result <- fillInMissingWellIds(data[0, "wells", drop = FALSE], "wells", 96)
+   expect_that(result$wells, is_identical_to(data$wells))
+   expect_that(colnames(result), is_identical_to("wells"))   
+})
+
 # test with missing leading zeros
-# test with no missing wells
 # test with invalid well IDs
 # test with well ids as factor and as character
-# test with no other columns than well ids
-# test with many other columns
 
-data <- data.frame(wells = getWellIds(96)[sample(1:96, 24)], first = sample(1:96, 24), 
-   second = sample(1:96, 24))
-wellIdColumn <- "wells"
-plateSize <- 96
+
 
 
 
 
 # TODO
+
+
+
+
+################################################################################
+context("testing displayAsPlate-correctLeadingZeroes()")
+################################################################################
+function(data, wellIdColumn, plateSize)
+   
+   # test with no missing leading zeroes
+   # test with leading zeroes missing
+   # test with invalid well IDs
+   # test with incorrect plateSize
+   # test with well ids as factor and as character
