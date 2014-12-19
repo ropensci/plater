@@ -65,9 +65,16 @@ test_that("fillInMissingWellIds() fails with equal or more rows than wells", {
       throws_error())
 })
 
-test_that("fillInMissingWellIds() works with three columns", {
+test_that("fillInMissingWellIds() works with three columns as factor", {
    result <- fillInMissingWellIds(data[1:10, ], "wells", 96)
    validate(result, data, 10)
+})
+
+test_that("fillInMissingWellIds() works with three columns as character", {
+   d <- data[1:10, ]
+   d$wells <- as.character(d$wells)
+   result <- fillInMissingWellIds(d, "wells", 96)
+   validate(result, d, 10)
 })
 
 test_that("fillInMissingWellIds() works with only well column", {
@@ -94,31 +101,98 @@ test_that("fillInMissingWellIds() works with zero rows, one columns", {
    expect_that(colnames(result), is_identical_to("wells"))   
 })
 
-# test with missing leading zeros
-# test with invalid well IDs
-# test with well ids as factor and as character
-
-
-test_that("todo", {
-   expect_that(TRUE, is_false())
+test_that("fillInMissingWellIds() throws error with missing leading zeroes", {
+   d <- data
+   d$wells <- getWellIdsWithoutLeadingZeroes(96)
+   expect_that(fillInMissingWellIds(d, "wells", 96), throws_error())
 })
 
-
-
-# TODO
-
-
-
+test_that("fillInMissingWellIds() doesn't change if well IDs are invalid", {
+   d <- data
+   d$wells <- letters[1:24]
+   result <- fillInMissingWellIds(d[1:24, ], "wells", 96)
+   validate(result[1:24, ], d[1:24, ], 24)
+})
 
 ################################################################################
 context("testing displayAsPlate-correctLeadingZeroes()")
 ################################################################################
-   
-   # test with no missing leading zeroes
-   # test with leading zeroes missing
-   # test with invalid well IDs
-   # test with incorrect plateSize
-   # test with well ids as factor and as character
-test_that("todo", {
-   expect_that(TRUE, is_false())
+with <- data.frame(w = getWellIds(96), b = 1:96)
+without <- data.frame(w = getWellIdsWithoutLeadingZeroes(96), b = 1:96)
+
+test_that("correctLeadingZeroes returns same df for correct wells", {
+   expect_that(correctLeadingZeroes(with, "w", 96), is_identical_to(with))   
+})
+
+test_that("correctLeadingZeroes returns same df for correct wells as character", {
+   d <- with
+   d$w <- as.character(d$w)
+   expect_that(correctLeadingZeroes(d, "w", 96), is_identical_to(d))   
+})
+
+test_that("correctLeadingZeroes doesn't change unrelated text", {
+   d <- data.frame(w = letters[1:24], b = 1:96)
+   expect_that(correctLeadingZeroes(d, "w", 96), is_identical_to(d))   
+})
+
+test_that("correctLeadingZeroes corrects incorrect wells", {
+   expect_that(correctLeadingZeroes(without, "w", 96), is_identical_to(with))
+})
+
+test_that("correctLeadingZeroes corrects incorrect wells as char", {
+   correct <- with
+   correct$w <- as.character(correct$w)
+   d <- without
+   d$w <- as.character(d$w)
+   expect_that(correctLeadingZeroes(d, "w", 96), 
+      is_identical_to(correct))
+})
+
+test_that("correctLeadingZeroes fixes one incorrect well", {
+   d <- with
+   d$w <- factor(d$w, levels = c(levels(d$w), "A1"))
+   d[1, "w"] <- "A1"
+   expect_that(correctLeadingZeroes(d, "w", 96), is_identical_to(with))   
+})
+
+test_that("correctLeadingZeroes throws error with incorrect plate size", {
+   expect_that(correctLeadingZeroes(with, "w", 95), throws_error())   
+})
+
+################################################################################
+context("testing displayAsPlate-areLeadingZeroesValid()")
+################################################################################
+with <- data.frame(w = getWellIds(96))
+without <- data.frame(w = getWellIdsWithoutLeadingZeroes(96))
+
+test_that("areLeadingZeroesValid returns TRUE for correct wells", {
+   expect_that(areLeadingZeroesValid(with, "w", 96), is_true())   
+})
+
+test_that("areLeadingZeroesValid returns TRUE for correct wells as char", {
+   d <- with
+   d$w <- as.character(d$w)
+   expect_that(areLeadingZeroesValid(d, "w", 96), is_true())   
+})
+
+test_that("areLeadingZeroesValid returns TRUE for unrelated text", {
+   d <- data.frame(w = 1:96)
+   expect_that(areLeadingZeroesValid(d, "w", 96), is_true())   
+})
+
+test_that("areLeadingZeroesValid returns FALSE for incorrect wells", {
+   expect_that(areLeadingZeroesValid(without, "w", 96), is_false())   
+})
+
+test_that("areLeadingZeroesValid returns FALSE for incorrect wells as char", {
+   d <- without
+   d$w <- as.character(d$w)
+   expect_that(areLeadingZeroesValid(d, "w", 96), is_false())   
+})
+
+test_that("areLeadingZeroesValid returns FALSE for one incorrect well", {
+   d <- with
+   d$w <- factor(d$w, levels = c(levels(d$w), "A1"))
+   d[1, "w"] <- "A1"
+   expect_that(areLeadingZeroesValid(d, "w", 96), is_false())   
 })
