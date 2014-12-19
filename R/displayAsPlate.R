@@ -55,21 +55,24 @@ ensureCorrectWellIds <- function(data, wellIdColumn, plateSize) {
          "data$", wellIdColumn, " has ", length(wells), " elements, which is ",
          "longer than plateSize = ", plateSize))
    }
-   #if any well IDs are wrong, stop
    
-   if (areWellIdsCorrect(wells, 96)) {
+   if (areWellIdsCorrect(wells, plateSize)) {
       return(data)
    } else {
-      # else take corrective action
-         # if leading zeroes are missing
-            # correct them
-            # recursively call this function
-      if (length(wells) < plateSize) {
-         return(fillInMissingWellIds(data, wellIdColumn, plateSize))
+      if(!areLeadingZeroesValid(data, wellIdColumn, plateSize)) {
+         data <- correctLeadingZeroes(data, wellIdColumn, plateSize)
       }
-            # fill in missing with blanks
-         # else 
-            # stop   
+
+      if (length(wells) < plateSize) {
+         data <- fillInMissingWellIds(data, wellIdColumn, plateSize)
+      }
+      
+      if(areWellIdsCorrect(data[[wellIdColumn]], plateSize)) {
+         return(data)
+      } else {
+         # some well IDs are duplicates or incorrect
+         stop("Well IDs are invalid.")
+      }
    }
 }
 
@@ -88,9 +91,12 @@ areWellIdsCorrect <- function(wells, plateSize) {
 
    return(all(wells == trueWells))
 }
-
-#' Returns \code{data} with valid well IDs and NAs for all other columns in new 
-#' rows. 
+#' Returns \code{data} with the full set of valid well IDs for its size. 
+#' 
+#' Appends any well IDs missing from data$wellIdColumn for the given plate size
+#' as new rows, with NAs in the other columns. 
+#' 
+#' All well IDs should have leading zeroes, if appropriate. 
 #'
 #' @inheritParams ensureCorrectWellIds 
 #' @return Data with valid well IDs
@@ -100,6 +106,10 @@ fillInMissingWellIds <- function(data, wellIdColumn, plateSize) {
          "(", plateSize, "). It should have fewer rows."))
    }
    
+   if(!areLeadingZeroesValid(data, wellIdColumn, plateSize)) {
+      stop("Some well IDs are missing leading zeroes.")
+   }
+   
    # find which are missing
    wells <- as.character(data[, wellIdColumn])
    complete <- getWellIds(plateSize)
@@ -107,15 +117,15 @@ fillInMissingWellIds <- function(data, wellIdColumn, plateSize) {
 
    # create replacement data frame
    wellsToAdd <- complete[missing]
-   temp <- data[0 , -which(colnames(data) == wellIdColumn)]
+   temp <- data[0 , -which(colnames(data) == wellIdColumn), drop = FALSE]
    temp[1:length(wellsToAdd), ] <- NA
    
    # cbind replacement and column with wells
-   tempNames <- colnames(temp)
+   originalNames <- colnames(temp)
    temp <- cbind(temp, wellsToAdd)
    
    # rename column with wells to user's name
-   colnames(temp) <- c(tempNames, wellIdColumn)
+   colnames(temp) <- c(originalNames, wellIdColumn)
    
    # if user provided factor wellIds, make sure full set of levels are there 
    if (is.factor(data$wells)) {
@@ -124,6 +134,24 @@ fillInMissingWellIds <- function(data, wellIdColumn, plateSize) {
    }
    
    return(rbind(data, temp))
+}
+
+#' Returns TRUE if all well IDs that should have leading zeroes do.
+#'
+#' @inheritParams ensureCorrectWellIds 
+#' @return TRUE if all well IDs that should have leading zeroes do. This
+#' includes the case where no well IDs need leading zeroes (e.g. if all are >
+#' 9 or if none of the IDs are valid well IDs without leading zeroes). Thus this
+#' function returns TRUE for data$wellIdColumn containing arbitrary, non-ID 
+#' text.
+areLeadingZeroesValid <- function(data, wellIdColumn, plateSize) {
+   wells <- data[[wellIdColumn]]
+   missing <- getWellIdsWithoutLeadingZeroes(plateSize)
+   missing <- missing[nchar(missing) == 2]
+   if (any(wells %in% missing)) {
+      return(FALSE)
+   }
+   return(TRUE)
 }
 
 #' Returns \code{data} with leading zeroes added to well IDs missing them.
