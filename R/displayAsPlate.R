@@ -1,6 +1,3 @@
-# how many decimals or whatever to show? 
-
-
 #' Displays the data in the form of a microtiter plate
 #'
 #' @param data
@@ -8,11 +5,17 @@
 #' @param columnToDisplay
 #' @return xxx
 displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
-   # get plate size
-   
+   plateSize <- 96
+   return(displayAsPlate(data, wellIdColumn, columnToDisplay, plateSize))   
+}
+
+
+displayAsPlate <- function(data, wellIdColumn, columnToDisplay, plateSize) {
+   nRows <- numberOfRows(plateSize)
+   nColumns <- numberOfColumns(plateSize)
    
    # ensure the well IDs are correct
-   data <- ensureCorrectWellIds(data, wellIdColumn, 96)
+   data <- ensureCorrectWellIds(data, wellIdColumn, plateSize)
    
    # transform
    # sort by wellIds 
@@ -23,9 +26,9 @@ displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
    toDisplay <- ifelse(is.na(toDisplay), ".", toDisplay)
    
    # create result and name rows and columns
-   result <- data.frame(matrix(toDisplay, nrow = 8, byrow = TRUE))
-   rownames(result) <- LETTERS[1:8]
-   colnames(result) <- 1:12
+   result <- data.frame(matrix(toDisplay, nrow = nRows, byrow = TRUE))
+   rownames(result) <- LETTERS[1:nRows]
+   colnames(result) <- 1:nColumns
    
    return(result)
 }
@@ -44,11 +47,8 @@ displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
 #' @param plateSize The size of the plate
 #' @return Data with valid well IDs
 ensureCorrectWellIds <- function(data, wellIdColumn, plateSize) {
-   
-   # stop if plateSize is invalid plate size
-   
    wells <- data[[wellIdColumn]]
-   trueWells <- getWellIds(plateSize)
+   trueWells <- getWellIds(plateSize) # stops if plateSize is not 96 or 384
    if (length(wells) > plateSize) {
       stop(paste0("There are more rows in your data ", 
          "frame than wells in the plate size you specified. In other words, ",
@@ -91,6 +91,7 @@ areWellIdsCorrect <- function(wells, plateSize) {
 
    return(all(wells == trueWells))
 }
+
 #' Returns \code{data} with the full set of valid well IDs for its size. 
 #' 
 #' Appends any well IDs missing from data$wellIdColumn for the given plate size
