@@ -1,0 +1,5 @@
+general
+   support for plates other than 96 or 384 wells
+
+displayAsPlate()
+   number of decimals/characters to show
