@@ -24,10 +24,18 @@ getWellIds <- function(plateSize) {
 #' @examples getWellIdsWithoutLeadingZeroes(96)
 getWellIdsWithoutLeadingZeroes <- function(plateSize) {
    wells <- getWellIds(plateSize)
+   return(removeLeadingZeroes(wells))
+}
+
+#' Returns wells with leading zeroes removed.
+#'
+#' @param wells A character vector of well IDs
+#' @return wells with leading zeroes removed (e.g. A1 rather than A01)
+removeLeadingZeroes <- function(wells) {
    wells <- ifelse(substr(wells, 2, 2) == "0", 
       paste0(substr(wells, 1, 1), substr(wells, 3, 3)), 
       wells)
-   return(wells)
+   return(wells)   
 }
 
 #' Returns the number of rows in a plate of a given size. 
