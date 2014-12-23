@@ -43,7 +43,6 @@ test_that("areWellIdsCorrect() returns true for correct but out of order", {
    expect_that(areWellIdsCorrect(wells[sample(1:96, 96)], 96), is_true())
 })
 
-
 ################################################################################
 context("testing displayAsPlate-fillInMissingWellIds()")
 ################################################################################
@@ -71,9 +70,9 @@ test_that("fillInMissingWellIds() works with three columns as factor", {
 })
 
 test_that("fillInMissingWellIds() works with three columns as character", {
-   d <- data[1:10, ]
+   d <- data
    d$wells <- as.character(d$wells)
-   result <- fillInMissingWellIds(d, "wells", 96)
+   result <- fillInMissingWellIds(d[1:10, ], "wells", 96)
    validate(result, d, 10)
 })
 
