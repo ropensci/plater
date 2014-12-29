@@ -7,9 +7,9 @@ Description: Tools for interacting with data in the form of microtiter plates.
     This includes converting from plate layouts of data or annotations to data
     frames as well as displaying data in data frames as though laid out in a
     plate.
-Depends: 
+Depends:
     R (>= 3.1.0)
 License: What license is it under?
 LazyData: true
-Imports: 
-Suggests: testthat
+Suggests:
+    testthat
