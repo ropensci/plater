@@ -35,7 +35,7 @@ annotateAndMerge96WellPlate <- function(data, wellIdsColumn, filename,
    result <- merge(data, annotations, by.x = wellIdsColumn, by.y = "wellIds", 
       all.x = TRUE) # all.x adds NA rows for wells missing from file
    
-   # ensure sort maintains order provided by user
+   # maintain order provided by user
    result <- result[order(match(
       result[ , wellIdsColumn], data[ , wellIdsColumn])), ]
    
