@@ -36,7 +36,7 @@ displayAsPlate <- function(data, wellIdColumn, columnToDisplay, plateSize) {
    data <- data[order(data[ , wellIdColumn]), ]
    
    # get data to display and replace NA with '.'
-   toDisplay <- data[[columnToDisplay]]
+   toDisplay <- as.character(data[[columnToDisplay]])
    toDisplay <- ifelse(is.na(toDisplay), ".", toDisplay)
    
    # create result and name rows and columns

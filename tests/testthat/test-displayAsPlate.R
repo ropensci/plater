@@ -4,6 +4,43 @@ path <- "testData/"
 wells <- getWellIds(96)
 
 ################################################################################
+context("testing displayAsPlate-displayAs96WellPlate")
+################################################################################
+checkRow <- function(result, rowNumber, startLetter, endLetter, append = NA) {
+   result <- as.character(unlist(result[rowNumber, ]))
+   expected <- (letters)[startLetter:endLetter]
+   if (!missing(append)) {
+      expected <- c(expected, append)
+   }
+   expect_that(result, 
+      is_equivalent_to(expected))
+}
+
+test_that("full plate displays correct results", {
+   d <- data.frame(wells = getWellIds(96), d = letters[1:24])
+   result <- displayAs96WellPlate(d, "wells", "d")
+   sapply(c(1, 3, 5, 7), FUN = function(i) checkRow(result, i, 1, 12))
+   sapply(c(2, 4, 6, 8), FUN = function(i) checkRow(result, i, 13, 24))
+})
+
+test_that("missing column displays correct results", {
+   d <- data.frame(wells = getWellIds(96), d = letters[1:24])
+   d <- d[!(substr(d$wells, 2, 3) == "12"), ]
+   result <- displayAs96WellPlate(d, "wells", "d")
+   sapply(c(1, 3, 5, 7), FUN = function(i) checkRow(result, i, 1, 11, "."))
+   sapply(c(2, 4, 6, 8), FUN = function(i) checkRow(result, i, 13, 23, "."))
+})
+
+test_that("missing row displays correct results", {
+   d <- data.frame(wells = getWellIds(96), d = letters[1:24])
+   d <- d[!(substr(d$wells, 1, 1) == "A"), ]
+   result <- displayAs96WellPlate(d, "wells", "d")
+   checkRow(result, 1, 0, 0, rep(".", 12))   
+   sapply(c(3, 5, 7), FUN = function(i) checkRow(result, i, 1, 12))
+   sapply(c(2, 4, 6, 8), FUN = function(i) checkRow(result, i, 13, 24))
+})
+
+################################################################################
 context("testing displayAsPlate-ensureCorrectWellIds")
 ################################################################################
 test_that("ensureCorrectWellIds stops if more wells than plate size", {
