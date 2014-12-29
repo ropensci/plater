@@ -1,9 +1,23 @@
-
 ################################################################################
 context("testing plateUtilities-getWellIds()")
 ################################################################################
-test_that("getWellIds() fails for non 96 or 384 input", {
+test_that("getWellIds() fails for non-supported plateSize", {
    expect_that(getWellIds(95), throws_error())
+})
+
+test_that("getWellIds(12) gives correct output", {
+   expected <- c("A01", "A02", "A03", "A04", "B01", "B02", "B03", "B04", "C01", "C02", "C03", "C04")
+   expect_that(getWellIds(12), is_identical_to(expected))
+})
+
+test_that("getWellIds(24) gives correct output", {
+   expected <- c("A01", "A02", "A03", "A04", "A05", "A06", "B01", "B02", "B03", "B04", "B05", "B06", "C01", "C02", "C03", "C04", "C05", "C06", "D01", "D02", "D03", "D04", "D05", "D06")
+   expect_that(getWellIds(24), is_identical_to(expected))
+})
+
+test_that("getWellIds(48) gives correct output", {
+   expected <- c("A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08")
+   expect_that(getWellIds(48), is_identical_to(expected))
 })
 
 test_that("getWellIds(96) gives correct output", {
@@ -19,8 +33,23 @@ test_that("getWellIds(384) gives correct output", {
 ################################################################################
 context("testing plateUtilities-getWellIdsWithoutLeadingZeroes()")
 ################################################################################
-test_that("getWellIds() fails for non 96 or 384 input", {
+test_that("getWellIdsWithoutLeadingZeroes() fails for non-supported plateSize", {
    expect_that(getWellIdsWithoutLeadingZeroes(95), throws_error())
+})
+
+test_that("getWellIdsWithoutLeadingZeroes(12) gives correct output", {
+   expected <- c("A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4")
+   expect_that(getWellIdsWithoutLeadingZeroes(12), is_identical_to(expected))
+})
+
+test_that("getWellIdsWithoutLeadingZeroes(24) gives correct output", {
+   expected <- c("A1", "A2", "A3", "A4", "A5", "A6", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3", "C4", "C5", "C6", "D1", "D2", "D3", "D4", "D5", "D6")
+   expect_that(getWellIdsWithoutLeadingZeroes(24), is_identical_to(expected))
+})
+
+test_that("getWellIdsWithoutLeadingZeroes(48) gives correct output", {
+   expected <- c("A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8")
+   expect_that(getWellIdsWithoutLeadingZeroes(48), is_identical_to(expected))
 })
 
 test_that("getWellIdsWithoutLeadingZeroes(96) gives correct output", {
@@ -62,6 +91,18 @@ test_that("test removeLeadingZeroes() vector of well IDs some change some no cha
 ################################################################################
 context("testing plateUtilities-numberOfRows()")
 ################################################################################
+test_that("test numberOfRows(12)", {
+   expect_that(numberOfRows(12), equals(3))
+})
+
+test_that("test numberOfRows(24)", {
+   expect_that(numberOfRows(24), equals(4))
+})
+
+test_that("test numberOfRows(48)", {
+   expect_that(numberOfRows(48), equals(6))
+})
+
 test_that("test numberOfRows(96)", {
    expect_that(numberOfRows(96), equals(8))
 })
@@ -79,6 +120,18 @@ test_that("test numberOfRows() non-96 or 384 fails", {
 ################################################################################
 context("testing plateUtilities-numberOfColumns()")
 ################################################################################
+test_that("test numberOfColumns(12)", {
+   expect_that(numberOfColumns(12), equals(4))
+})
+
+test_that("test numberOfColumns(24)", {
+   expect_that(numberOfColumns(24), equals(6))
+})
+
+test_that("test numberOfColumns(48)", {
+   expect_that(numberOfColumns(48), equals(8))
+})
+
 test_that("test numberOfColumns(96)", {
    expect_that(numberOfColumns(96), equals(12))
 })
@@ -87,7 +140,7 @@ test_that("test numberOfColumns(384)", {
    expect_that(numberOfColumns(384), equals(24))
 })
 
-test_that("test numberOfColumns() non-96 or 384 fails", {
+test_that("test numberOfColumns() non-supported size fails", {
    for(i in c(-1, 0, 1, 95, 97)) {
       expect_that(numberOfColumns(i), throws_error())
    }
