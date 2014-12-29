@@ -36,20 +36,59 @@ test_that("getWellIds(384) gives correct output", {
 ################################################################################
 context("testing plateUtilities-removeleadingZeroes()")
 ################################################################################
-test_that("test removeLeadingZeroes()", {
-   expect_that(FALSE, is_true())
+test_that("test removeLeadingZeroes() single well ID", {
+   expect_that(removeLeadingZeroes("A01"), is_identical_to("A1"))
+})
+
+test_that("test removeLeadingZeroes() vector of well IDs", {
+   expect_that(removeLeadingZeroes(c("A01", "A02", "A01")), 
+      is_identical_to(c("A1", "A2", "A1")))
+})
+
+test_that("test removeLeadingZeroes() single well ID no change", {
+   expect_that(removeLeadingZeroes("A1"), is_identical_to("A1"))
+})
+
+test_that("test removeLeadingZeroes() vector of well IDs no change", {
+   expect_that(removeLeadingZeroes(c("A1", "A2", "A1")), 
+      is_identical_to(c("A1", "A2", "A1")))
+})
+
+test_that("test removeLeadingZeroes() vector of well IDs some change some no change", {
+   expect_that(removeLeadingZeroes(c("A01", "A02", "A1")), 
+      is_identical_to(c("A1", "A2", "A1")))
 })
 
 ################################################################################
 context("testing plateUtilities-numberOfRows()")
 ################################################################################
-test_that("test numberOfRows()", {
-   expect_that(FALSE, is_true())
+test_that("test numberOfRows(96)", {
+   expect_that(numberOfRows(96), equals(8))
+})
+
+test_that("test numberOfRows(384)", {
+   expect_that(numberOfRows(384), equals(16))
+})
+
+test_that("test numberOfRows() non-96 or 384 fails", {
+   for(i in c(-1, 0, 1, 95, 97)) {
+      expect_that(numberOfRows(i), throws_error())
+   }
 })
 
 ################################################################################
 context("testing plateUtilities-numberOfColumns()")
 ################################################################################
-test_that("test numberOfColumns()", {
-   expect_that(FALSE, is_true())
+test_that("test numberOfColumns(96)", {
+   expect_that(numberOfColumns(96), equals(12))
+})
+
+test_that("test numberOfColumns(384)", {
+   expect_that(numberOfColumns(384), equals(24))
+})
+
+test_that("test numberOfColumns() non-96 or 384 fails", {
+   for(i in c(-1, 0, 1, 95, 97)) {
+      expect_that(numberOfColumns(i), throws_error())
+   }
 })
