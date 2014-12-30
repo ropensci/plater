@@ -1,18 +1,3 @@
-#' Displays the data in the form of a microtiter plate.
-#'
-#' @param data A data frame containing the data
-#' @param wellIdColumn The column containing the well IDs, which should be of
-#' the form A01..B07..H12, though leading zeroes may be missing. Not all wells 
-#' need to be included if some should be empty. Must not contain any well IDs
-#' not on a 96 well plate (i.e. no rows past H or columns > 12).
-#' @param columnToDisplay The column containing the data to display.
-#' @return A data frame of 8 rows and 12 columns representing the data in 
-#' columnToDisplay as though laid out on a 96 well plate.
-displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
-   plateSize <- 96
-   return(displayAsPlate(data, wellIdColumn, columnToDisplay, plateSize))   
-}
-
 #' Displays the data in the form of a microtiter plate. 
 #'
 #' @param data A data frame containing the data
@@ -21,11 +6,11 @@ displayAs96WellPlate <- function(data, wellIdColumn, columnToDisplay) {
 #' need to be included if some should be empty. Must not contain any well IDs
 #' not on a plate with plateSize wells.
 #' @param columnToDisplay The column containing the data to display.
-#' @param plateSize The size of the plate. Must be 96 or 384. 
-#' @return A data frame of 8 rows and 12 columns representing the data in 
-#' columnToDisplay as though laid out on a 96 well plate.
+#' @param plateSize The size of the plate. Must be 12, 24, 48, 96 or 384. 
+#' @return A data frame representing the data in columnToDisplay as though laid 
+#' out on a microtiter plate with plateSize wells.
 displayAsPlate <- function(data, wellIdColumn, columnToDisplay, plateSize) {
-   nRows <- numberOfRows(plateSize) # stops if not 96 or 384
+   nRows <- numberOfRows(plateSize) # stops if not 12, 24, 48, 96 or 384
    nColumns <- numberOfColumns(plateSize)
    
    # ensure the well IDs are correct
@@ -62,7 +47,7 @@ displayAsPlate <- function(data, wellIdColumn, columnToDisplay, plateSize) {
 #' @return Data with valid well IDs
 ensureCorrectWellIds <- function(data, wellIdColumn, plateSize) {
    wells <- data[[wellIdColumn]]
-   trueWells <- getWellIds(plateSize) # stops if plateSize is not 96 or 384
+   trueWells <- getWellIds(plateSize) # stops if not 12, 24, 48, 96 or 384
    if (length(wells) > plateSize) {
       stop(paste0("There are more rows in your data ", 
          "frame than wells in the plate size you specified. In other words, ",
