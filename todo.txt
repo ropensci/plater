@@ -1,5 +1,6 @@
 general
-   support for plates other than 96 or 384 wells
+   create plate
+   read multiple plates from one file
 
 displayAsPlate()
    number of decimals/characters to show
