@@ -8,20 +8,22 @@
 #' will result.
 #'
 #' @param data The data frame to merge the new annotations into. 
+#' @param plateSize The number of wells on the plate
 #' @param wellIdsColumn The name of the column in data containing the well IDs. 
 #' @param filename The path of a .csv file formatted as described in 
 #' \code{\link{annotate96WellPlate}}.
 #' @inheritParams annotate96WellPlate 
 #' @return Returns data with one new column containing the information in 
 #' filename, merged by well ID. Empty wells are indicated with NA. 
-annotateAndMerge96WellPlate <- function(data, wellIdsColumn, filename, 
+annotateAndMerge <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
 
    # validate well IDs
-   missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn)
+   missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn, 
+      plateSize)
    
    # get data frame with annotations and remove unused wells
-   annotations <- annotate96WellPlate(filename, columnName)
+   annotations <- annotatePlate(filename, plateSize, columnName)
    annotations <- annotations[!(is.na(annotations[, columnName])), ]
    if(missingLeadingZeroes) {
       annotations$wellIds <- removeLeadingZeroes(annotations$wellIds)
@@ -65,7 +67,6 @@ wrongWellsErrorMessage <- function(data, wellIdsColumn, annotations) {
       missing, ".")
 }
 
-
 #' Returns TRUE if leading zeroes are missing. 
 #'
 #' Stops if some leading zeroes are missing and others not or if invalid well IDs
@@ -75,14 +76,14 @@ wrongWellsErrorMessage <- function(data, wellIdsColumn, annotations) {
 #' @param wellIdsColumn The name of the column containing the well IDs. 
 #' @return TRUE if leading zeroes are missing or FALSE if all leading zeroes are
 #' missing.  
-areLeadingZeroesMissing <- function(data, wellIdsColumn) {
-   if ((all(data[ , wellIdsColumn] %in% getWellIds(96)))) {
+areLeadingZeroesMissing <- function(data, wellIdsColumn, plateSize) {
+   if ((all(data[ , wellIdsColumn] %in% getWellIds(plateSize)))) {
       return(FALSE)
    } else {
-      if (!areLeadingZeroesValid(data, wellIdsColumn, 96)) {
+      if (!areLeadingZeroesValid(data, wellIdsColumn, plateSize)) {
          # leading zeroes are invalid
          if(!(all(data[, wellIdsColumn] %in% 
-               getWellIdsWithoutLeadingZeroes(96)))) {
+               getWellIdsWithoutLeadingZeroes(plateSize)))) {
             # some missing leading zeroes, some not, give up
             stop("Invalid well IDs--some have leading zeroes and some don't.")
          } else {
