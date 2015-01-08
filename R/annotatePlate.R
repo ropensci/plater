@@ -1,19 +1,20 @@
-#' Annotates a 96-well plate. 
+#' Annotates a plate. 
 #'  
-#' annotate96WellPlate() maps data from a microtiter plate layout to columns 
+#' annotatePlate() maps data from a microtiter plate layout to columns 
 #' identified by well names. 
 #'
 #' @param filename The path of a .csv file formatted as described below.
+#' @param plateSize The number of wells in the plate
 #' @param columnName The name to give the data column on output. Default: "values"
 #' @return Returns a two-column data frame, with one column called wellIds (A01, 
-#'              A02..H12) and the other called columnName (containing the values 
+#'              A02..) and the other called columnName (containing the values 
 #'              in the indicated wells). Empty wells are indicated with NA. 
 #'              
 #' @section File format:
 #' The .csv file should be formatted as a microtiter plate. The top-left most 
-#' cell is empty. The subsequent wells in the top row should be labeled 1-12. 
-#' The subsequent cells in the first column should be labeled A-H. In other  
-#' words:
+#' cell is empty. For example, for a 96-well plate, the subsequent wells in the 
+#' top row should be labeled 1-12. The subsequent cells in the first column 
+#' should be labeled A-H. That is:
 #'
 #' \tabular{ccccc}{
 #'              \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\cr
@@ -26,10 +27,6 @@
 #' "A02"), but they may contain arbitrary characters: numbers, letters, or 
 #' punctuation, excepting the R comment character "#". Any cell may also be 
 #' blank. 
-annotate96WellPlate <- function(filename, columnName = "values") {
-   return (annotatePlate(filename, 96, columnName))
-}
-
 annotatePlate <- function(filename, plateSize, columnName = "values") {
    plate <- readPlate(filename)
    
@@ -111,6 +108,7 @@ areRowLabelsValid <- function(plate, plateSize) {
 #' requires:    plate is non-null and has valid dimensions, but the row labels 
 #'              are incorrect
 #' param:       plate    a data frame
+#' param:       plateSize expected plate size
 #' returns:     an error message, describing the row labels found and the row 
 #'              labels that were expected
 wrongRowLabelsErrorMessage <- function(plate, plateSize) {

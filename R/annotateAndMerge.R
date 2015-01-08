@@ -1,4 +1,4 @@
-#' Adds a new column to a 96-well plate by well ID. 
+#' Adds a new column to a plate by well ID. 
 #'  
 #' Converts a .csv plate layout (with labels, conditions, data, etc.) to a 
 #' column of a data frame and merges it into an existing data frame by well. 
@@ -11,8 +11,8 @@
 #' @param plateSize The number of wells on the plate
 #' @param wellIdsColumn The name of the column in data containing the well IDs. 
 #' @param filename The path of a .csv file formatted as described in 
-#' \code{\link{annotate96WellPlate}}.
-#' @inheritParams annotate96WellPlate 
+#' \code{\link{annotatePlate}}.
+#' @inheritParams annotatePlate 
 #' @return Returns data with one new column containing the information in 
 #' filename, merged by well ID. Empty wells are indicated with NA. 
 annotateAndMerge <- function(data, plateSize, wellIdsColumn, filename, 
