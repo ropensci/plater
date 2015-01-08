@@ -1,124 +1,90 @@
-path <- "testData/"
-
-################################################################################
-context("testing annotatePlate-validatePlate()")
-################################################################################
-
-test_that("validate plate fails for incorrect 96-well plate dimensions", {
-   bottomRow <- readPlate(paste0(path, "missingBottomRow.csv"))
-   expect_that(validatePlate(bottomRow), throws_error())   
+for (i in c(12, 24, 48, 96, 384)) {
+   path <- paste0("testData/", i, "/")
    
-   rightColumn <- readPlate(paste0(path, "missingRightColumn.csv"))
-   expect_that(validatePlate(rightColumn), throws_error())
+   ################################################################################
+   context("testing annotatePlate-validatePlate()")
+   ################################################################################
    
-   missingMiddle <- readPlate(paste0(path, "missingMiddleRow.csv"))
-   expect_that(validatePlate(missingMiddle), throws_error())   
-  
-   extraRow <- readPlate(paste0(path, "oneExtraRow.csv"))
-   expect_that(validatePlate(extraRow), throws_error())   
+   test_that("validate plate fails for incorrect plate dimensions", {
+      bottomRow <- readPlate(paste0(path, "missingBottomRow.csv"))
+      expect_that(validatePlate(bottomRow), throws_error())   
+      
+      rightColumn <- readPlate(paste0(path, "missingRightColumn.csv"))
+      expect_that(validatePlate(rightColumn), throws_error())
+      
+      missingMiddle <- readPlate(paste0(path, "missingMiddleRow.csv"))
+      expect_that(validatePlate(missingMiddle), throws_error())   
+     
+      extraRow <- readPlate(paste0(path, "oneExtraRow.csv"))
+      expect_that(validatePlate(extraRow), throws_error())   
+      
+      extraCol <- readPlate(paste0(path, "oneExtraColumn.csv"))
+      expect_that(validatePlate(extraCol), throws_error())
+   })
    
-   extraCol <- readPlate(paste0(path, "oneExtraColumn.csv"))
-   expect_that(validatePlate(extraCol), throws_error())
-})
-
-test_that("validatePlate() fails for incorrect 96-well row labels", {
-   wrongRowLabels <- readPlate(paste0(path, "incorrectRowLabels.csv"))
-   expect_that(validatePlate(wrongRowLabels), throws_error()) 
+   test_that("validatePlate() fails for incorrect row labels", {
+      wrongRowLabels <- readPlate(paste0(path, "incorrectRowLabels.csv"))
+      expect_that(validatePlate(wrongRowLabels), throws_error()) 
+      
+      wrongRowLabels <- readPlate(paste0(path, "missingRowLabels.csv"))
+      expect_that(validatePlate(wrongRowLabels), throws_error()) 
+   })
    
-   wrongRowLabels <- readPlate(paste0(path, "missingRowLabels.csv"))
-   expect_that(validatePlate(wrongRowLabels), throws_error()) 
-})
-
-test_that("validatePlate() passes with valid 96-well input", {
-   # no error
-   plate <- readPlate(paste0(path, "validPlate96Well.csv"))
-   validatePlate(plate)
+   test_that("validatePlate() passes with valid input", {
+      # no error
+      plate <- readPlate(paste0(path, "validPlate.csv"))
+      validatePlate(plate, i)
+      
+      # missing column data, but includes all titles
+      plate <- readPlate(paste0(path, "missingColumnsWithCorrectTitles.csv"))
+      validatePlate(plate, i)
+   })
    
-   # missing column data, but includes all titles
-   plate <- readPlate(paste0(path, "missingColumnsWithCorrectTitles.csv"))
-   validatePlate(plate)
-})
-
-test_that("validate plate fails for incorrect 384-well plate dimensions", {
-   bottomRow <- readPlate(paste0(path, "384missingBottomRow.csv"))
-   expect_that(validatePlate(bottomRow), throws_error())   
+   ################################################################################
+   context("testing annotatePlate-wrongRowLabelsErrorMessage()")
+   ################################################################################
    
-   rightColumn <- readPlate(paste0(path, "384missingRightColumn.csv"))
-   expect_that(validatePlate(rightColumn), throws_error())
+   test_that("wrongRowLabelsErrorMessage() fails for invalid plate dimensions", {
+      missingRow <- readPlate(paste0(path, "missingBottomRow.csv"))
+      expect_that(wrongRowLabelsErrorMessage(validPlate, i), throws_error())
+   })
    
-   missingMiddle <- readPlate(paste0(path, "384missingMiddleRow.csv"))
-   expect_that(validatePlate(missingMiddle), throws_error())   
+   test_that("wrongRowLabelsErrorMessage()", {
+      incorrectRowLabels <- readPlate(paste0(path, "incorrectRowLabels.csv"))
+      message <- wrongRowLabelsErrorMessage(incorrectRowLabels, i)
+      
+      rows <- numberOfRows(i)
+      wrong <- paste(c("X", LETTERS[2:rows]), collapse = " ")
+      lower <- paste(letters[1:rows], collapse = " ")
+      upper <- paste(LETTERS[1:rows], collapse = " ")
+      
+      expect_that(message, matches(
+         paste0("Correct row labels not found. Found '", wrong, "' but ",
+                  "expected '", lower, "' or '", upper,"'.")))
+   })
    
-   extraRow <- readPlate(paste0(path, "384oneExtraRow.csv"))
-   expect_that(validatePlate(extraRow), throws_error())   
+   ################################################################################
+   context("testing annotatePlate-annotatePlate")
+   ################################################################################
+   test_that("annotatePlate() gives correct output", {
+      # every well present, all have own ID as contents
+      plate <- annotatePlate(paste0(path, "allWellIds.csv"), i, "contents")
+      expect_that(plate$contents, is_identical_to(plate$wellIds))
+   })
    
-   extraCol <- readPlate(paste0(path, "384oneExtraColumn.csv"))
-   expect_that(validatePlate(extraCol), throws_error())
-})
-
-test_that("validatePlate() fails for incorrect 384-well row labels", {
-   wrongRowLabels <- readPlate(paste0(path, "384incorrectRowLabels.csv"))
-   expect_that(validatePlate(wrongRowLabels), throws_error()) 
-
-   wrongRowLabels <- readPlate(paste0(path, "384missingRowLabels.csv"))
-   expect_that(validatePlate(wrongRowLabels), throws_error()) 
-})
-
-test_that("validatePlate() passes with valid 384-well input", {
-   # no error
-   plate <- readPlate(paste0(path, "validPlate384Well.csv"))
-   validatePlate(plate)
-})
-
-################################################################################
-context("testing annotatePlate-wrongRowLabelsErrorMessage()")
-################################################################################
-test_that("wrongRowLabelsErrorMessage() fails for valid plate", {
-   validPlate <- readPlate(paste0(path, "validPlate384Well.csv"))
-   expect_that(wrongRowLabelsErrorMessage(validPlate), throws_error())
-})
-
-test_that("wrongRowLabelsErrorMessage() fails for invalid plate dimensions", {
-   missingRow <- readPlate(paste0(path, "missingBottomRow.csv"))
-   expect_that(wrongRowLabelsErrorMessage(validPlate), throws_error())
-})
-
-test_that("wrongRowLabelsErrorMessage() 96-well", {
-   incorrectRowLabels <- readPlate(paste0(path, "incorrectRowLabels.csv"))
-   message <- wrongRowLabelsErrorMessage(incorrectRowLabels)
-   expect_that(message, matches(
-      paste0("Correct row labels not found. Found 'X B C D E F G H' but ",
-               "expected 'a b c d e f g h' or 'A B C D E F G H'.")))
-})
-
-test_that("wrongRowLabelsErrorMessage() 384-well", {
-   incorrectRowLabels384 <- readPlate(paste0(path, "384incorrectRowLabels.csv"))
-   message <- wrongRowLabelsErrorMessage(incorrectRowLabels384)
-   expect_that(message, matches(
-      paste0("Correct row labels not found. Found 'A B C D E F G H N P K L M N",
-            " O P' but expected 'a b c d e f g h i j k l m n o p' or 'A B C D",
-            " E F G H I J K L M N O P'.")))
-})
-
-################################################################################
-context("testing annotatePlate-annotate96WellPlate")
-################################################################################
-test_that("annotate96WellPlate() gives correct output", {
-   # every well present, all have own ID as contents
-   plate <- annotate96WellPlate(paste0(path, "allWellIds.csv"), "contents")
-   expect_that(plate$contents, is_identical_to(plate$wellIds))
-})
-
-test_that("annotate96WellPlate() gives correct output with some empty wells", {
-   # every well present, all have own ID as contents
-   plate <- annotate96WellPlate(paste0(path, "wellIdsAndEmptyWells.csv"), "contents")
-   expect_that(sum(is.na(plate$contents)), equals(27))
-   plate <- plate[!is.na(plate$contents), ]
-   expect_that(plate$contents, is_identical_to(plate$wellIds))
-})
-
-test_that("annotate96WellPlate() gives correct output with blank columnName", {
-   # every well present, all have own ID as contents
-   plate <- annotate96WellPlate(paste0(path, "allWellIds.csv"))
-   expect_that(plate$values, is_identical_to(plate$wellIds))
-})
+   test_that("annotatePlate() gives correct output with some empty wells", {
+      # every well present, all have own ID as contents
+      plate <- annotatePlate(paste0(path, "wellIdsAndEmptyWells.csv"), i, "contents")
+      expectedNAs <- c("12" = 1, "24" = 1, "48" = 5, "96" = 27, "384" = 30)
+      expect_that(sum(is.na(plate$contents)), 
+         is_equivalent_to(expectedNAs[as.character(i)]))
+      plate <- plate[!is.na(plate$contents), ]
+      expect_that(plate$contents, is_identical_to(plate$wellIds))
+   })
+   
+   test_that("annotatePlate() gives correct output with blank columnName", {
+      # every well present, all have own ID as contents
+      plate <- annotatePlate(paste0(path, "allWellIds.csv"), i)
+      expect_that(plate$values, is_identical_to(plate$wellIds))
+   })
+}

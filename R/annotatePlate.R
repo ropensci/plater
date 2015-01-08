@@ -27,14 +27,14 @@
 #' punctuation, excepting the R comment character "#". Any cell may also be 
 #' blank. 
 annotate96WellPlate <- function(filename, columnName = "values") {
-   return (annotateNWellPlate(filename, columnName))
+   return (annotatePlate(filename, 96, columnName))
 }
 
-annotateNWellPlate <- function(filename, columnName) {
+annotatePlate <- function(filename, plateSize, columnName = "values") {
    plate <- readPlate(filename)
    
    # stop if plate is invalid
-   validatePlate(plate)
+   validatePlate(plate, plateSize)
    
    # remove column of row labels
    plate <- plate[-1]
@@ -66,41 +66,46 @@ readPlate <- function(filename) {
 
 #' requires:    plate is non-null
 #' param:       plate    a data frame
+#' param:       plateSize expected plate size   
 #' throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
 #'              or (16, 24) or if row labels are incorrect (not A:H or A:P)
-validatePlate <- function(plate) {
-   if (!arePlateDimensionsValid(plate)) {
-      stop(paste("Invalid plate dimensions. Found", nrow(plate), "rows and", 
-         ncol(plate) - 1, "columns. Must be (8, 12) or (16, 24)."), 
+validatePlate <- function(plate, plateSize) {
+   if (!arePlateDimensionsValid(plate, plateSize)) {
+      stop(paste0("Invalid plate dimensions. Found ", nrow(plate), " rows and ", 
+         ncol(plate) - 1, " columns. Must be (", numberOfRows(plateSize), ", ",
+         numberOfColumns(plateSize), ") for a ", plateSize, "-well plate."), 
          call. = FALSE)
    }
       
-   if (!areRowLabelsValid(plate)) {
+   if (!areRowLabelsValid(plate, plateSize)) {
       stop(wrongRowLabelsErrorMessage(plate))
    }
 }
 
 #' requires:    plate is non-null and has at least one row and column
 #' param:       plate    a data frame
+#' param:       plateSize expected plate size   
 #' returns:     true if dimensions of plate (minus one column) are not (8, 12) 
 #'              or (16, 24)
-arePlateDimensionsValid <- function(plate) {
+arePlateDimensionsValid <- function(plate, plateSize) {
    rows <- nrow(plate)
    cols <- ncol(plate) - 1
    
-   is96 <- rows == 8 && cols == 12
-   is384 <- rows == 16 && cols == 24
+   expectedRows <- numberOfRows(plateSize)
+   expectedCols <- numberOfColumns(plateSize)
    
-   return(is96 || is384)
+   return(rows == expectedRows && cols == expectedCols)
 }
 
 #' requires:    plate is non-null and has at least 1 column
 #' param:       plate    a data frame
+#' param:       plateSize expected plate size   
 #' returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
 #'              lower-, or mixed-case.
-areRowLabelsValid <- function(plate) {
-   return(identical(letters[1:8], tolower(plate[[1]])) ||
-         identical(letters[1:16], tolower(plate[[1]]))) 
+areRowLabelsValid <- function(plate, plateSize) {
+   rows <- numberOfRows(plateSize)
+   
+   return(identical(letters[1:rows], tolower(plate[[1]]))) 
 }
 
 #' requires:    plate is non-null and has valid dimensions, but the row labels 
@@ -108,19 +113,17 @@ areRowLabelsValid <- function(plate) {
 #' param:       plate    a data frame
 #' returns:     an error message, describing the row labels found and the row 
 #'              labels that were expected
-wrongRowLabelsErrorMessage <- function(plate) {
-   if (!arePlateDimensionsValid(plate)) {
+wrongRowLabelsErrorMessage <- function(plate, plateSize) {
+   if (!arePlateDimensionsValid(plate, plateSize)) {
       stop("plate must have valid dimensions")
    }
-   if (areRowLabelsValid(plate)) {
+   if (areRowLabelsValid(plate, plateSize)) {
       stop("row labels must be invalid")
    }
    found <- paste(plate[[1]], collapse = " ")
-   if(length(plate[[1]]) < 9) {
-      rows <- 8
-   } else {
-      rows <- 16
-   }
+   
+   rows <- numberOfRows(plateSize)
+   
    lower <- paste(letters[1:rows], collapse = " ")
    upper <- paste(LETTERS[1:rows], collapse = " ")
    
