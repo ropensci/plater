@@ -15,7 +15,8 @@
 #' @inheritParams annotatePlate 
 #' @return Returns data with one new column containing the information in 
 #' filename, merged by well ID. Empty wells are indicated with NA. 
-annotateAndMerge <- function(data, plateSize, wellIdsColumn, filename, 
+#' @export
+addPlateData <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
 
    # validate well IDs
