@@ -145,3 +145,11 @@ test_that("test numberOfColumns() non-supported size fails", {
       expect_that(numberOfColumns(i), throws_error())
    }
 })
+
+################################################################################
+context("testing plateUtilities-validateWellIdsColumn()")
+################################################################################
+test_that("validateWellIdsColumn() throws error with missing column", {
+   expect_that(validateWellIds(data.frame(Wells = 1:10), "Wezlls"), 
+      throws_error())
+})

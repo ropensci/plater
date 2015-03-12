@@ -19,6 +19,9 @@
 addPlateData <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
 
+   # validate wellIdsColumn
+   validateWellIdsColumn(data, wellIdsColumn)
+   
    # validate well IDs
    missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn, 
       plateSize)

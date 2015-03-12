@@ -69,3 +69,14 @@ numberOfColumns <- function(plateSize) {
          ". Must be 12, 24, 48, 96 or 384."))
    }
 }
+
+#' Throws an error if wellIdsColumn is not a column in data.
+#' 
+#' @param data A data frame
+#' @param wellIdsColumn The name of the column of well IDs
+validateWellIdsColumn <- function(data, wellIdsColumn) {
+   if (!(wellIdsColumn %in% colnames(data))) {
+      stop(paste0("There is no column named '", wellIdsColumn, 
+         "' in your data frame."), call. = FALSE)
+   }
+}
