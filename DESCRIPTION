@@ -1,4 +1,4 @@
-Package: annotatePlate
+Package: plateR
 Title: Microtiter plate tools
 Version: 0.1
 Authors@R: person("Hughes", "Sean", email = "smhughes@uw.edu",
