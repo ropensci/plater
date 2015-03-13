@@ -2,3 +2,4 @@
 
 export(addPlateData)
 export(displayAsPlate)
+export(read.plate)

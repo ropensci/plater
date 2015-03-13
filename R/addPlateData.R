@@ -18,35 +18,65 @@
 #' @export
 addPlateData <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
-
+   
+   if (length(filename) != length(columnName)) {
+      stop(paste0("filename and columnName must have the same number of ",
+         "elements, but filename had ", length(filename),
+         " elements and columnName had ", length(columnName), " elements."))
+   }
+ 
    # validate wellIdsColumn
    validateWellIdsColumn(data, wellIdsColumn)
    
    # validate well IDs
    missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn, 
-      plateSize)
+      plateSize)   
    
+   # get list of data frames with new columns
+   toAdd <- mapply(
+      FUN = function(f, c) {
+         getColumn(plateSize, wellIdsColumn, f, c, missingLeadingZeroes)
+         }, 
+      filename, columnName)
+   
+   # combine toAdd into one data frame
+   toAdd <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
+      toAdd)
+
+   # ensure data has all wells that the file does
+   if(!(all(toAdd$wellIds %in% data[ , wellIdsColumn]))) {
+      stop(wrongWellsErrorMessage(data, wellIdsColumn, toAdd))
+   }
+   
+   # merge new columns with input data frame
+   result <- merge(data, toAdd, by.x = wellIdsColumn, by.y = "wellIds", 
+      all.x = TRUE) # all.x adds NA rows for wells missing from file
+   
+   # maintain order provided by user
+   result <- result[order(
+      match(
+         result[ , wellIdsColumn], 
+         data[ , wellIdsColumn]
+      )
+   ), ]
+   
+}
+
+getColumn <- function(plateSize, wellIdsColumn, filename, columnName, 
+   missingLeadingZeroes = FALSE) {
+      
    # get data frame with annotations and remove unused wells
    annotations <- annotatePlate(filename, plateSize, columnName)
    annotations <- annotations[!(is.na(annotations[, columnName])), ]
+   
+   # 
    if(missingLeadingZeroes) {
       annotations$wellIds <- removeLeadingZeroes(annotations$wellIds)
    }
    
-   # ensure data has all wells that the file does
-   if(!(all(annotations$wellIds %in% data[ , wellIdsColumn]))) {
-      stop(wrongWellsErrorMessage(data, wellIdsColumn, annotations))
-   }
-
-   result <- merge(data, annotations, by.x = wellIdsColumn, by.y = "wellIds", 
-      all.x = TRUE) # all.x adds NA rows for wells missing from file
-   
-   # maintain order provided by user
-   result <- result[order(match(
-      result[ , wellIdsColumn], data[ , wellIdsColumn])), ]
-   
-   return(result)
+   return(list(annotations))
 }
+
 
 #' Returns an error message indicating which wells in annotations are not in
 #' data.
