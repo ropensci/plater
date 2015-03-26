@@ -1,20 +1,21 @@
-#' Adds a new column to a plate by well ID. 
+#' Reads plate layouts and adds them to an existing data frame. 
 #'  
-#' Converts a .csv plate layout (with labels, conditions, data, etc.) to a 
-#' column of a data frame and merges it into an existing data frame by well. 
+#' Converts data from a microtiter plate layout to a data frame with one well 
+#' per row and merges it into an existing data frame by well name. 
 #'
-#' If data contains more wells than in filename, NA will be added to the merged
-#' column for those wells. If the file contains more wells than data, an error
-#' will result.
+#' If data contains more wells than in \code{filename}, NA will be added to the 
+#' merged column for those wells. If the file contains more wells than 
+#' \code{data}, an error will result.
 #'
-#' @param data The data frame to merge the new annotations into. 
-#' @param plateSize The number of wells on the plate
+#' @param data The data frame to merge the new annotations into. Must contain
+#' a column with well names.
 #' @param wellIdsColumn The name of the column in data containing the well IDs. 
-#' @param filename The path of a .csv file formatted as described in 
-#' \code{\link{annotatePlate}}.
-#' @inheritParams annotatePlate 
-#' @return Returns data with one new column containing the information in 
-#' filename, merged by well ID. Empty wells are indicated with NA. 
+#' @param filename A character vector with the path(s) of one or more .csv files
+#' formatted as described in \code{\link{read.plate}}.
+#' @inheritParams read.plate 
+#' @return Returns data with as many new columns as many new columns as elements
+#' in \code{filename}, named with the corresponding elements in \code{columnName},
+#' merged by well ID. Empty wells are indicated with NA.
 #' @export
 addPlate <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
