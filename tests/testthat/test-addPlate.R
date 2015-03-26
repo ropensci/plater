@@ -81,6 +81,33 @@ for (i in c(12, 24, 48, 96, 384)) {
          throws_error())
    })
    
+   test_that("read.plate works with one full plate and one partially empty", {
+      filename <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
+      filename <- c(paste0(path, filename))
+      
+      complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
+         stringsAsFactors = FALSE)
+      complete$d <- as.character(complete$d)
+      
+      result <- addPlate(complete, i, "wells", filename, c("full", "partial"))
+      expect_that(result$full, is_identical_to(getWellIds(i)))
+      expect_that(result$full, is_identical_to(result$wells))
+      r <- is.na(result$partial) | result$partial == as.character(result$wells)
+      expect_that(all(r), is_true())
+   })
+   
+   test_that("addPlate stops if wells missing from df with multiple files", {
+      filename <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
+      filename <- c(paste0(path, filename))
+      complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
+         stringsAsFactors = FALSE)
+      complete$d <- as.character(complete$d)
+      
+      expect_that(addPlate(complete[1:(i-1), ], i, "wells", 
+         filename, c("full", "partial")),
+         throws_error())
+   })
+   
    ################################################################################
    context("testing addPlate-wrongWellsErrorMessage()")
    ################################################################################
