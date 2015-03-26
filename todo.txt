@@ -1,6 +1,0 @@
-general
-   create plate
-   read multiple plates from one file
-
-displayAsPlate()
-   number of decimals/characters to show
