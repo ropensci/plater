@@ -5,3 +5,4 @@
 *.Rproj
 .Rbuildignore
 man
+README.Rmd
