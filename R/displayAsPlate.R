@@ -18,6 +18,9 @@ displayAsPlate <- function(data, wellIdsColumn, columnToDisplay, plateSize) {
    nRows <- numberOfRows(plateSize) # stops if not 12, 24, 48, 96 or 384
    nColumns <- numberOfColumns(plateSize)
    
+   # convert well IDs to character; if factor, order can be wrong
+   data[ , wellIdsColumn] <- as.character(data[ , wellIdsColumn])
+   
    # ensure the well IDs are correct
    data <- ensureCorrectWellIds(data, wellIdsColumn, plateSize)
    

@@ -49,7 +49,24 @@ for (i in c(24, 48, 96, 384)) {
       sapply(odds[2:length(odds)], FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, (cols + 1), (2 * cols)))
    })
+   
+   # I found that if a data frame is supplied with well IDs that are factors and
+   # the levels of the well IDs are not alphabetically sorted, it would throw an
+   # invalid well IDs error (and if that was ignored, sort display the wrong 
+   # wells in the wrong places). This is because it would sort by the order of  
+   # the levels, not alphabetically. This is a regression test for that bug. 
+   test_that("well IDs as factors with weirdly ordered levels are display correctly", {
+      wellIds <- getWellIds(i)
+      wellIds <- factor(wellIds, levels = c(wellIds[(i/2+1):i], wellIds[1:(i/2)]))
+      
+      d <- data.frame(wells = wellIds, d = letters[1:maxLetters])
+      result <- displayAsPlate(d, "wells", "d", i)
+      sapply(odds, FUN = function(i) checkRow(result, i, 1, cols))
+      sapply(evens, FUN = function(i) checkRow(result, i, cols + 1, 2 * cols))
+   })
 }
+
+
 ################################################################################
 context("testing displayAsPlate-ensureCorrectWellIds")
 ################################################################################
