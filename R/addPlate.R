@@ -16,7 +16,7 @@
 #' @return Returns data with one new column containing the information in 
 #' filename, merged by well ID. Empty wells are indicated with NA. 
 #' @export
-addPlateData <- function(data, plateSize, wellIdsColumn, filename, 
+addPlate <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
    
    if (length(filename) != length(columnName)) {
