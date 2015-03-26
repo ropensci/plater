@@ -19,12 +19,8 @@
 addPlate <- function(data, plateSize, wellIdsColumn, filename, 
    columnName) {
    
-   if (length(filename) != length(columnName)) {
-      stop(paste0("filename and columnName must have the same number of ",
-         "elements, but filename had ", length(filename),
-         " elements and columnName had ", length(columnName), " elements."))
-   }
- 
+   toAdd <- read.plate(plateSize, "wellIds", filename, columnName)
+
    # validate wellIdsColumn
    validateWellIdsColumn(data, wellIdsColumn)
    
@@ -32,17 +28,10 @@ addPlate <- function(data, plateSize, wellIdsColumn, filename,
    missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn, 
       plateSize)   
    
-   # get list of data frames with new columns
-   toAdd <- mapply(
-      FUN = function(f, c) {
-         getColumn(plateSize, wellIdsColumn, f, c, missingLeadingZeroes)
-         }, 
-      filename, columnName)
+   if(missingLeadingZeroes) {
+      toAdd$wellIds <- removeLeadingZeroes(toAdd$wellIds)
+   }
    
-   # combine toAdd into one data frame
-   toAdd <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
-      toAdd)
-
    # ensure data has all wells that the file does
    if(!(all(toAdd$wellIds %in% data[ , wellIdsColumn]))) {
       stop(wrongWellsErrorMessage(data, wellIdsColumn, toAdd))
@@ -61,22 +50,6 @@ addPlate <- function(data, plateSize, wellIdsColumn, filename,
    ), ]
    
 }
-
-getColumn <- function(plateSize, wellIdsColumn, filename, columnName, 
-   missingLeadingZeroes = FALSE) {
-      
-   # get data frame with annotations and remove unused wells
-   annotations <- annotatePlate(filename, plateSize, columnName)
-   annotations <- annotations[!(is.na(annotations[, columnName])), ]
-   
-   # 
-   if(missingLeadingZeroes) {
-      annotations$wellIds <- removeLeadingZeroes(annotations$wellIds)
-   }
-   
-   return(list(annotations))
-}
-
 
 #' Returns an error message indicating which wells in annotations are not in
 #' data.
