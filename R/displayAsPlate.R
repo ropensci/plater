@@ -36,19 +36,19 @@ displayAsPlate <- function(data, wellIdsColumn, columnToDisplay, plateSize) {
    return(result)
 }
 
-#' Returns \code{data} with updated well IDs if needed.
-#'
-#' Well-formed well IDs are of the form A01..H12 (for 96-well plates). That is, 
-#' they have leading zeroes, each is unique, and every expected well ID is 
-#' present. \code{ensureCorrectWellIds} fills in missing well IDs (with NA in 
-#' other columns) and leading zeroes. It throws an error if there are more rows
-#' than wells for that plate size, if any well IDs are duplicated, or if any 
-#' well IDs are invalid for that plate size.   
-#'
-#' @param data A data frame
-#' @param wellIdsColumn The name of the column in data containing the well IDs
-#' @param plateSize The size of the plate
-#' @return Data with valid well IDs
+# Returns \code{data} with updated well IDs if needed.
+#
+# Well-formed well IDs are of the form A01..H12 (for 96-well plates). That is, 
+# they have leading zeroes, each is unique, and every expected well ID is 
+# present. \code{ensureCorrectWellIds} fills in missing well IDs (with NA in 
+# other columns) and leading zeroes. It throws an error if there are more rows
+# than wells for that plate size, if any well IDs are duplicated, or if any 
+# well IDs are invalid for that plate size.   
+#
+# @param data A data frame
+# @param wellIdsColumn The name of the column in data containing the well IDs
+# @param plateSize The size of the plate
+# @return Data with valid well IDs
 ensureCorrectWellIds <- function(data, wellIdsColumn, plateSize) {
    wells <- data[[wellIdsColumn]]
    trueWells <- getWellIds(plateSize) # stops if not 12, 24, 48, 96 or 384
@@ -79,12 +79,12 @@ ensureCorrectWellIds <- function(data, wellIdsColumn, plateSize) {
    }
 }
 
-#' Returns TRUE if wells contains exactly the well IDs expected for plateSize.  
-#'
-#' @param wells A vector containing the well IDs. 
-#' @param plateSize The size of the plate.
-#' @return TRUE if wells is the same length as plateSize and contains every well 
-#' ID expected for that plate size.
+# Returns TRUE if wells contains exactly the well IDs expected for plateSize.  
+#
+# @param wells A vector containing the well IDs. 
+# @param plateSize The size of the plate.
+# @return TRUE if wells is the same length as plateSize and contains every well 
+# ID expected for that plate size.
 areWellIdsCorrect <- function(wells, plateSize) {
    if (length(wells) != plateSize) {
       return(FALSE)
@@ -95,15 +95,15 @@ areWellIdsCorrect <- function(wells, plateSize) {
    return(all(wells == trueWells))
 }
 
-#' Returns \code{data} with the full set of valid well IDs for its size. 
-#' 
-#' Appends any well IDs missing from data$wellIdsColumn for the given plate size
-#' as new rows, with NAs in the other columns. 
-#' 
-#' All well IDs should have leading zeroes, if appropriate. 
-#'
-#' @inheritParams ensureCorrectWellIds 
-#' @return Data with valid well IDs
+# Returns \code{data} with the full set of valid well IDs for its size. 
+# 
+# Appends any well IDs missing from data$wellIdsColumn for the given plate size
+# as new rows, with NAs in the other columns. 
+# 
+# All well IDs should have leading zeroes, if appropriate. 
+#
+# @inheritParams ensureCorrectWellIds 
+# @return Data with valid well IDs
 fillInMissingWellIds <- function(data, wellIdsColumn, plateSize) {
    if (nrow(data) >= plateSize) {
       stop(paste0("data has ", nrow(data), " rows, which is >= the plate size ",
@@ -140,14 +140,14 @@ fillInMissingWellIds <- function(data, wellIdsColumn, plateSize) {
    return(rbind(data, temp))
 }
 
-#' Returns TRUE if all well IDs that should have leading zeroes do.
-#'
-#' @inheritParams ensureCorrectWellIds 
-#' @return TRUE if all well IDs that should have leading zeroes do. This
-#' includes the case where no well IDs need leading zeroes (e.g. if all are >
-#' 9 or if none of the IDs are valid well IDs without leading zeroes). Thus this
-#' function returns TRUE for data$wellIdsColumn containing arbitrary, non-ID 
-#' text.
+# Returns TRUE if all well IDs that should have leading zeroes do.
+#
+# @inheritParams ensureCorrectWellIds 
+# @return TRUE if all well IDs that should have leading zeroes do. This
+# includes the case where no well IDs need leading zeroes (e.g. if all are >
+# 9 or if none of the IDs are valid well IDs without leading zeroes). Thus this
+# function returns TRUE for data$wellIdsColumn containing arbitrary, non-ID 
+# text.
 areLeadingZeroesValid <- function(data, wellIdsColumn, plateSize) {
    wells <- data[[wellIdsColumn]]
    missing <- getWellIdsWithoutLeadingZeroes(plateSize)
@@ -158,10 +158,10 @@ areLeadingZeroesValid <- function(data, wellIdsColumn, plateSize) {
    return(TRUE)
 }
 
-#' Returns \code{data} with leading zeroes added to well IDs missing them.
-#'
-#' @inheritParams ensureCorrectWellIds 
-#' @return Data with correct leading zeroes in well IDs
+# Returns \code{data} with leading zeroes added to well IDs missing them.
+#
+# @inheritParams ensureCorrectWellIds 
+# @return Data with correct leading zeroes in well IDs
 correctLeadingZeroes <- function(data, wellIdsColumn, plateSize) {
    # convert to character and store if needed to be changed back to factor   
    wasFactor <- FALSE

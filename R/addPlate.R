@@ -51,17 +51,17 @@ addPlate <- function(data, plateSize, wellIdsColumn, filename,
    
 }
 
-#' Returns an error message indicating which wells in annotations are not in
-#' data.
-#'
-#' Requires: at least one well in annotations$wellIds is not in 
-#' data[[wellIdsColumn]]. 
-#'
-#' @param data The data frame missing some wells.
-#' @param wellIdsColumn The name of the column in data containing the well IDs.
-#' @param annotations The data frame with extra wells (with wellIdsColumn named
-#' "wellIds")
-#' @return An error message describing which wells are missing.
+# Returns an error message indicating which wells in annotations are not in
+# data.
+#
+# Requires: at least one well in annotations$wellIds is not in 
+# data[[wellIdsColumn]]. 
+#
+# @param data The data frame missing some wells.
+# @param wellIdsColumn The name of the column in data containing the well IDs.
+# @param annotations The data frame with extra wells (with wellIdsColumn named
+# "wellIds")
+# @return An error message describing which wells are missing.
 wrongWellsErrorMessage <- function(data, wellIdsColumn, annotations) {
    missing <- annotations$wellIds[!(annotations$wellIds %in% 
          data[ , wellIdsColumn])]
@@ -74,15 +74,15 @@ wrongWellsErrorMessage <- function(data, wellIdsColumn, annotations) {
       missing, ".")
 }
 
-#' Returns TRUE if leading zeroes are missing. 
-#'
-#' Stops if some leading zeroes are missing and others not or if invalid well IDs
-#' are present. 
-#'
-#' @param data The data frame containing the well IDs. 
-#' @param wellIdsColumn The name of the column containing the well IDs. 
-#' @return TRUE if leading zeroes are missing or FALSE if all leading zeroes are
-#' missing.  
+# Returns TRUE if leading zeroes are missing. 
+#
+# Stops if some leading zeroes are missing and others not or if invalid well IDs
+# are present. 
+#
+# @param data The data frame containing the well IDs. 
+# @param wellIdsColumn The name of the column containing the well IDs. 
+# @return TRUE if leading zeroes are missing or FALSE if all leading zeroes are
+# missing.  
 areLeadingZeroesMissing <- function(data, wellIdsColumn, plateSize) {
    if ((all(data[ , wellIdsColumn] %in% getWellIds(plateSize)))) {
       return(FALSE)

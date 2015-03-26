@@ -1,3 +1,10 @@
+#' Converts plate-formatted data to a data frame with one well per row.
+#'
+#' @param plateSize 
+#' @param wellIdsColumn
+#' @param filename
+#' @param columnName
+#' @return data frame
 #' @export
 read.plate <- function(plateSize, wellIdsColumn, filename, columnName) {
    

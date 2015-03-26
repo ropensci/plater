@@ -1,32 +1,32 @@
-#' Annotates a plate. 
-#'  
-#' annotatePlate() maps data from a microtiter plate layout to columns 
-#' identified by well names. 
-#'
-#' @param filename The path of a .csv file formatted as described below.
-#' @param plateSize The number of wells in the plate
-#' @param columnName The name to give the data column on output. Default: "values"
-#' @return Returns a two-column data frame, with one column called wellIds (A01, 
-#'              A02..) and the other called columnName (containing the values 
-#'              in the indicated wells). Empty wells are indicated with NA. 
-#'              
-#' @section File format:
-#' The .csv file should be formatted as a microtiter plate. The top-left most 
-#' cell is empty. For example, for a 96-well plate, the subsequent wells in the 
-#' top row should be labeled 1-12. The subsequent cells in the first column 
-#' should be labeled A-H. That is:
-#'
-#' \tabular{ccccc}{
-#'              \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\cr
-#' \strong{A}   \tab A01        \tab A02        \tab A03        \tab ... \cr
-#' \strong{B}   \tab B01        \tab B02        \tab B03        \tab ... \cr
-#' \strong{...} \tab ...        \tab ...        \tab ...        \tab ... \cr
-#' }
-#' 
-#' In this example, the cells within the plate contain the well IDs ("A01", 
-#' "A02"), but they may contain arbitrary characters: numbers, letters, or 
-#' punctuation, excepting the R comment character "#". Any cell may also be 
-#' blank. 
+# Annotates a plate. 
+#  
+# annotatePlate() maps data from a microtiter plate layout to columns 
+# identified by well names. 
+#
+# @param filename The path of a .csv file formatted as described below.
+# @param plateSize The number of wells in the plate
+# @param columnName The name to give the data column on output. Default: "values"
+# @return Returns a two-column data frame, with one column called wellIds (A01, 
+#              A02..) and the other called columnName (containing the values 
+#              in the indicated wells). Empty wells are indicated with NA. 
+#              
+# @section File format:
+# The .csv file should be formatted as a microtiter plate. The top-left most 
+# cell is empty. For example, for a 96-well plate, the subsequent wells in the 
+# top row should be labeled 1-12. The subsequent cells in the first column 
+# should be labeled A-H. That is:
+#
+# \tabular{ccccc}{
+#              \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\cr
+# \strong{A}   \tab A01        \tab A02        \tab A03        \tab ... \cr
+# \strong{B}   \tab B01        \tab B02        \tab B03        \tab ... \cr
+# \strong{...} \tab ...        \tab ...        \tab ...        \tab ... \cr
+# }
+# 
+# In this example, the cells within the plate contain the well IDs ("A01", 
+# "A02"), but they may contain arbitrary characters: numbers, letters, or 
+# punctuation, excepting the R comment character "#". Any cell may also be 
+# blank. 
 annotatePlate <- function(filename, plateSize, columnName = "values") {
    plate <- readPlate(filename)
    
@@ -53,19 +53,19 @@ annotatePlate <- function(filename, plateSize, columnName = "values") {
    return (df)   
 }
 
-#' requires:    filename points to a valid .csv file, as specified above
-#' returns:     a data frame created from the .csv file
+# requires:    filename points to a valid .csv file, as specified above
+# returns:     a data frame created from the .csv file
 readPlate <- function(filename) {
    read.table(filename, sep = ",", 
       skip = 1,  
       na.strings = "", stringsAsFactors = FALSE)
 }
 
-#' requires:    plate is non-null
-#' param:       plate    a data frame
-#' param:       plateSize expected plate size   
-#' throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
-#'              or (16, 24) or if row labels are incorrect (not A:H or A:P)
+# requires:    plate is non-null
+# param:       plate    a data frame
+# param:       plateSize expected plate size   
+# throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
+#              or (16, 24) or if row labels are incorrect (not A:H or A:P)
 validatePlate <- function(plate, plateSize) {
    if (!arePlateDimensionsValid(plate, plateSize)) {
       stop(paste0("Invalid plate dimensions. Found ", nrow(plate), " rows and ", 
@@ -79,11 +79,11 @@ validatePlate <- function(plate, plateSize) {
    }
 }
 
-#' requires:    plate is non-null and has at least one row and column
-#' param:       plate    a data frame
-#' param:       plateSize expected plate size   
-#' returns:     true if dimensions of plate (minus one column) are not (8, 12) 
-#'              or (16, 24)
+# requires:    plate is non-null and has at least one row and column
+# param:       plate    a data frame
+# param:       plateSize expected plate size   
+# returns:     true if dimensions of plate (minus one column) are not (8, 12) 
+#              or (16, 24)
 arePlateDimensionsValid <- function(plate, plateSize) {
    rows <- nrow(plate)
    cols <- ncol(plate) - 1
@@ -94,23 +94,23 @@ arePlateDimensionsValid <- function(plate, plateSize) {
    return(rows == expectedRows && cols == expectedCols)
 }
 
-#' requires:    plate is non-null and has at least 1 column
-#' param:       plate    a data frame
-#' param:       plateSize expected plate size   
-#' returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
-#'              lower-, or mixed-case.
+# requires:    plate is non-null and has at least 1 column
+# param:       plate    a data frame
+# param:       plateSize expected plate size   
+# returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
+#              lower-, or mixed-case.
 areRowLabelsValid <- function(plate, plateSize) {
    rows <- numberOfRows(plateSize)
    
    return(identical(letters[1:rows], tolower(plate[[1]]))) 
 }
 
-#' requires:    plate is non-null and has valid dimensions, but the row labels 
-#'              are incorrect
-#' param:       plate    a data frame
-#' param:       plateSize expected plate size
-#' returns:     an error message, describing the row labels found and the row 
-#'              labels that were expected
+# requires:    plate is non-null and has valid dimensions, but the row labels 
+#              are incorrect
+# param:       plate    a data frame
+# param:       plateSize expected plate size
+# returns:     an error message, describing the row labels found and the row 
+#              labels that were expected
 wrongRowLabelsErrorMessage <- function(plate, plateSize) {
    if (!arePlateDimensionsValid(plate, plateSize)) {
       stop("plate must have valid dimensions")
