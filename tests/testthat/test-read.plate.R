@@ -30,5 +30,18 @@ for (i in c(12, 24, 48, 96, 384)) {
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
       expect_that(all(r), is_true())
    })
+
+   test_that("read.plate error with unequal numbers of files/column names", {
+      multipleFiles <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
+      multipleFiles <- c(paste0(path, multipleFiles))
+      oneFile <- multipleFiles[1]
+      
+      multipleColNames <- c("full", "partial")
+      oneColName <- "full"
+      
+      expect_that(read.plate(i, "wells", multipleFiles, oneColName), throws_error())
+      expect_that(read.plate(i, "wells", oneFile, multipleColNames), throws_error())
+
+   })
    
 }
