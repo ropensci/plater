@@ -69,6 +69,8 @@ read.plate <- function(plateSize, wellIdsColumn, fileNames, columnNames) {
    result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
       result)
    
+   colnames(result)[colnames(result) == "wellIds"] <- wellIdsColumn
+   
    # only return rows which have value for more than the well ID
    nonNA <- apply(result, 1, FUN = function(x) sum(!is.na(x)))
    result[nonNA > 1, ]
