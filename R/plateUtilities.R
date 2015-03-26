@@ -75,9 +75,9 @@ numberOfColumns <- function(plateSize) {
 # 
 # @param data A data frame
 # @param wellIdsColumn The name of the column of well IDs
-validateWellIdsColumn <- function(data, wellIdsColumn) {
-   if (!(wellIdsColumn %in% colnames(data))) {
-      stop(paste0("There is no column named '", wellIdsColumn, 
+validateColumnIsInData <- function(data, colName) {
+   if (!(colName %in% colnames(data))) {
+      stop(paste0("There is no column named '", colName, 
          "' in your data frame."), call. = FALSE)
    }
 }

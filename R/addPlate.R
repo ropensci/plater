@@ -23,7 +23,7 @@ addPlate <- function(data, plateSize, wellIdsColumn, fileNames,
    toAdd <- read.plate(plateSize, "wellIds", fileNames, columnNames)
 
    # validate wellIdsColumn
-   validateWellIdsColumn(data, wellIdsColumn)
+   validateColumnIsInData(data, wellIdsColumn)
    
    # validate well IDs
    missingLeadingZeroes <- areLeadingZeroesMissing(data, wellIdsColumn, 

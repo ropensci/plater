@@ -12,8 +12,9 @@
 #' @export
 displayAsPlate <- function(data, wellIdsColumn, columnToDisplay, plateSize) {
    # validate wellIdsColumn
-   validateWellIdsColumn(data, wellIdsColumn)
-   
+   validateColumnIsInData(data, wellIdsColumn)
+   validateColumnIsInData(data, columnToDisplay)
+
    nRows <- numberOfRows(plateSize) # stops if not 12, 24, 48, 96 or 384
    nColumns <- numberOfColumns(plateSize)
    
