@@ -13,3 +13,5 @@ License: What license is it under?
 LazyData: true
 Suggests:
     testthat
+URL: https://github.com/seaaan/plateR
+BugReports: https://github.com/seaaan/plateR/issues
