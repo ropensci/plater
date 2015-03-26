@@ -3,24 +3,24 @@
 #' Converts data from a microtiter plate layout to a data frame with one well 
 #' per row and merges it into an existing data frame by well name. 
 #'
-#' If data contains more wells than in \code{filename}, NA will be added to the 
+#' If data contains more wells than in \code{fileNames}, NA will be added to the 
 #' merged column for those wells. If the file contains more wells than 
 #' \code{data}, an error will result.
 #'
 #' @param data The data frame to merge the new annotations into. Must contain
 #' a column with well names.
 #' @param wellIdsColumn The name of the column in data containing the well IDs. 
-#' @param filename A character vector with the path(s) of one or more .csv files
+#' @param fileNames A character vector with the path(s) of one or more .csv files
 #' formatted as described in \code{\link{read.plate}}.
 #' @inheritParams read.plate 
 #' @return Returns data with as many new columns as many new columns as elements
-#' in \code{filename}, named with the corresponding elements in \code{columnName},
+#' in \code{fileNames}, named with the corresponding elements in \code{columnNames},
 #' merged by well ID. Empty wells are indicated with NA.
 #' @export
-addPlate <- function(data, plateSize, wellIdsColumn, filename, 
-   columnName) {
+addPlate <- function(data, plateSize, wellIdsColumn, fileNames, 
+   columnNames) {
    
-   toAdd <- read.plate(plateSize, "wellIds", filename, columnName)
+   toAdd <- read.plate(plateSize, "wellIds", fileNames, columnNames)
 
    # validate wellIdsColumn
    validateWellIdsColumn(data, wellIdsColumn)

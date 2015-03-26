@@ -6,15 +6,15 @@
 #' @param plateSize The number of wells in the plate
 #' @param wellIdsColumn The name to give the column that will contain the well
 #' names
-#' @param filename A character vector with the path(s) of one or more .csv files
+#' @param fileNames A character vector with the path(s) of one or more .csv files
 #' formatted as described below.
-#' @param columnName A character vector with the name(s) to give the column(s) 
-#' corresponding to each .csv file, in the order the filenames are listed. Must 
-#' have as many elements as \code{filename}.
+#' @param columnNames A character vector with the name(s) to give the column(s) 
+#' corresponding to each .csv file, in the order the file names are listed. Must 
+#' have as many elements as \code{fileNames}.
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{wellIdsColumn} and contain the well names (A01, A02..). 
-#' There will be as many additional columns as elements in \code{filename}, 
-#' named with the corresponding elements in \code{columnName}, containing the
+#' There will be as many additional columns as elements in \code{fileNames}, 
+#' named with the corresponding elements in \code{columnNames}, containing the
 #' data from the relevant wells. Empty wells are indicated with NA.
 #' 
 #' @section File format:
@@ -41,18 +41,18 @@
 #' paste just the cells within the plate to a fresh worksheet and save it.
 #' 
 #' @section Multiple files: 
-#' The parameters \code{filename} and \code{columnName} take character vectors 
+#' The parameters \code{fileNames} and \code{columnNames} take character vectors 
 #' and represent the path to one or more .csv files containing the data to be 
 #' read in and the name to give the corresponding column(s) in the resulting 
 #' data frame. The two parameters need to have an equal number of arguments, 
 #' i.e., one column name for each file. 
 #' @export
-read.plate <- function(plateSize, wellIdsColumn, filename, columnName) {
+read.plate <- function(plateSize, wellIdsColumn, fileNames, columnNames) {
    
-   if (length(filename) != length(columnName)) {
-      stop(paste0("filename and columnName must have the same number of ",
-         "elements, but filename had ", length(filename),
-         " elements and columnName had ", length(columnName), " elements."))
+   if (length(fileNames) != length(columnNames)) {
+      stop(paste0("fileNames and columnNames must have the same number of ",
+         "elements, but fileNames had ", length(fileNames),
+         " elements and columnNames had ", length(columnNames), " elements."))
    }
    
    data <- data.frame(w = getWellIds(plateSize))
@@ -63,7 +63,7 @@ read.plate <- function(plateSize, wellIdsColumn, filename, columnName) {
       FUN = function(f, c) {
          getColumn(plateSize, wellIdsColumn, f, c)
       }, 
-      filename, columnName)
+      fileNames, columnNames)
    
    # combine result into one data frame
    result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
@@ -75,11 +75,11 @@ read.plate <- function(plateSize, wellIdsColumn, filename, columnName) {
 }
 
 
-getColumn <- function(plateSize, wellIdsColumn, filename, columnName) {
+getColumn <- function(plateSize, wellIdsColumn, fileNames, columnNames) {
    
    # get data frame with annotations and remove unused wells
-   annotations <- convertOnePlate(filename, plateSize, columnName)
-   annotations <- annotations[!(is.na(annotations[, columnName])), ]
+   annotations <- convertOnePlate(fileNames, plateSize, columnNames)
+   annotations <- annotations[!(is.na(annotations[, columnNames])), ]
    
    return(list(annotations))
 }

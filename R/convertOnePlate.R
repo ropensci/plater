@@ -3,14 +3,14 @@
 # convertOnePlate() maps data from a microtiter plate layout to columns 
 # identified by well names. 
 #
-# @param filename The path of a .csv file formatted as described in read.plate.
+# @param fileName The path of a .csv file formatted as described in read.plate.
 # @param plateSize The number of wells in the plate
 # @param columnName The name to give the data column on output. 
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other called columnName (containing the values 
 #              in the indicated wells). Empty wells are indicated with NA.  
-convertOnePlate <- function(filename, plateSize, columnName) {
-   plate <- readPlate(filename)
+convertOnePlate <- function(fileName, plateSize, columnName) {
+   plate <- readPlate(fileName)
    
    # stop if plate is invalid
    validatePlate(plate, plateSize)
@@ -35,10 +35,10 @@ convertOnePlate <- function(filename, plateSize, columnName) {
    return (df)   
 }
 
-# requires:    filename points to a valid .csv file, as specified above
+# requires:    fileName points to a valid .csv file, as specified above
 # returns:     a data frame created from the .csv file
-readPlate <- function(filename) {
-   read.table(filename, sep = ",", 
+readPlate <- function(fileName) {
+   read.table(fileName, sep = ",", 
       skip = 1,  
       na.strings = "", stringsAsFactors = FALSE)
 }
