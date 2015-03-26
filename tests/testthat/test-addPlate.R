@@ -89,7 +89,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- annotatePlate(filename, i, "values")
+      annotations <- convertOnePlate(filename, i, "values")
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1:(i-1), ], "wells", annotations)
@@ -105,7 +105,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- annotatePlate(filename, i, "values")
+      annotations <- convertOnePlate(filename, i, "values")
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1:(i-2), ], "wells", annotations)
@@ -122,7 +122,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- annotatePlate(filename, i, "values")
+      annotations <- convertOnePlate(filename, i, "values")
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1, ], "wells", annotations)
@@ -139,7 +139,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- annotatePlate(filename, i, "values")
+      annotations <- convertOnePlate(filename, i, "values")
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       expect_that(wrongWellsErrorMessage(complete, "wells", annotations), 

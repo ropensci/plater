@@ -2,7 +2,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    path <- paste0("testData/", i, "/")
    
    ################################################################################
-   context("testing annotatePlate-validatePlate()")
+   context("testing convertOnePlate-validatePlate()")
    ################################################################################
    
    test_that("validate plate fails for incorrect plate dimensions", {
@@ -41,7 +41,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing annotatePlate-wrongRowLabelsErrorMessage()")
+   context("testing convertOnePlate-wrongRowLabelsErrorMessage()")
    ################################################################################
    
    test_that("wrongRowLabelsErrorMessage() fails for invalid plate dimensions", {
@@ -64,27 +64,21 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing annotatePlate-annotatePlate")
+   context("testing convertOnePlate-convertOnePlate")
    ################################################################################
-   test_that("annotatePlate() gives correct output", {
+   test_that("convertOnePlate() gives correct output", {
       # every well present, all have own ID as contents
-      plate <- annotatePlate(paste0(path, "allWellIds.csv"), i, "contents")
+      plate <- convertOnePlate(paste0(path, "allWellIds.csv"), i, "contents")
       expect_that(plate$contents, is_identical_to(plate$wellIds))
    })
    
-   test_that("annotatePlate() gives correct output with some empty wells", {
+   test_that("convertOnePlate() gives correct output with some empty wells", {
       # every well present, all have own ID as contents
-      plate <- annotatePlate(paste0(path, "wellIdsAndEmptyWells.csv"), i, "contents")
+      plate <- convertOnePlate(paste0(path, "wellIdsAndEmptyWells.csv"), i, "contents")
       expectedNAs <- c("12" = 1, "24" = 1, "48" = 5, "96" = 27, "384" = 30)
       expect_that(sum(is.na(plate$contents)), 
          is_equivalent_to(expectedNAs[as.character(i)]))
       plate <- plate[!is.na(plate$contents), ]
       expect_that(plate$contents, is_identical_to(plate$wellIds))
-   })
-   
-   test_that("annotatePlate() gives correct output with blank columnName", {
-      # every well present, all have own ID as contents
-      plate <- annotatePlate(paste0(path, "allWellIds.csv"), i)
-      expect_that(plate$values, is_identical_to(plate$wellIds))
    })
 }

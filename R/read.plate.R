@@ -78,7 +78,7 @@ read.plate <- function(plateSize, wellIdsColumn, filename, columnName) {
 getColumn <- function(plateSize, wellIdsColumn, filename, columnName) {
    
    # get data frame with annotations and remove unused wells
-   annotations <- annotatePlate(filename, plateSize, columnName)
+   annotations <- convertOnePlate(filename, plateSize, columnName)
    annotations <- annotations[!(is.na(annotations[, columnName])), ]
    
    return(list(annotations))

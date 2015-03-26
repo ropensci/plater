@@ -1,33 +1,15 @@
-# Annotates a plate. 
+# Reads and converts one .csv file to a data frame. 
 #  
-# annotatePlate() maps data from a microtiter plate layout to columns 
+# convertOnePlate() maps data from a microtiter plate layout to columns 
 # identified by well names. 
 #
-# @param filename The path of a .csv file formatted as described below.
+# @param filename The path of a .csv file formatted as described in read.plate.
 # @param plateSize The number of wells in the plate
-# @param columnName The name to give the data column on output. Default: "values"
+# @param columnName The name to give the data column on output. 
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other called columnName (containing the values 
-#              in the indicated wells). Empty wells are indicated with NA. 
-#              
-# @section File format:
-# The .csv file should be formatted as a microtiter plate. The top-left most 
-# cell is empty. For example, for a 96-well plate, the subsequent wells in the 
-# top row should be labeled 1-12. The subsequent cells in the first column 
-# should be labeled A-H. That is:
-#
-# \tabular{ccccc}{
-#              \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\cr
-# \strong{A}   \tab A01        \tab A02        \tab A03        \tab ... \cr
-# \strong{B}   \tab B01        \tab B02        \tab B03        \tab ... \cr
-# \strong{...} \tab ...        \tab ...        \tab ...        \tab ... \cr
-# }
-# 
-# In this example, the cells within the plate contain the well IDs ("A01", 
-# "A02"), but they may contain arbitrary characters: numbers, letters, or 
-# punctuation, excepting the R comment character "#". Any cell may also be 
-# blank. 
-annotatePlate <- function(filename, plateSize, columnName = "values") {
+#              in the indicated wells). Empty wells are indicated with NA.  
+convertOnePlate <- function(filename, plateSize, columnName) {
    plate <- readPlate(filename)
    
    # stop if plate is invalid
