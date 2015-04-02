@@ -57,7 +57,7 @@ validatePlate <- function(plate, plateSize) {
    }
       
    if (!areRowLabelsValid(plate, plateSize)) {
-      stop(wrongRowLabelsErrorMessage(plate))
+      stop(wrongRowLabelsErrorMessage(plate, plateSize))
    }
 }
 
