@@ -10,7 +10,7 @@
 #' @return A data frame representing the data in column_to_display as though laid 
 #' out on a microtiter plate with plate_size wells.
 #' @export
-view_plate <- function(data, well_ids_column, column_to_display, plate_size) {
+view_plate <- function(plate_size, data, well_ids_column, column_to_display) {
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)
    validateColumnIsInData(data, column_to_display)
