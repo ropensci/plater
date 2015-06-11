@@ -1,53 +1,53 @@
 for (i in c(12, 24, 48, 96, 384)) {
    path <- paste0("testData/", i, "/")
    ################################################################################
-   context("testing addPlate-addPlate()")
+   context("testing add_plate-add_plate()")
    ################################################################################
    nLetters <- ifelse(i == 12, 12, 24)
    
-   test_that("addPlate works for complete valid data", {
+   test_that("add_plate works for complete valid data", {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
    
-      result <- addPlate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename, "values")
       expect_that(result$values, is_identical_to(getWellIds(i)))
       expect_that(factor(result$values), is_identical_to(result$wells))
    })
    
-   test_that("addPlate works without leading zeroes", {
+   test_that("add_plate works without leading zeroes", {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = getWellIdsWithoutLeadingZeroes(i), 
          d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- addPlate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename, "values")
       expect_that(result$wells, 
          is_identical_to(factor(getWellIdsWithoutLeadingZeroes(i))))
       expect_that(factor(removeLeadingZeroes(result$values)), 
          is_identical_to(result$wells))
    })
    
-   test_that("addPlate works for missing data from plate", {
+   test_that("add_plate works for missing data from plate", {
       filename <- paste0(path, "wellIdsAndEmptyWells.csv")
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- addPlate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename, "values")
       
       expect_that(as.character(result$wells), is_identical_to(getWellIds(i)))
       r <- is.na(result$values) | result$values == as.character(result$wells)
       expect_that(all(r), is_true())
    })
    
-   test_that(paste("addPlate works for missing data from",
+   test_that(paste("add_plate works for missing data from",
          "plate and no leading zeroes"), {
       filename <- paste0(path, "wellIdsAndEmptyWells.csv")
       complete <- data.frame(wells = getWellIdsWithoutLeadingZeroes(i), 
          d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- addPlate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename, "values")
       
       expect_that(result$wells, 
          is_identical_to(factor(getWellIdsWithoutLeadingZeroes(i))))
@@ -56,17 +56,17 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(all(r), is_true())
    })
    
-   test_that("addPlate stops if wells missing from df", {
+   test_that("add_plate stops if wells missing from df", {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      expect_that(addPlate(complete[1:(i-1), ], i, "wells", 
+      expect_that(add_plate(complete[1:(i-1), ], i, "wells", 
          filename, "values"),
          throws_error())
    })
    
-   test_that(paste("addPlate stops if some wells are missing",
+   test_that(paste("add_plate stops if some wells are missing",
       "leading zeroes and some aren't"), {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
@@ -76,7 +76,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          removeLeadingZeroes(complete$wells), 
          complete$wells)
       
-      expect_that(addPlate(complete, "wells", i,
+      expect_that(add_plate(complete, "wells", i,
          filename, "values"),
          throws_error())
    })
@@ -89,26 +89,26 @@ for (i in c(12, 24, 48, 96, 384)) {
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
       
-      result <- addPlate(complete, i, "wells", filename, c("full", "partial"))
+      result <- add_plate(complete, i, "wells", filename, c("full", "partial"))
       expect_that(result$full, is_identical_to(getWellIds(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
       expect_that(all(r), is_true())
    })
    
-   test_that("addPlate stops if wells missing from df with multiple files", {
+   test_that("add_plate stops if wells missing from df with multiple files", {
       filename <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
       filename <- c(paste0(path, filename))
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
       
-      expect_that(addPlate(complete[1:(i-1), ], i, "wells", 
+      expect_that(add_plate(complete[1:(i-1), ], i, "wells", 
          filename, c("full", "partial")),
          throws_error())
    })
    
-   test_that("addPlate error with unequal numbers of files/column names", {
+   test_that("add_plate error with unequal numbers of files/column names", {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
@@ -126,7 +126,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing addPlate-wrongWellsErrorMessage()")
+   context("testing add_plate-wrongWellsErrorMessage()")
    ################################################################################
    test_that("wrongWellsErrorMessage returns correct message with 1 well missing", {
       filename <- paste0(path, "allWellIds.csv")

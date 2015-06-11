@@ -1,5 +1,5 @@
 ################################################################################
-context("testing displayAsPlate-displayAsPlate (96 well)")
+context("testing view_plate-view_plate (96 well)")
 ################################################################################
 checkRow <- function(result, rowNumber, startLetter, endLetter, append = NA) {
    result <- as.character(unlist(result[rowNumber, ]))
@@ -27,7 +27,7 @@ for (i in c(24, 48, 96, 384)) {
    
    test_that("full plate displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
-      result <- displayAsPlate(d, "wells", "d", i)
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, cols + 1, 2 * cols))
    })
@@ -35,7 +35,7 @@ for (i in c(24, 48, 96, 384)) {
    test_that("missing column displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
       d <- d[!(substr(d$wells, 2, 3) == colStr), ]
-      result <- displayAsPlate(d, "wells", "d", i)
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, (cols - 1), "."))
       sapply(evens, FUN = function(i) 
          checkRow(result, i, cols + 1, 2 * cols - 1, "."))
@@ -44,7 +44,7 @@ for (i in c(24, 48, 96, 384)) {
    test_that("missing row displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
       d <- d[!(substr(d$wells, 1, 1) == "A"), ]
-      result <- displayAsPlate(d, "wells", "d", i)
+      result <- view_plate(d, "wells", "d", i)
       checkRow(result, 1, 0, 0, rep(".", cols))   
       sapply(odds[2:length(odds)], FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, (cols + 1), (2 * cols)))
@@ -60,7 +60,7 @@ for (i in c(24, 48, 96, 384)) {
       wellIds <- factor(wellIds, levels = c(wellIds[(i/2+1):i], wellIds[1:(i/2)]))
       
       d <- data.frame(wells = wellIds, d = letters[1:maxLetters])
-      result <- displayAsPlate(d, "wells", "d", i)
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, cols + 1, 2 * cols))
    })
@@ -68,7 +68,7 @@ for (i in c(24, 48, 96, 384)) {
 
 
 ################################################################################
-context("testing displayAsPlate-ensureCorrectWellIds")
+context("testing view_plate-ensureCorrectWellIds")
 ################################################################################
 for (i in c(12, 24, 48, 96, 384)) {  
    wells <- getWellIds(i)
@@ -84,7 +84,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
 }
 ################################################################################
-context("testing displayAsPlate-areWellIdsCorrect()")
+context("testing view_plate-areWellIdsCorrect()")
 ################################################################################
 for (i in c(12, 24, 48, 96, 384)) { 
    wells <- getWellIds(i)
@@ -112,7 +112,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
 }
 ################################################################################
-context("testing displayAsPlate-fillInMissingWellIds()")
+context("testing view_plate-fillInMissingWellIds()")
 ################################################################################
 for (i in c(12, 24, 48, 96, 384)) { 
    # set up data frame
@@ -187,7 +187,7 @@ test_that("fillInMissingWellIds() works with zero rows, three columns", {
 })
 
 ################################################################################
-context("testing displayAsPlate-correctLeadingZeroes()")
+context("testing view_plate-correctLeadingZeroes()")
 ################################################################################
 for (i in c(12, 24, 48, 96, 384)) { 
    with <- data.frame(w = getWellIds(i), b = 1:i)
@@ -233,7 +233,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
 }
 ################################################################################
-context("testing displayAsPlate-areLeadingZeroesValid()")
+context("testing view_plate-areLeadingZeroesValid()")
 ################################################################################
 for (i in c(12, 24, 48, 96, 384)) { 
    with <- data.frame(w = getWellIds(i))
