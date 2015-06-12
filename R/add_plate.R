@@ -11,7 +11,7 @@
 #' a column with well names.
 #' @param well_ids_column The name of the column in data containing the well IDs. 
 #' @param file_names A character vector with the path(s) of one or more .csv files
-#' formatted as described in \code{\link{read.plate}}.
+#' formatted as described in \code{\link{read_plate}}.
 #' @inheritParams read_plate 
 #' @return Returns data with as many new columns as many new columns as elements
 #' in \code{file_names}, named with the corresponding elements in \code{column_names},
