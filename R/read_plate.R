@@ -1,4 +1,4 @@
-#' Read a plate layouts.
+#' Read plate layouts.
 #' 
 #' Converts data from a microtiter plate layout to a data frame with one well 
 #' per row identified by well name.
