@@ -3,7 +3,6 @@
 .RData
 *.Rproj
 .Rbuildignore
-man
 README.Rmd
 inst/doc
 tests/testthat/testData
