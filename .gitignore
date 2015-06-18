@@ -1,8 +1,8 @@
 .Rproj.user
 .Rhistory
 .RData
-*.csv
 *.Rproj
 .Rbuildignore
 man
 README.Rmd
+inst/doc
