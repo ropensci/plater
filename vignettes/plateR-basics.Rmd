@@ -1,6 +1,6 @@
 ---
 title: "Getting started with `plateR`"
-author: "Sean Hughess"
+author: "Sean Hughes"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
