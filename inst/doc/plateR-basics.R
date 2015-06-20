@@ -1,4 +1,9 @@
 ## ---- echo = FALSE-------------------------------------------------------
+# for github flavored markdown, use 
+# output:
+#   md_document:
+#     variant: markdown_github
+
 # print results of code using #>
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 

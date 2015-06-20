@@ -13,6 +13,7 @@ system.file("extdata", package = "plateR")
 Now, open up the appropriate folder on your computer. You will see five files:
 
 -   bacterial-killing.csv
+-   bacterial-killing-one-well-per-row.csv
 -   concentrations.csv
 -   samples.csv
 -   treatments.csv
