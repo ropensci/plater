@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Sean Hughes" />
+
+<meta name="date" content="2015-06-20" />
+
+<title>Getting started with plateR</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Getting started with <code>plateR</code></h1>
+<h4 class="author"><em>Sean Hughes</em></h4>
+<h4 class="date"><em>2015-06-20</em></h4>
+</div>
+
+
+<div id="file-structure" class="section level2">
+<h2>File structure</h2>
+<p>When you installed <code>plateR</code>, several example .csv files were installed. Let’s look at them briefly to see how the files should be structured. To find out where the files are stored on your computer, run this code.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the file path to the folder</span>
+<span class="kw">library</span>(plateR)
+<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+<span class="co">#&gt; [1] &quot;/home/sean/R/x86_64-pc-linux-gnu-library/3.2/plateR/extdata&quot;</span></code></pre>
+<p>Now, open up the appropriate folder on your computer. You will see five files:</p>
+<ul>
+<li>bacterial-killing.csv</li>
+<li>concentrations.csv</li>
+<li>samples.csv</li>
+<li>treatments.csv</li>
+<li>viability.csv</li>
+</ul>
+<p>Open samples.csv in a spreadsheet application.</p>
+<p><insert overview of file structure></p>
+<p>Close that file and open concentrations.csv. <illustrates that wells can be blank></p>
+</div>
+<div id="starting-from-scratch-reading-in-the-files" class="section level2">
+<h2>Starting from scratch: Reading in the files</h2>
+<pre class="sourceCode r"><code class="sourceCode r">bk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;bacterial-killing.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+concentrations &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;concentrations.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+samples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;samples.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+treatments &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;treatments.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+viability &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;viability.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+   
+data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(<span class="dt">plate_size =</span> <span class="dv">96</span>, <span class="co"># total number of wells on the plate</span>
+      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,    <span class="co"># name to give column of well IDs</span>
+      <span class="dt">file_names =</span>                  <span class="co"># full paths to the .csv files</span>
+         <span class="kw">c</span>(bk, concentrations, samples, treatments, viability), 
+      <span class="dt">column_names =</span>                <span class="co"># names to give each new column</span>
+         <span class="kw">c</span>(<span class="st">&quot;BacterialKilling&quot;</span>, <span class="st">&quot;Concentration&quot;</span>, <span class="st">&quot;Sample&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, 
+            <span class="st">&quot;Viability&quot;</span>))
+<span class="kw">str</span>(data)
+<span class="co">#&gt; 'data.frame':    96 obs. of  6 variables:</span>
+<span class="co">#&gt;  $ Wells           : chr  &quot;A01&quot; &quot;A02&quot; &quot;A03&quot; &quot;A04&quot; ...</span>
+<span class="co">#&gt;  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...</span>
+<span class="co">#&gt;  $ Concentration   : num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 NA ...</span>
+<span class="co">#&gt;  $ Sample          : chr  &quot;Sample A&quot; &quot;Sample B&quot; &quot;Sample C&quot; &quot;Sample A&quot; ...</span>
+<span class="co">#&gt;  $ Treatment       : chr  &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug B&quot; ...</span>
+<span class="co">#&gt;  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...</span></code></pre>
+<p>To check that the new data frame matched everything up as we expected, we can use <code>plateR::view_plate()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">view_plate</span>(<span class="dt">plate_size =</span> <span class="dv">96</span>, 
+      <span class="dt">data =</span> data,                         <span class="co"># data frame of interest</span>
+      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,           <span class="co"># name of the column with the well IDs</span>
+      <span class="dt">column_to_display =</span> <span class="st">&quot;Concentration&quot;</span>)   
+<span class="co">#&gt;       1     2     3     4     5     6     7     8     9 10 11 12</span>
+<span class="co">#&gt; A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .</span>
+<span class="co">#&gt; B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .</span>
+<span class="co">#&gt; C     1     1     1     1     1     1     1     1     1  .  .  .</span>
+<span class="co">#&gt; D    10    10    10    10    10    10    10    10    10  .  .  .</span>
+<span class="co">#&gt; E   100   100   100   100   100   100   100   100   100  .  .  .</span>
+<span class="co">#&gt; F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .</span>
+<span class="co">#&gt; G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .</span>
+<span class="co">#&gt; H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .</span>
+
+<span class="kw">view_plate</span>(<span class="dv">96</span>, data, <span class="st">&quot;Wells&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)
+<span class="co">#&gt;        1      2      3      4      5      6      7      8      9      10</span>
+<span class="co">#&gt; A Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; B Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; C Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; D Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; E Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; F Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; G Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt; H Drug A Drug A Drug A Drug B Drug B Drug B Drug C Drug C Drug C Control</span>
+<span class="co">#&gt;        11      12</span>
+<span class="co">#&gt; A Control Control</span>
+<span class="co">#&gt; B Control Control</span>
+<span class="co">#&gt; C Control Control</span>
+<span class="co">#&gt; D Control Control</span>
+<span class="co">#&gt; E Control Control</span>
+<span class="co">#&gt; F Control Control</span>
+<span class="co">#&gt; G Control Control</span>
+<span class="co">#&gt; H Control Control</span></code></pre>
+</div>
+<div id="starting-with-some-data-reading-in-the-files" class="section level1">
+<h1>Starting with some data: Reading in the files</h1>
+<hr />
+<p>Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The <code>html_vignette</code> output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The <code>html_vignette</code> format:</p>
+<ul>
+<li>Never uses retina figures</li>
+<li>Has a smaller default figure size</li>
+<li>Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style</li>
+</ul>
+<div id="vignette-info" class="section level2">
+<h2>Vignette Info</h2>
+<p>Note the various macros within the <code>vignette</code> setion of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the <code>title</code> field and the <code>\VignetteIndexEntry</code> to match the title of your vignette.</p>
+</div>
+<div id="styles" class="section level2">
+<h2>Styles</h2>
+<p>The <code>html_vignette</code> template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:</p>
+<pre><code>output: 
+  rmarkdown::html_vignette:
+    css: mystyles.css</code></pre>
+</div>
+<div id="figures" class="section level2">
+<h2>Figures</h2>
+<p>The figure sizes have been customised so that you can easily put two images side-by-side.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dv">1</span>:<span class="dv">10</span>)
+<span class="kw">plot</span>(<span class="dv">10</span>:<span class="dv">1</span>)</code></pre>
+<p><img src="data:image/png;base64,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" /> <img src="data:image/png;base64,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" /></p>
+<p>You can enable figure captions by <code>fig_caption: yes</code> in YAML:</p>
+<pre><code>output:
+  rmarkdown::html_vignette:
+    fig_caption: yes</code></pre>
+<p>Then you can use the chunk option <code>fig.cap = &quot;Your figure caption.&quot;</code> in <strong>knitr</strong>.</p>
+</div>
+<div id="more-examples" class="section level2">
+<h2>More Examples</h2>
+<p>You can write math expressions, e.g. <span class="math">\(Y = X\beta + \epsilon\)</span>, footnotes<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, and tables, e.g. using <code>knitr::kable()</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">mpg</th>
+<th align="right">cyl</th>
+<th align="right">disp</th>
+<th align="right">hp</th>
+<th align="right">drat</th>
+<th align="right">wt</th>
+<th align="right">qsec</th>
+<th align="right">vs</th>
+<th align="right">am</th>
+<th align="right">gear</th>
+<th align="right">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mazda RX4</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160.0</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.620</td>
+<td align="right">16.46</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">Mazda RX4 Wag</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160.0</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.875</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">Datsun 710</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">108.0</td>
+<td align="right">93</td>
+<td align="right">3.85</td>
+<td align="right">2.320</td>
+<td align="right">18.61</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Hornet 4 Drive</td>
+<td align="right">21.4</td>
+<td align="right">6</td>
+<td align="right">258.0</td>
+<td align="right">110</td>
+<td align="right">3.08</td>
+<td align="right">3.215</td>
+<td align="right">19.44</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Hornet Sportabout</td>
+<td align="right">18.7</td>
+<td align="right">8</td>
+<td align="right">360.0</td>
+<td align="right">175</td>
+<td align="right">3.15</td>
+<td align="right">3.440</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Valiant</td>
+<td align="right">18.1</td>
+<td align="right">6</td>
+<td align="right">225.0</td>
+<td align="right">105</td>
+<td align="right">2.76</td>
+<td align="right">3.460</td>
+<td align="right">20.22</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Duster 360</td>
+<td align="right">14.3</td>
+<td align="right">8</td>
+<td align="right">360.0</td>
+<td align="right">245</td>
+<td align="right">3.21</td>
+<td align="right">3.570</td>
+<td align="right">15.84</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">Merc 240D</td>
+<td align="right">24.4</td>
+<td align="right">4</td>
+<td align="right">146.7</td>
+<td align="right">62</td>
+<td align="right">3.69</td>
+<td align="right">3.190</td>
+<td align="right">20.00</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">Merc 230</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">140.8</td>
+<td align="right">95</td>
+<td align="right">3.92</td>
+<td align="right">3.150</td>
+<td align="right">22.90</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Merc 280</td>
+<td align="right">19.2</td>
+<td align="right">6</td>
+<td align="right">167.6</td>
+<td align="right">123</td>
+<td align="right">3.92</td>
+<td align="right">3.440</td>
+<td align="right">18.30</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table>
+<p>Also a quote using <code>&gt;</code>:</p>
+<blockquote>
+<p>“He who gives up [code] safety for [code] speed deserves neither.” (<a href="https://twitter.com/hadleywickham/status/504368538874703872">via</a>)</p>
+</blockquote>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>A footnote here.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

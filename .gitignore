@@ -4,5 +4,4 @@
 *.Rproj
 .Rbuildignore
 README.Rmd
-inst/doc
 tests/testthat/testData
