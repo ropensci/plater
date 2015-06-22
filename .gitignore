@@ -3,5 +3,4 @@
 .RData
 *.Rproj
 .Rbuildignore
-README.Rmd
 tests/testthat/testData

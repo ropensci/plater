@@ -30,3 +30,8 @@ Seeing your data
 ----------------
 
 Sometimes it's useful to map your data back onto a plate (are the weird outliers all from the same corner of the plate?). For that, there's `view_plate()`, which takes a data frame with one well per row, and lays it out like it's on a plate.
+
+Vignette
+--------
+
+For a detailed example of how to use `plateR`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plateR-basics.md>
