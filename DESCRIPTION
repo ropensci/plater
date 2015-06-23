@@ -9,7 +9,7 @@ Description: Tools for interacting with data in the form of microtiter plates.
     plate.
 Depends: 
     R (>= 3.1.0)
-License: What license is it under?
+License: GPL-3
 LazyData: true
 Suggests: 
     testthat,
