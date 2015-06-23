@@ -3,6 +3,7 @@
 # output:
 #   md_document:
 #     variant: markdown_github
+# then switch back to current output. Just open plateR-basics.md and resave to update time stamp
 
 # print results of code using #>
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
@@ -27,6 +28,7 @@ data <- read_plate(plate_size = 96, # total number of wells on the plate
          c("BacterialKilling", "Concentration", "Sample", "Treatment", 
             "Viability"))
 str(data)
+
 head(data)
 
 ## ------------------------------------------------------------------------
@@ -46,6 +48,7 @@ bk2 <- system.file("extdata", "bacterial-killing-one-well-per-row.csv",
 data2 <- read.csv(bk2)
 
 str(data2)
+
 head(data2)
 
 ## ------------------------------------------------------------------------
@@ -56,6 +59,8 @@ data2 <- add_plate(data = data2,    # data frame to add to
          c(concentrations, samples, treatments, viability), 
       column_names =               # names to give each new column
          c("Concentration", "Sample", "Treatment", "Viability"))
+
 str(data2)
+
 head(data2)
 

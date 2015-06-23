@@ -19,7 +19,7 @@ Getting your data in
 
 Plate readers, qPCR machines, and all manner of other scientific instruments produce data in tabular form that mimics a microtiter plate: each cell corresponds to a well as physically laid out on the plate. Similarly, it's often easiest to keep records of what was what (control vs. treatment, concentration, sample type, etc.) in a similar plate layout form.
 
-But data in those dimensions isn't ideal for analysis purposes. That's where `read_plate()` and `add_plate()` come in.
+But data in those dimensions aren't ideal for analysis purposes. That's where `read_plate()` and `add_plate()` come in.
 
 -   `read_plate()` takes data in plate layout form and converts it to a data frame, with one well per row, identified by well name.
 -   `add_plate()` does the same thing, but merges the new columns into an existing data frame you provide.

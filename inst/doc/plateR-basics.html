@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2015-06-20" />
+<meta name="date" content="2015-06-23" />
 
 <title>Getting started with plateR</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2015-06-20</em></h4>
+<h4 class="date"><em>2015-06-23</em></h4>
 </div>
 
 
@@ -64,8 +64,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the file path to the folder</span>
 <span class="kw">library</span>(plateR)
 <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
-<span class="co">#&gt; [1] &quot;/home/sean/R/x86_64-pc-linux-gnu-library/3.2/plateR/extdata&quot;</span></code></pre>
-<p>Now, open up the appropriate folder on your computer. You will see five files:</p>
+<span class="co">#&gt; [1] &quot;C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata&quot;</span></code></pre>
+<p>Now, open up the appropriate folder on your computer. You will see six files:</p>
 <ul>
 <li>bacterial-killing.csv</li>
 <li>bacterial-killing-one-well-per-row.csv</li>
@@ -75,16 +75,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>viability.csv</li>
 </ul>
 <p>Open samples.csv in a spreadsheet application.</p>
-<p>As you can see, the file is formatted as a microtiter plate. The top-left most cell is empty and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. This specific example is for a 96-well plate, but for any standard size plate (6-384 wells), the same format applies: empty top left, numbers along the top row to label columns, and letters along the left-column to label rows.</p>
-<p>In samples.csv, every well is filled, but that’s not necessary. Close that file and open concentrations.csv. Here you see the same structure, but some of the wells are empty. Those wells will simply be represented as <code>NA</code> or omitted if none of the other plates has a value there.</p>
+<p>As you can see, the file is formatted as a microtiter plate. The top-left most cell is empty and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. This specific example is for a 96-well plate, but for any standard size plate (6-384 wells), the same format applies: empty top left, numbers along the top row to label columns, and letters along the left column to label rows.</p>
+<p>In samples.csv, every well is filled, but that’s not necessary. Close that file and open concentrations.csv. Here you see the same structure, but some of the wells are empty. Those wells will simply be represented as <code>NA</code>. If they’re empty in every plate you’re using, they’re just be omitted.</p>
 <div id="tips-for-creating-files" class="section level3">
 <h3>Tips for creating files</h3>
-<p>It’s easy and convenient to make files like this in a spreadsheet program. Just make sure to save them as .csv files. One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently non-empty. So if you get errors about the plate layout being incorrect, try highlighting and deleting 5-10 columns to the right of the plate and rows under the plate and re-saving the file.</p>
+<p>It’s easy and convenient to make plate layouts like this in a spreadsheet program. Just make sure to save them as .csv files. One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently non-empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try highlighting and deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.</p>
 </div>
 </div>
 <div id="starting-from-scratch-with-read_plate" class="section level2">
 <h2>Starting from scratch with <code>read_plate()</code></h2>
-<p>Commonly, an instrument will output data in the form of a plate and that’s where you’ll want to start. Take this data and copy and paste it into the format described above and save it as a .csv file. Do the same for any additional information you want to include. Each .csv file will be converted into one column in the resulting <code>data.frame</code>. Below we illustrate getting the file paths for all the .csv files of interest and then reading them all in at once. Note that we use <code>system.file()</code> here to get the file paths of the example files installed with the package, but for your own files you would specify the file path relative to the current working directory without using <code>system.file()</code>.</p>
+<p>Commonly, an instrument will output data in the form of a plate and that’s where you’ll want to start. Take this data and copy and paste it into the format described above and save it as a .csv file. Do the same for any additional information you want to include. Each .csv file will be converted into one column in the resulting data frame.</p>
+<p>Below we illustrate getting the file paths for all the .csv files of interest and then reading them all in at once. Note that we use <code>system.file()</code> here to get the file paths of the example files installed with the package, but for your own files you would specify the file path relative to the current working directory without using <code>system.file()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">bk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;bacterial-killing.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 concentrations &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;concentrations.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 samples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;samples.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
@@ -106,6 +107,7 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(<span clas
 <span class="co">#&gt;  $ Sample          : chr  &quot;Sample A&quot; &quot;Sample B&quot; &quot;Sample C&quot; &quot;Sample A&quot; ...</span>
 <span class="co">#&gt;  $ Treatment       : chr  &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug B&quot; ...</span>
 <span class="co">#&gt;  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...</span>
+
 <span class="kw">head</span>(data)
 <span class="co">#&gt;   Wells BacterialKilling Concentration   Sample Treatment Viability</span>
 <span class="co">#&gt; 1   A01                2          0.01 Sample A    Drug A        99</span>
@@ -114,7 +116,7 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(<span clas
 <span class="co">#&gt; 4   A04                4          0.01 Sample A    Drug B        97</span>
 <span class="co">#&gt; 5   A05                1          0.01 Sample B    Drug B        99</span>
 <span class="co">#&gt; 6   A06                2          0.01 Sample C    Drug B        93</span></code></pre>
-<p>To check that the new data frame matched everything up as we expected, we can use <code>plateR::view_plate()</code>.</p>
+<p>To check that the new data frame matched everything up as we expected, we can use <code>view_plate()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check concentrations column</span>
 <span class="kw">view_plate</span>(<span class="dt">plate_size =</span> <span class="dv">96</span>, 
       <span class="dt">data =</span> data,                         <span class="co"># data frame of interest</span>
@@ -165,6 +167,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(bk2)
 <span class="co">#&gt; 'data.frame':    96 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ Wells           : Factor w/ 96 levels &quot;A01&quot;,&quot;A02&quot;,&quot;A03&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...</span>
 <span class="co">#&gt;  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...</span>
+
 <span class="kw">head</span>(data2)
 <span class="co">#&gt;   Wells BacterialKilling</span>
 <span class="co">#&gt; 1   A01                2</span>
@@ -173,7 +176,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(bk2)
 <span class="co">#&gt; 4   A04                4</span>
 <span class="co">#&gt; 5   A05                1</span>
 <span class="co">#&gt; 6   A06                2</span></code></pre>
-<p>Now, we want to add the data from the plate layout files to this data frame and match it up by wells. Note that it doesn’t matter what order the wells are in in <code>data2</code>. In the call to <code>add_plate</code> we’ll specify which column in <code>data2</code> has the well IDs and it’ll match it up that way.</p>
+<p>Now, we want to add the data from the plate layout files to this data frame and match it up by wells. Note that it doesn’t matter what order the wells are in in <code>data2</code>: In the call to <code>add_plate</code> we’ll specify which column in <code>data2</code> has the well IDs and it’ll match it up that way.</p>
 <pre class="sourceCode r"><code class="sourceCode r">data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(<span class="dt">data =</span> data2,    <span class="co"># data frame to add to    </span>
   <span class="dt">plate_size =</span> <span class="dv">96</span>,                 <span class="co"># total number of wells on the plate</span>
       <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,   <span class="co"># name of column of well IDs in data frame</span>
@@ -181,6 +184,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(bk2)
          <span class="kw">c</span>(concentrations, samples, treatments, viability), 
       <span class="dt">column_names =</span>               <span class="co"># names to give each new column</span>
          <span class="kw">c</span>(<span class="st">&quot;Concentration&quot;</span>, <span class="st">&quot;Sample&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;Viability&quot;</span>))
+
 <span class="kw">str</span>(data2)
 <span class="co">#&gt; 'data.frame':    96 obs. of  6 variables:</span>
 <span class="co">#&gt;  $ Wells           : Factor w/ 96 levels &quot;A01&quot;,&quot;A02&quot;,&quot;A03&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...</span>
@@ -189,6 +193,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(bk2)
 <span class="co">#&gt;  $ Sample          : chr  &quot;Sample A&quot; &quot;Sample B&quot; &quot;Sample C&quot; &quot;Sample A&quot; ...</span>
 <span class="co">#&gt;  $ Treatment       : chr  &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug A&quot; &quot;Drug B&quot; ...</span>
 <span class="co">#&gt;  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...</span>
+
 <span class="kw">head</span>(data2)
 <span class="co">#&gt;   Wells BacterialKilling Concentration   Sample Treatment Viability</span>
 <span class="co">#&gt; 1   A01                2          0.01 Sample A    Drug A        99</span>
