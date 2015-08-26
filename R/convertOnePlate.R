@@ -9,8 +9,18 @@
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other called columnName (containing the values 
 #              in the indicated wells). Empty wells are indicated with NA.  
-convertOnePlate <- function(fileName, plateSize, columnName) {
-   plate <- readPlate(fileName)
+convertOnePlate <- function(file, plateSize) {
+   plate <- readPlate(file)
+   
+   columnName <- plate[1, 1]
+   
+   if(is.na(columnName)) {
+      columnName <- "values"
+      #warning("Missing column name in file.")
+   }
+   
+   # remove column names
+   plate <- plate[-1, ]
    
    # stop if plate is invalid
    validatePlate(plate, plateSize)
@@ -37,9 +47,8 @@ convertOnePlate <- function(fileName, plateSize, columnName) {
 
 # requires:    fileName points to a valid .csv file, as specified above
 # returns:     a data frame created from the .csv file
-readPlate <- function(fileName) {
-   read.table(fileName, sep = ",", 
-      skip = 1,  
+readPlate <- function(file) {
+   read.table(textConnection(file), sep = ",", 
       na.strings = "", stringsAsFactors = FALSE)
 }
 

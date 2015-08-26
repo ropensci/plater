@@ -47,27 +47,49 @@
 #' data frame. The two parameters need to have an equal number of arguments, 
 #' i.e., one column name for each file. 
 #' @export
-read_plate <- function(plate_size, well_ids_column, file_names, column_names) {
+read_plate <- function(plate_size, well_ids_column, file) {
    
-   if (length(file_names) != length(column_names)) {
-      stop(paste0("file_names and column_names must have the same number of ",
-         "elements, but file_names had ", length(file_names),
-         " elements and column_names had ", length(column_names), " elements."))
-   }
+#    if (length(file_names) != length(column_names)) {
+#       stop(paste0("file_names and column_names must have the same number of ",
+#          "elements, but file_names had ", length(file_names),
+#          " elements and column_names had ", length(column_names), " elements."))
+#    }
    
    data <- data.frame(w = getWellIds(plate_size))
    colnames(data) <- well_ids_column
    
-   # get list of data frames with new columns
-   result <- mapply(
-      FUN = function(f, c) {
-         getColumn(plate_size, well_ids_column, f, c)
-      }, 
-      file_names, column_names)
+   # read in file
+   raw_file <- readLines(file)
    
-   # combine result into one data frame
-   result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
-      result)
+   # get list of data frames with new columns
+   number_of_rows <- numberOfRows(plate_size)
+   
+   
+   # TODO what if extra blank line after last plate
+   number_of_plates <- (length(raw_file) + 1) / (number_of_rows + 2)
+   
+   raw_file_list <- lapply(1:number_of_plates, FUN =
+      function(plate) {
+         first_row <- (plate - 1) * (number_of_rows + 1) + plate
+         last_row <- first_row + number_of_rows
+         raw_file[first_row:last_row]
+      }
+   )
+   
+   result <- lapply(raw_file_list,
+      FUN = function(f) {
+         getColumn(plate_size, f)
+      }
+   )
+   
+   if (length(result) == 1) {
+      # with just one plate, the data frame is a single list inside a list
+      result <- result[[1]][[1]]
+   } else {
+      # combine result into one data frame
+      result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
+         result)      
+   }
    
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
@@ -77,11 +99,12 @@ read_plate <- function(plate_size, well_ids_column, file_names, column_names) {
 }
 
 
-getColumn <- function(plate_size, well_ids_column, file_names, column_names) {
+getColumn <- function(plate_size, file) {
    
    # get data frame with annotations and remove unused wells
-   annotations <- convertOnePlate(file_names, plate_size, column_names)
-   annotations <- annotations[!(is.na(annotations[, column_names])), ]
+   annotations <- convertOnePlate(file, plate_size)
+   column <- colnames(annotations)[colnames(annotations) != "wellIds"]
+   annotations <- annotations[!(is.na(annotations[, column])), ]
    
    return(list(annotations))
 }
