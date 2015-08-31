@@ -4,34 +4,30 @@
 \alias{add_plate}
 \title{Reads plate layouts and adds them to an existing data frame.}
 \usage{
-add_plate(data, plate_size, well_ids_column, file_names, column_names)
+add_plate(data, plate_size, well_ids_column, file)
 }
 \arguments{
 \item{data}{The data frame to merge the new annotations into. Must contain
 a column with well names.}
 
-\item{plate_size}{The number of wells in the plate}
+\item{plate_size}{The number of wells in the plate.}
 
-\item{well_ids_column}{The name of the column in data containing the well IDs.}
+\item{well_ids_column}{The name of the column in \code{data} containing the
+well IDs.}
 
-\item{file_names}{A character vector with the path(s) of one or more .csv files
-formatted as described in \code{\link{read_plate}}.}
-
-\item{column_names}{A character vector with the name(s) to give the column(s)
-corresponding to each .csv file, in the order the file names are listed. Must
-have as many elements as \code{file_names}.}
+\item{file}{A character vector with the path of a .csv file formatted as
+as described in \code{\link{read_plate}}.}
 }
 \value{
-Returns data with as many new columns as many new columns as elements
-in \code{file_names}, named with the corresponding elements in \code{column_names},
-merged by well ID. Empty wells are indicated with NA.
+Returns data with as many new columns as plates in \code{file}.
+Empty wells are indicated with NA.
 }
 \description{
 Converts data from a microtiter plate layout to a data frame with one well
 per row and merges it into an existing data frame by well name.
 }
 \details{
-If data contains more wells than in \code{file_names}, NA will be added to the
+If data contains more wells than in \code{file}, NA will be added to the
 merged column for those wells. If the file contains more wells than
 \code{data}, an error will result.
 }
