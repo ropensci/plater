@@ -10,7 +10,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
    
-      result <- add_plate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename)
       expect_that(result$values, is_identical_to(getWellIds(i)))
       expect_that(factor(result$values), is_identical_to(result$wells))
    })
@@ -21,7 +21,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename)
       expect_that(result$wells, 
          is_identical_to(factor(getWellIdsWithoutLeadingZeroes(i))))
       expect_that(factor(removeLeadingZeroes(result$values)), 
@@ -33,7 +33,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename)
       
       expect_that(as.character(result$wells), is_identical_to(getWellIds(i)))
       r <- is.na(result$values) | result$values == as.character(result$wells)
@@ -47,7 +47,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(complete, i, "wells", filename, "values")
+      result <- add_plate(complete, i, "wells", filename)
       
       expect_that(result$wells, 
          is_identical_to(factor(getWellIdsWithoutLeadingZeroes(i))))
@@ -61,8 +61,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      expect_that(add_plate(complete[1:(i-1), ], i, "wells", 
-         filename, "values"),
+      expect_that(add_plate(complete[1:(i-1), ], i, "wells", filename),
          throws_error())
    })
    
@@ -76,20 +75,18 @@ for (i in c(12, 24, 48, 96, 384)) {
          removeLeadingZeroes(complete$wells), 
          complete$wells)
       
-      expect_that(add_plate(complete, "wells", i,
-         filename, "values"),
+      expect_that(add_plate(complete, "wells", i, filename),
          throws_error())
    })
    
-   test_that("read.plate works with one full plate and one partially empty", {
-      filename <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
-      filename <- c(paste0(path, filename))
+   test_that("add_plate works with one full plate and one partially empty", {
+      filename <- paste0(path, "oneFullOnePartEmpty.csv")
       
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(complete, i, "wells", filename, c("full", "partial"))
+      result <- add_plate(complete, i, "wells", filename)
       expect_that(result$full, is_identical_to(getWellIds(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
@@ -103,8 +100,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
       
-      expect_that(add_plate(complete[1:(i-1), ], i, "wells", 
-         filename, c("full", "partial")),
+      expect_that(add_plate(complete[1:(i-1), ], i, "wells", filename),
          throws_error())
    })
    
@@ -133,7 +129,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- convertOnePlate(filename, i, "values")
+      annotations <- read_plate(i, "wellIds", filename)
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1:(i-1), ], "wells", annotations)
@@ -149,7 +145,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- convertOnePlate(filename, i, "values")
+      annotations <- read_plate(i, "wellIds", filename)
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1:(i-2), ], "wells", annotations)
@@ -166,7 +162,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- convertOnePlate(filename, i, "values")
+      annotations <- read_plate(i, "wellIds", filename)
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       message <- wrongWellsErrorMessage(complete[1, ], "wells", annotations)
@@ -183,7 +179,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
       complete$d <- as.character(complete$d)
       
-      annotations <- convertOnePlate(filename, i, "values")
+      annotations <- read_plate(i, "wellIds", filename)
       annotations <- annotations[!(is.na(annotations$values)), ]
       
       expect_that(wrongWellsErrorMessage(complete, "wells", annotations), 

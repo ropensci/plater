@@ -17,10 +17,9 @@
 #' in \code{file_names}, named with the corresponding elements in \code{column_names},
 #' merged by well ID. Empty wells are indicated with NA.
 #' @export
-add_plate <- function(data, plate_size, well_ids_column, file_names, 
-   column_names) {
+add_plate <- function(data, plate_size, well_ids_column, file_name) {
    
-   toAdd <- read_plate(plate_size, "wellIds", file_names, column_names)
+   toAdd <- read_plate(plate_size, "wellIds", file_name)
 
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)
