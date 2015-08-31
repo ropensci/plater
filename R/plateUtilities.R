@@ -1,10 +1,10 @@
-#' Returns a character vector of well IDs (e.g. A01..B10..H12) of length 12,  
-#'              24, 48, 96, or 384 wells. 
-#'
-#' @param plateSize 12, 24, 48, 96, or 384 wells 
-#' @return  A character vector of well IDs (e.g. A01..B05..H12) of length 12,  
-#'              24, 48, 96, or 384 
-#' @examples getWellIds(96)
+# Returns a character vector of well IDs (e.g. A01..B10..H12) of length 12,  
+#              24, 48, 96, or 384 wells. 
+#
+# @param plateSize 12, 24, 48, 96, or 384 wells 
+# @return  A character vector of well IDs (e.g. A01..B05..H12) of length 12,  
+#              24, 48, 96, or 384 
+# @examples getWellIds(96)
 getWellIds <- function(plateSize) {
    cols <- numberOfColumns(plateSize) # stops if not 12, 24, 48, 96, 384
    rows <- numberOfRows(plateSize)
