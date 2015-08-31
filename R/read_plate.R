@@ -98,15 +98,35 @@ read_plate <- function(plate_size, well_ids_column, file) {
 }
 
 
-getColumn <- function(plate_size, file) {
+# Gets one column from a plate and removes any NA rows.
+#
+# @param plate_size The number of wells in the plate
+# @param plate A character vector with each element containing a comma-
+# delimited row of a plate
+#
+# @return A two-column data frame, one column containing well IDs and the other
+# containing the data contained in `plate`.
+getColumn <- function(plate_size, plate) {
    # get data frame with annotations and remove unused wells
-   annotations <- convertOnePlate(file, plate_size)
+   annotations <- convertOnePlate(plate, plate_size)
+   
+   # remove any NA values from the new column
    column <- colnames(annotations)[colnames(annotations) != "wellIds"]
    annotations <- annotations[!(is.na(annotations[, column])), ]
    
    return(annotations)
 }
 
+# Calculate the number of plates contained in the file.
+#
+# Throws an error if the number of elements in `raw_file` cannot be parsed to
+# an integer number of plates.
+#
+# @param raw_file A text vector with each element containing a comma-delimited
+# row
+# @param number_of_rows The expected number of rows for the given plate size
+#
+# @return the number of plates in the file
 calculateNumberOfPlates <- function(raw_file, number_of_rows) {
    result <- (length(raw_file) + 1) / (number_of_rows + 2)
    
@@ -126,6 +146,15 @@ calculateNumberOfPlates <- function(raw_file, number_of_rows) {
    }
 }
 
+# Make sure all plate names are unique. 
+# 
+# If each plate (column in the final data frame) doesn't have a unique name,
+# append ".#" where "#" is the column's number, to the name. 
+#
+# @param result list of two-column data frames, where the names of the second
+# columns will be checked for duplication.
+#
+# @return result with any duplicated names replaced
 checkUniquePlateNames <- function(result) {
    # get plate names
    plateNames <- sapply(result, FUN = function(x) colnames(x)[2])
