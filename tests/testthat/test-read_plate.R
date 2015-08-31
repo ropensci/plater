@@ -29,4 +29,51 @@ for (i in c(12, 24, 48, 96, 384)) {
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
       expect_that(all(r), is_true())
    })
+   
+   ################################################################################
+   context("testing read_plate-calculateNumberOfPlates()")
+   ################################################################################
+   makeRawFile <- function(filename) {
+      readLines(paste0(path, filename, ".csv"))
+   }
+   
+   test_that("calculateNumberOfPlates works with one plate no blank row", {
+      raw <- makeRawFile("allWellIds")   
+      
+      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      expect_that(result, is_identical_to(1))
+   })
+   
+   test_that("calculateNumberOfPlates works with one plate with blank row", {
+      raw <- makeRawFile("onePlateOneBlankRow")   
+      
+      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      expect_that(result, is_identical_to(1))
+   })
+   
+   test_that("calculateNumberOfPlates fails with one plate with 2 blank rows", {
+      raw <- makeRawFile("onePlateTwoBlankRows")   
+      
+      expect_that(calculateNumberOfPlates(raw, numberOfRows(i)), throws_error())
+   })
+   
+   test_that("calculateNumberOfPlates works with two plates no blank row", {
+      raw <- makeRawFile("twoPlatesNoBlankRow")   
+      
+      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      expect_that(result, is_identical_to(2))
+   })
+   
+   test_that("calculateNumberOfPlates works with two plates with blank row", {
+      raw <- makeRawFile("twoPlatesOneBlankRow")   
+      
+      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      expect_that(result, is_identical_to(2))
+   })
+   
+   test_that("calculateNumberOfPlates fails with two plates with 2 blank rows", {
+      raw <- makeRawFile("twoPlatesTwoBlankRows")   
+      
+      expect_that(calculateNumberOfPlates(raw, numberOfRows(i)), throws_error())
+   })
 }

@@ -64,9 +64,7 @@ read_plate <- function(plate_size, well_ids_column, file) {
    # get list of data frames with new columns
    number_of_rows <- numberOfRows(plate_size)
    
-   
-   # TODO what if extra blank line after last plate
-   number_of_plates <- (length(raw_file) + 1) / (number_of_rows + 2)
+   number_of_plates <- calculateNumberOfPlates(raw_file, number_of_rows)
    
    raw_file_list <- lapply(1:number_of_plates, FUN =
       function(plate) {
@@ -107,4 +105,23 @@ getColumn <- function(plate_size, file) {
    annotations <- annotations[!(is.na(annotations[, column])), ]
    
    return(list(annotations))
+}
+
+calculateNumberOfPlates <- function(raw_file, number_of_rows) {
+   result <- (length(raw_file) + 1) / (number_of_rows + 2)
+   
+   is_integer <- function(x) x %% 1 == 0
+   if (is_integer(result)) {
+      return(result)
+   } else {
+      # try not adding one (in case a blank line ends raw_file)
+      result <- (length(raw_file)) / (number_of_rows + 2)
+      if (is_integer(result)) {
+         return(result)
+      } else {
+         stop(paste0("File length is incorrect. Must be a multiple of the ", 
+                     "number of rows in the plate plus a header row for each ",
+                     "plate and a blank row between plates."))
+      }
+   }
 }
