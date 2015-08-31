@@ -5,7 +5,6 @@
 #' @return  A character vector of well IDs (e.g. A01..B05..H12) of length 12,  
 #'              24, 48, 96, or 384 
 #' @examples getWellIds(96)
-#' @export
 getWellIds <- function(plateSize) {
    cols <- numberOfColumns(plateSize) # stops if not 12, 24, 48, 96, 384
    rows <- numberOfRows(plateSize)
