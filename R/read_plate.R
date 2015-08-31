@@ -81,8 +81,7 @@ read_plate <- function(plate_size, well_ids_column, file) {
    )
    
    if (length(result) == 1) {
-      # with just one plate, the data frame is a single list inside a list
-      result <- result[[1]][[1]]
+      result <- result[[1]]
    } else {
       # combine result into one data frame
       result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
@@ -104,7 +103,7 @@ getColumn <- function(plate_size, file) {
    column <- colnames(annotations)[colnames(annotations) != "wellIds"]
    annotations <- annotations[!(is.na(annotations[, column])), ]
    
-   return(list(annotations))
+   return(annotations)
 }
 
 calculateNumberOfPlates <- function(raw_file, number_of_rows) {
