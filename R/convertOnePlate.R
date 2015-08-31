@@ -2,7 +2,7 @@
 #  
 # convertOnePlate() maps data from a microtiter plate layout to columns 
 # identified by well names. Columns are named by the value held in the top-left
-# cell of `plate` or called "value" if empty.
+# cell of \code{plate} or called "value" if empty.
 #
 # @param plate A character vector with each element containing a comma-
 # delimited row of a plate
