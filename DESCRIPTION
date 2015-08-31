@@ -1,6 +1,6 @@
 Package: plateR
 Title: Microtiter plate tools
-Version: 0.1
+Version: 0.2
 Authors@R: person("Hughes", "Sean", email = "smhughes@uw.edu",
     role = c("aut", "cre"))
 Description: Tools for interacting with data in the form of microtiter plates.
