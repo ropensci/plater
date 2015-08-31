@@ -1,0 +1,39 @@
+Viability,1,2,3,4,5,6,7,8,9,10,11,12
+A,99,99,99,97,99,93,95,98,99,94,91,94
+B,89,89,88,85,91,95,94,92,92,94,99,96
+C,80,86,90,88,80,81,80,86,84,99,95,90
+D,71,76,77,74,73,74,75,76,72,98,96,93
+E,67,64,60,66,65,68,60,60,64,98,96,95
+F,55,50,59,59,56,50,53,56,54,91,90,94
+G,41,38,47,35,38,41,36,38,36,94,96,91
+H,8,8,28,22,9,27,30,25,6,97,93,94
+,,,,,,,,,,,,
+Concentration,1,2,3,4,5,6,7,8,9,10,11,12
+A,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,,,
+B,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,,,
+C,1,1,1,1,1,1,1,1,1,,,
+D,10,10,10,10,10,10,10,10,10,,,
+E,100,100,100,100,100,100,100,100,100,,,
+F,1000,1000,1000,1000,1000,1000,1000,1000,1000,,,
+G,10000,10000,10000,10000,10000,10000,10000,10000,10000,,,
+H,100000,100000,100000,100000,100000,100000,100000,100000,100000,,,
+,,,,,,,,,,,,
+Sample,1,2,3,4,5,6,7,8,9,10,11,12
+A,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+B,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+D,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+E,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+F,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+G,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+H,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
+,,,,,,,,,,,,
+Treatment,1,2,3,4,5,6,7,8,9,10,11,12
+A,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+B,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+C,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+D,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+E,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+F,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+G,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+H,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control

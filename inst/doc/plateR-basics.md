@@ -10,63 +10,53 @@ system.file("extdata", package = "plateR")
 #> [1] "C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata"
 ```
 
-Now, open up the appropriate folder on your computer. You will see six files:
+Now, open up the appropriate folder on your computer. You will see three files:
 
--   bacterial-killing.csv
+-   all-plates.csv
 -   bacterial-killing-one-well-per-row.csv
--   concentrations.csv
--   samples.csv
--   treatments.csv
--   viability.csv
+-   just-metadata.csv
 
-Open samples.csv in a spreadsheet application.
+Open all-data.csv in a spreadsheet application.
 
-As you can see, the file is formatted as a microtiter plate. The top-left most cell is empty and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. This specific example is for a 96-well plate, but for any standard size plate (6-384 wells), the same format applies: empty top left, numbers along the top row to label columns, and letters along the left column to label rows.
+As you can see, the file is formatted as several microtiter plates. The top-left most cell has the name of the information in that plate and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. Plates are separated by an empty row. This specific example is for a 96-well plate, but for any standard size plate (12-384 wells), the same format applies: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.
 
-In samples.csv, every well is filled, but that's not necessary. Close that file and open concentrations.csv. Here you see the same structure, but some of the wells are empty. Those wells will simply be represented as `NA`. If they're empty in every plate you're using, they're just be omitted.
+In the top plate, every well is filled, but that's not necessary. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will simply be represented as `NA`. If they're empty in every plate you're using, they'll be omitted.
 
 ### Tips for creating files
 
-It's easy and convenient to make plate layouts like this in a spreadsheet program. Just make sure to save them as .csv files. One caution: some spreadsheet programs will include columns in the .csv output if they've ever had text in them, even if they're currently non-empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try highlighting and deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.
+It's easy and convenient to make plate layouts like this in a spreadsheet program. Just make sure to save them as .csv files. One caution: some spreadsheet programs will include columns in the .csv output if they've ever had text in them, even if they're currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try highlighting and deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.
 
 Starting from scratch with `read_plate()`
 -----------------------------------------
 
-Commonly, an instrument will output data in the form of a plate and that's where you'll want to start. Take this data and copy and paste it into the format described above and save it as a .csv file. Do the same for any additional information you want to include. Each .csv file will be converted into one column in the resulting data frame.
+Commonly, an instrument will output data in the form of a plate and that's where you'll want to start. Take this data and copy and paste it into the format described above and save it as a .csv file. `read_plate()` will turn each plate in the file into a column, so add all the metadata you want as more plates below the data plate.
 
-Below we illustrate getting the file paths for all the .csv files of interest and then reading them all in at once. Note that we use `system.file()` here to get the file paths of the example files installed with the package, but for your own files you would specify the file path relative to the current working directory without using `system.file()`.
+Below we illustrate getting the file path for the .csv file of interest and then reading it in. Note that we use `system.file()` here to get the file path of the example file installed with the package, but for your own files you would specify the file path relative to the current working directory without using `system.file()`.
 
 ``` r
-bk <- system.file("extdata", "bacterial-killing.csv", package = "plateR")
-concentrations <- system.file("extdata", "concentrations.csv", package = "plateR")
-samples <- system.file("extdata", "samples.csv", package = "plateR")
-treatments <- system.file("extdata", "treatments.csv", package = "plateR")
-viability <- system.file("extdata", "viability.csv", package = "plateR")
+bk <- system.file("extdata", "all-data.csv", package = "plateR")
    
 data <- read_plate(plate_size = 96, # total number of wells on the plate
       well_ids_column = "Wells",    # name to give column of well IDs
-      file_names =                  # full paths to the .csv files
-         c(bk, concentrations, samples, treatments, viability), 
-      column_names =                # names to give each new column
-         c("BacterialKilling", "Concentration", "Sample", "Treatment", 
-            "Viability"))
+      file = bk                     # full path to the .csv file
+)
 str(data)
 #> 'data.frame':    96 obs. of  6 variables:
 #>  $ Wells           : chr  "A01" "A02" "A03" "A04" ...
 #>  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...
+#>  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...
 #>  $ Concentration   : num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 NA ...
 #>  $ Sample          : chr  "Sample A" "Sample B" "Sample C" "Sample A" ...
 #>  $ Treatment       : chr  "Drug A" "Drug A" "Drug A" "Drug B" ...
-#>  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...
 
 head(data)
-#>   Wells BacterialKilling Concentration   Sample Treatment Viability
-#> 1   A01                2          0.01 Sample A    Drug A        99
-#> 2   A02                3          0.01 Sample B    Drug A        99
-#> 3   A03                2          0.01 Sample C    Drug A        99
-#> 4   A04                4          0.01 Sample A    Drug B        97
-#> 5   A05                1          0.01 Sample B    Drug B        99
-#> 6   A06                2          0.01 Sample C    Drug B        93
+#>   Wells BacterialKilling Viability Concentration   Sample Treatment
+#> 1   A01                2        99          0.01 Sample A    Drug A
+#> 2   A02                3        99          0.01 Sample B    Drug A
+#> 3   A03                2        99          0.01 Sample C    Drug A
+#> 4   A04                4        97          0.01 Sample A    Drug B
+#> 5   A05                1        99          0.01 Sample B    Drug B
+#> 6   A06                2        93          0.01 Sample C    Drug B
 ```
 
 To check that the new data frame matched everything up as we expected, we can use `view_plate()`.
@@ -112,9 +102,9 @@ view_plate(96, data, "Wells", "Sample")
 Starting with some data with `add_plate()`
 ==========================================
 
-Sometimes instruments give you data in the form you want: one row per well. But with complicated plate layouts, it can be a pain to match up metadata to the appropriate row. That's where `add_plate()` comes in: you take a data frame that already has one well per row and you add columns from .csv files.
+Sometimes instruments give you data in the form you want: one row per well. But with complicated plate layouts, it can be a pain to match up metadata to the appropriate well. That's where `add_plate()` comes in: you take a data frame that already has one well per row and you add columns from a plate-shaped .csv file.
 
-In this case, we'll imagine that the instrument that measured bacterial killing gave a file with one well per row ("bacterial-killing-one-well-per-row.csv"), but that the instrument that measured viability gave us the data in the form of a plate layout as before. All our metadata (concentration, sample, drug) is still in plate format for convenience.
+In this case, we'll imagine that the instrument that measured bacterial killing gave a file with one well per row ("bacterial-killing-one-well-per-row.csv"), but that the instrument that measured viability gave us the data in the form of a plate layout as before. We want to add all our metadata (concentration, sample, drug) in plate format for convenience.
 
 First, read in the data you want to add columns to.
 
@@ -139,32 +129,30 @@ head(data2)
 #> 6   A06                2
 ```
 
-Now, we want to add the data from the plate layout files to this data frame and match it up by wells. Note that it doesn't matter what order the wells are in in `data2`: In the call to `add_plate` we'll specify which column in `data2` has the well IDs and it'll match it up that way.
+Now, we want to add the data from the plate layout file to this data frame and match it up by wells. Note that it doesn't matter what order the wells are in in `data2`: In the call to `add_plate` we'll specify which column in `data2` has the well IDs and it'll match it up that way.
 
 ``` r
-data2 <- add_plate(data = data2,    # data frame to add to    
+meta <- system.file("extdata", "just-metadata.csv", package = "plateR")
+data2 <- add_plate(data = data2,   # data frame to add to    
   plate_size = 96,                 # total number of wells on the plate
       well_ids_column = "Wells",   # name of column of well IDs in data frame
-      file_names =                 # full paths to the .csv files
-         c(concentrations, samples, treatments, viability), 
-      column_names =               # names to give each new column
-         c("Concentration", "Sample", "Treatment", "Viability"))
-
+      file = meta                  # full paths to the .csv files
+)
 str(data2)
 #> 'data.frame':    96 obs. of  6 variables:
 #>  $ Wells           : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
 #>  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...
+#>  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...
 #>  $ Concentration   : num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 NA ...
 #>  $ Sample          : chr  "Sample A" "Sample B" "Sample C" "Sample A" ...
 #>  $ Treatment       : chr  "Drug A" "Drug A" "Drug A" "Drug B" ...
-#>  $ Viability       : int  99 99 99 97 99 93 95 98 99 94 ...
 
 head(data2)
-#>   Wells BacterialKilling Concentration   Sample Treatment Viability
-#> 1   A01                2          0.01 Sample A    Drug A        99
-#> 2   A02                3          0.01 Sample B    Drug A        99
-#> 3   A03                2          0.01 Sample C    Drug A        99
-#> 4   A04                4          0.01 Sample A    Drug B        97
-#> 5   A05                1          0.01 Sample B    Drug B        99
-#> 6   A06                2          0.01 Sample C    Drug B        93
+#>   Wells BacterialKilling Viability Concentration   Sample Treatment
+#> 1   A01                2        99          0.01 Sample A    Drug A
+#> 2   A02                3        99          0.01 Sample B    Drug A
+#> 3   A03                2        99          0.01 Sample C    Drug A
+#> 4   A04                4        97          0.01 Sample A    Drug B
+#> 5   A05                1        99          0.01 Sample B    Drug B
+#> 6   A06                2        93          0.01 Sample C    Drug B
 ```
