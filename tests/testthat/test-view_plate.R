@@ -174,18 +174,6 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
 }
 
-test_that("fillInMissingWellIds() works with zero rows, three columns", {
-   result <- fillInMissingWellIds(data[0, ], "wells", i)
-   expect_that(result$wells, is_identical_to(data$wells))
-   
-   # if a data frame with no rows is put it, the column order is different from 
-   # expected: it orders according to internal processing ("temp"), not the
-   # order in the input data frame
-   expect_that(colnames(result), is_identical_to(colnames(data)))   
-   expect_that(sum(is.na(result$text)), equals(i))
-   expect_that(sum(is.na(result$numbers)), equals(i))
-})
-
 ################################################################################
 context("testing view_plate-correctLeadingZeroes()")
 ################################################################################
