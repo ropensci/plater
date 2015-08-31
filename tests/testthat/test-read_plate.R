@@ -77,3 +77,27 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(calculateNumberOfPlates(raw, numberOfRows(i)), throws_error())
    })
 }
+
+################################################################################
+context("testing read_plate-checkUniquePlateNames()")
+################################################################################
+   test_that("duplicate plate names get disambiguated", {
+      plate <- read_plate(i, "wells", paste0(path, "twoPlatesNoBlankRow.csv")) 
+      
+      expect_true("values" %in% colnames(plate))
+      expect_true("values.2" %in% colnames(plate))
+   })
+   
+   test_that("non-duplicate plate names are unchanged", {
+      plate <- read_plate(i, "wells", paste0(path, "oneFullOnePartEmpty.csv")) 
+      
+      expect_true("full" %in% colnames(plate))
+      expect_true("partial" %in% colnames(plate))
+   })
+   
+   test_that("both empty plate names get filled in and disambiguated", {
+      plate <- read_plate(i, "wells", paste0(path, "missingPlateNames.csv")) 
+      
+      expect_true("values" %in% colnames(plate))
+      expect_true("values.2" %in% colnames(plate))
+   })

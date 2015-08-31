@@ -74,8 +74,7 @@ read_plate <- function(plate_size, well_ids_column, file) {
       }
    )
    
-   result <- lapply(raw_file_list,
-      FUN = function(f) {
+   result <- lapply(raw_file_list, FUN = function(f) {
          getColumn(plate_size, f)
       }
    )
@@ -83,6 +82,9 @@ read_plate <- function(plate_size, well_ids_column, file) {
    if (length(result) == 1) {
       result <- result[[1]]
    } else {
+      # ensure that plate names are unique
+      result <- checkUniquePlateNames(result)
+
       # combine result into one data frame
       result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
          result)      
@@ -97,7 +99,6 @@ read_plate <- function(plate_size, well_ids_column, file) {
 
 
 getColumn <- function(plate_size, file) {
-   
    # get data frame with annotations and remove unused wells
    annotations <- convertOnePlate(file, plate_size)
    column <- colnames(annotations)[colnames(annotations) != "wellIds"]
@@ -123,4 +124,25 @@ calculateNumberOfPlates <- function(raw_file, number_of_rows) {
                      "plate and a blank row between plates."))
       }
    }
+}
+
+checkUniquePlateNames <- function(result) {
+   # get plate names
+   plateNames <- sapply(result, FUN = function(x) colnames(x)[2])
+   
+   if(any(duplicated(plateNames))) {
+      duplicates <- which(duplicated(plateNames))
+      
+      # replace duplicate column names with .n 
+      result <- lapply(1:length(result), FUN = function(n) {
+         if (n %in% duplicates) {
+            newName <- paste0(colnames(result[[n]])[2], ".", n)
+            colnames(result[[n]])[2] <- newName
+            result[[n]]
+         } else {
+            result[[n]]
+         }
+      })
+   }
+   return(result)
 }
