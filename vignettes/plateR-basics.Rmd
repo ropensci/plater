@@ -13,7 +13,7 @@ vignette: >
 # output:
 #   md_document:
 #     variant: markdown_github
-# then switch back to current output. Just open plateR-basics.md and resave to update time stamp
+# then switch back to output: rmarkdown::html_vignette. Just open plateR-basics.md and resave to update time stamp
 
 # print results of code using #>
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
@@ -53,9 +53,10 @@ Below we illustrate getting the file path for the .csv file of interest and then
 ```{r}
 bk <- system.file("extdata", "all-data.csv", package = "plateR")
    
-data <- read_plate(plate_size = 96, # total number of wells on the plate
-      well_ids_column = "Wells",    # name to give column of well IDs
-      file = bk                     # full path to the .csv file
+data <- read_plate(
+      file = bk,                    # full path to the .csv file
+      well_ids_column = "Wells",    # name to give column of well IDs (optional)
+      plate_size = 96               # total number of wells on the plate (optional)
 )
 str(data)
 
@@ -66,13 +67,15 @@ To check that the new data frame matched everything up as we expected, we can us
 
 ```{r}
 # check concentrations column
-view_plate(plate_size = 96, 
+view_plate( 
       data = data,                         # data frame of interest
       well_ids_column = "Wells",           # name of the column with the well IDs
-      column_to_display = "Concentration")   
+      column_to_display = "Concentration", # column to display 
+      plate_size = 96                      # total number of wells on the plate (optional)
+)   
 
 # check sample column
-view_plate(96, data, "Wells", "Sample")
+view_plate(data, "Wells", "Sample")
 ```
 
 # Starting with some data with `add_plate()`
@@ -97,10 +100,11 @@ Now, we want to add the data from the plate layout file to this data frame and m
 
 ```{r}
 meta <- system.file("extdata", "just-metadata.csv", package = "plateR")
-data2 <- add_plate(data = data2,   # data frame to add to    
-  plate_size = 96,                 # total number of wells on the plate
-      well_ids_column = "Wells",   # name of column of well IDs in data frame
-      file = meta                  # full paths to the .csv files
+data2 <- add_plate(
+      file = meta,                # full paths to the .csv files
+      data = data2,               # data frame to add to    
+      well_ids_column = "Wells",  # name of column of well IDs in data frame
+      plate_size = 96             # total number of wells on the plate (optional)
 )
 str(data2)
 

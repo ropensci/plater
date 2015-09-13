@@ -4,23 +4,22 @@
 \alias{view_plate}
 \title{Displays the data in the form of a microtiter plate.}
 \usage{
-view_plate(plate_size, data, well_ids_column, column_to_display)
+view_plate(data, well_ids_column, column_to_display, plate_size = 96)
 }
 \arguments{
-\item{plate_size}{The size of the plate. Must be 12, 24, 48, 96 or 384.}
-
 \item{data}{A data frame containing the data}
 
-\item{well_ids_column}{The column containing the well IDs, which should be of
-the form A01..B07..H12, though leading zeroes may be missing. Not all wells
-need to be included if some should be empty. Must not contain any well IDs
-not on a plate with plate_size wells.}
+\item{well_ids_column}{The name of the column in \code{data} containing the
+well IDs.}
 
 \item{column_to_display}{The column containing the data to display.}
+
+\item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
+384. Default 96.}
 }
 \value{
-A data frame representing the data in column_to_display as though laid
-out on a microtiter plate with plate_size wells.
+A data frame representing the data in \code{column_to_display} as
+though laid out on a microtiter plate with \code{plate_size} wells.
 }
 \description{
 Displays the data in the form of a microtiter plate.

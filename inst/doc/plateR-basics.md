@@ -1,5 +1,5 @@
 File structure
---------------
+---------------
 
 When you installed `plateR`, several example .csv files were installed. These files have data and metadata from one experiment and we'll use them to illustrate how `plateR` works. Let's look at them briefly to see how the files should be structured. To find out where the files are stored on your computer, run this code.
 
@@ -7,7 +7,7 @@ When you installed `plateR`, several example .csv files were installed. These fi
 # get the file path to the folder
 library(plateR)
 system.file("extdata", package = "plateR")
-#> [1] "C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata"
+#> [1] "/home/sean/R/x86_64-pc-linux-gnu-library/3.2/plateR/extdata"
 ```
 
 Now, open up the appropriate folder on your computer. You will see three files:
@@ -36,9 +36,10 @@ Below we illustrate getting the file path for the .csv file of interest and then
 ``` r
 bk <- system.file("extdata", "all-data.csv", package = "plateR")
    
-data <- read_plate(plate_size = 96, # total number of wells on the plate
-      well_ids_column = "Wells",    # name to give column of well IDs
-      file = bk                     # full path to the .csv file
+data <- read_plate(
+      file = bk,                    # full path to the .csv file
+      well_ids_column = "Wells",    # name to give column of well IDs (optional)
+      plate_size = 96               # total number of wells on the plate (optional)
 )
 str(data)
 #> 'data.frame':    96 obs. of  6 variables:
@@ -63,10 +64,12 @@ To check that the new data frame matched everything up as we expected, we can us
 
 ``` r
 # check concentrations column
-view_plate(plate_size = 96, 
+view_plate( 
       data = data,                         # data frame of interest
       well_ids_column = "Wells",           # name of the column with the well IDs
-      column_to_display = "Concentration")   
+      column_to_display = "Concentration", # column to display 
+      plate_size = 96                      # total number of wells on the plate (optional)
+)   
 #>       1     2     3     4     5     6     7     8     9 10 11 12
 #> A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .
 #> B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .
@@ -78,7 +81,7 @@ view_plate(plate_size = 96,
 #> H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .
 
 # check sample column
-view_plate(96, data, "Wells", "Sample")
+view_plate(data, "Wells", "Sample")
 #>          1        2        3        4        5        6        7        8
 #> A Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B
 #> B Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B
@@ -133,11 +136,13 @@ Now, we want to add the data from the plate layout file to this data frame and m
 
 ``` r
 meta <- system.file("extdata", "just-metadata.csv", package = "plateR")
-data2 <- add_plate(data = data2,   # data frame to add to    
-  plate_size = 96,                 # total number of wells on the plate
-      well_ids_column = "Wells",   # name of column of well IDs in data frame
-      file = meta                  # full paths to the .csv files
+data2 <- add_plate(
+      file = meta,                # full paths to the .csv files
+      data = data2,               # data frame to add to    
+      well_ids_column = "Wells",  # name of column of well IDs in data frame
+      plate_size = 96             # total number of wells on the plate (optional)
 )
+#> [1] 96
 str(data2)
 #> 'data.frame':    96 obs. of  6 variables:
 #>  $ Wells           : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...

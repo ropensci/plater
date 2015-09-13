@@ -4,16 +4,17 @@
 \alias{read_plate}
 \title{Read plate layouts.}
 \usage{
-read_plate(plate_size, well_ids_column, file)
+read_plate(file, well_ids_column = "Wells", plate_size = 96)
 }
 \arguments{
-\item{plate_size}{The number of wells in the plate.}
-
-\item{well_ids_column}{The name to give the column that will contain the well
-names.}
-
 \item{file}{A character vector with the path of a .csv file formatted as
 described below.}
+
+\item{well_ids_column}{The name to give the column that will contain the well
+names. Default "Wells".}
+
+\item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
+384. Default 96.}
 }
 \value{
 Returns a data frame with each well as a row. One column will be

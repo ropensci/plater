@@ -7,19 +7,19 @@
 #' merged column for those wells. If the file contains more wells than 
 #' \code{data}, an error will result.
 #'
+#' @param file A character vector with the path of a .csv file formatted as 
+#' as described in \code{\link{read_plate}}.
 #' @param data The data frame to merge the new annotations into. Must contain
 #' a column with well names.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
-#' @param file A character vector with the path of a .csv file formatted as 
-#' as described in \code{\link{read_plate}}.
 #' @inheritParams read_plate 
 #' @return Returns data with as many new columns as plates in \code{file}. 
 #' Empty wells are indicated with NA.
 #' @export
-add_plate <- function(data, plate_size, well_ids_column, file) {
-   
-   toAdd <- read_plate(plate_size, "wellIds", file)
+add_plate <- function(file, data, well_ids_column, plate_size = 96) {
+   print(plate_size)
+   toAdd <- read_plate(file, "wellIds", plate_size)
 
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)

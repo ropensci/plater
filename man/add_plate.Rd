@@ -4,19 +4,20 @@
 \alias{add_plate}
 \title{Reads plate layouts and adds them to an existing data frame.}
 \usage{
-add_plate(data, plate_size, well_ids_column, file)
+add_plate(file, data, well_ids_column, plate_size = 96)
 }
 \arguments{
+\item{file}{A character vector with the path of a .csv file formatted as
+as described in \code{\link{read_plate}}.}
+
 \item{data}{The data frame to merge the new annotations into. Must contain
 a column with well names.}
-
-\item{plate_size}{The number of wells in the plate.}
 
 \item{well_ids_column}{The name of the column in \code{data} containing the
 well IDs.}
 
-\item{file}{A character vector with the path of a .csv file formatted as
-as described in \code{\link{read_plate}}.}
+\item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
+384. Default 96.}
 }
 \value{
 Returns data with as many new columns as plates in \code{file}.

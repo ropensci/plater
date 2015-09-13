@@ -1,16 +1,16 @@
 #' Displays the data in the form of a microtiter plate. 
 #'
+#' @inheritParams read_plate
 #' @param data A data frame containing the data
-#' @param well_ids_column The column containing the well IDs, which should be of
-#' the form A01..B07..H12, though leading zeroes may be missing. Not all wells 
-#' need to be included if some should be empty. Must not contain any well IDs
-#' not on a plate with plate_size wells.
 #' @param column_to_display The column containing the data to display.
-#' @param plate_size The size of the plate. Must be 12, 24, 48, 96 or 384. 
-#' @return A data frame representing the data in column_to_display as though laid 
-#' out on a microtiter plate with plate_size wells.
+#' @param well_ids_column The name of the column in \code{data} containing the 
+#' well IDs. 
+#' @inheritParams read_plate
+#' @return A data frame representing the data in \code{column_to_display} as 
+#' though laid out on a microtiter plate with \code{plate_size} wells.
 #' @export
-view_plate <- function(plate_size, data, well_ids_column, column_to_display) {
+view_plate <- function(data, well_ids_column, column_to_display, 
+                      plate_size = 96) {
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)
    validateColumnIsInData(data, column_to_display)
