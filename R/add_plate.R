@@ -18,7 +18,6 @@
 #' Empty wells are indicated with NA.
 #' @export
 add_plate <- function(file, data, well_ids_column, plate_size = 96) {
-   print(plate_size)
    toAdd <- read_plate(file, "wellIds", plate_size)
 
    # validate well_ids_column
