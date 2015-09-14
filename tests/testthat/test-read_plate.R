@@ -7,7 +7,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    test_that("read_plate works for complete valid data", {
       filename <- paste0(path, "allWellIds.csv")
    
-      result <- read_plate(i, "wells", filename)
+      result <- read_plate(filename, "wells", i)
       expect_that(result$values, is_identical_to(getWellIds(i)))
       expect_that(result$values, is_identical_to(result$wells))
    })
@@ -15,7 +15,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    test_that("read_plate works for missing data from plate", {
       filename <- paste0(path, "wellIdsAndEmptyWells.csv")
       
-      result <- read_plate(i, "wells", filename)
+      result <- read_plate(filename, "wells", i)
       
       expect_that(result$wells, is_identical_to(result$values))
    })
@@ -23,7 +23,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    test_that("read_plate works with one full plate and one partially empty", {
       filename <- c(paste0(path, "oneFullOnePartEmpty.csv"))
       
-      result <- read_plate(i, "wells", filename)
+      result <- read_plate(filename, "wells", i)
       expect_that(result$full, is_identical_to(getWellIds(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
@@ -82,21 +82,21 @@ for (i in c(12, 24, 48, 96, 384)) {
 context("testing read_plate-checkUniquePlateNames()")
 ################################################################################
    test_that("duplicate plate names get disambiguated", {
-      plate <- read_plate(i, "wells", paste0(path, "twoPlatesNoBlankRow.csv")) 
+      plate <- read_plate(paste0(path, "twoPlatesNoBlankRow.csv"), "wells", i) 
       
       expect_true("values" %in% colnames(plate))
       expect_true("values.2" %in% colnames(plate))
    })
    
    test_that("non-duplicate plate names are unchanged", {
-      plate <- read_plate(i, "wells", paste0(path, "oneFullOnePartEmpty.csv")) 
+      plate <- read_plate(paste0(path, "oneFullOnePartEmpty.csv"), "wells", i) 
       
       expect_true("full" %in% colnames(plate))
       expect_true("partial" %in% colnames(plate))
    })
    
    test_that("both empty plate names get filled in and disambiguated", {
-      plate <- read_plate(i, "wells", paste0(path, "missingPlateNames.csv")) 
+      plate <- read_plate(paste0(path, "missingPlateNames.csv"), "wells", i) 
       
       expect_true("values" %in% colnames(plate))
       expect_true("values.2" %in% colnames(plate))

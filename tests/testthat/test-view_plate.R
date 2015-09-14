@@ -7,7 +7,6 @@ checkRow <- function(result, rowNumber, startLetter, endLetter, append = NA) {
    if (!missing(append)) {
       expected <- c(expected, append)
    }
-   #print(paste0("row number = ", rowNumber, " ", result == expected))
    expect_that(result, 
       is_equivalent_to(expected))
 }
@@ -27,7 +26,7 @@ for (i in c(24, 48, 96, 384)) {
    
    test_that("full plate displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
-      result <- view_plate(i, d, "wells", "d")
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, cols + 1, 2 * cols))
    })
@@ -35,7 +34,7 @@ for (i in c(24, 48, 96, 384)) {
    test_that("missing column displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
       d <- d[!(substr(d$wells, 2, 3) == colStr), ]
-      result <- view_plate(i, d, "wells", "d")
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, (cols - 1), "."))
       sapply(evens, FUN = function(i) 
          checkRow(result, i, cols + 1, 2 * cols - 1, "."))
@@ -44,7 +43,7 @@ for (i in c(24, 48, 96, 384)) {
    test_that("missing row displays correct results", {
       d <- data.frame(wells = getWellIds(i), d = letters[1:maxLetters])
       d <- d[!(substr(d$wells, 1, 1) == "A"), ]
-      result <- view_plate(i, d, "wells", "d")
+      result <- view_plate(d, "wells", "d", i)
       checkRow(result, 1, 0, 0, rep(".", cols))   
       sapply(odds[2:length(odds)], FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, (cols + 1), (2 * cols)))
@@ -60,7 +59,7 @@ for (i in c(24, 48, 96, 384)) {
       wellIds <- factor(wellIds, levels = c(wellIds[(i/2+1):i], wellIds[1:(i/2)]))
       
       d <- data.frame(wells = wellIds, d = letters[1:maxLetters])
-      result <- view_plate(i, d, "wells", "d")
+      result <- view_plate(d, "wells", "d", i)
       sapply(odds, FUN = function(i) checkRow(result, i, 1, cols))
       sapply(evens, FUN = function(i) checkRow(result, i, cols + 1, 2 * cols))
    })
