@@ -17,3 +17,4 @@ Suggests:
 URL: https://github.com/seaaan/plateR
 BugReports: https://github.com/seaaan/plateR/issues
 VignetteBuilder: knitr
+Imports: utils

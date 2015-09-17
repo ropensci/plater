@@ -48,7 +48,7 @@ convertOnePlate <- function(plate, plateSize) {
 # requires:    plate contains a character vector, as specified above
 # returns:     a data frame created from the plate
 readPlate <- function(plate) {
-   read.table(textConnection(plate), sep = ",", 
+   utils::read.table(textConnection(plate), sep = ",", 
       na.strings = "", stringsAsFactors = FALSE)
 }
 
