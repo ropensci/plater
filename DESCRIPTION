@@ -6,14 +6,16 @@ Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
 Description: Tools for interacting with data in the form of microtiter plates.
     This includes converting from plate layouts of data or annotations to data
     frames as well as displaying data as though laid out on a plate.
-Depends: 
+Depends:
     R (>= 3.1.0)
 License: GPL-3
 LazyData: true
-Suggests: 
+Suggests:
     testthat,
     knitr
 URL: https://github.com/seaaan/plateR
 BugReports: https://github.com/seaaan/plateR/issues
 VignetteBuilder: knitr
-Imports: utils
+Imports:
+    utils
+RoxygenNote: 5.0.1
