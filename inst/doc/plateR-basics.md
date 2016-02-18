@@ -1,5 +1,5 @@
 File structure
----------------
+--------------
 
 When you installed `plateR`, several example .csv files were installed. These files have data and metadata from one experiment and we'll use them to illustrate how `plateR` works. Let's look at them briefly to see how the files should be structured. To find out where the files are stored on your computer, run this code.
 
@@ -7,16 +7,16 @@ When you installed `plateR`, several example .csv files were installed. These fi
 # get the file path to the folder
 library(plateR)
 system.file("extdata", package = "plateR")
-#> [1] "/home/sean/R/x86_64-pc-linux-gnu-library/3.2/plateR/extdata"
+#> [1] "C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata"
 ```
 
 Now, open up the appropriate folder on your computer. You will see three files:
 
--   all-plates.csv
--   bacterial-killing-one-well-per-row.csv
--   just-metadata.csv
+-   example-1.csv
+-   example-2-data.csv
+-   example-2-metadata.csv
 
-Open all-data.csv in a spreadsheet application.
+Open example-1.csv in a spreadsheet application.
 
 As you can see, the file is formatted as several microtiter plates. The top-left most cell has the name of the information in that plate and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. Plates are separated by an empty row. This specific example is for a 96-well plate, but for any standard size plate (12-384 wells), the same format applies: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.
 
@@ -34,7 +34,7 @@ Commonly, an instrument will output data in the form of a plate and that's where
 Below we illustrate getting the file path for the .csv file of interest and then reading it in. Note that we use `system.file()` here to get the file path of the example file installed with the package, but for your own files you would specify the file path relative to the current working directory without using `system.file()`.
 
 ``` r
-bk <- system.file("extdata", "all-data.csv", package = "plateR")
+bk <- system.file("extdata", "example-1.csv", package = "plateR")
    
 data <- read_plate(
       file = bk,                    # full path to the .csv file
@@ -107,12 +107,12 @@ Starting with some data with `add_plate()`
 
 Sometimes instruments give you data in the form you want: one row per well. But with complicated plate layouts, it can be a pain to match up metadata to the appropriate well. That's where `add_plate()` comes in: you take a data frame that already has one well per row and you add columns from a plate-shaped .csv file.
 
-In this case, we'll imagine that the instrument that measured bacterial killing gave a file with one well per row ("bacterial-killing-one-well-per-row.csv"), but that the instrument that measured viability gave us the data in the form of a plate layout as before. We want to add all our metadata (concentration, sample, drug) in plate format for convenience.
+In this case, we'll imagine that the instrument that measured bacterial killing gave a file with one well per row ("example-2-data.csv"), but that the instrument that measured viability gave us the data in the form of a plate layout as before. We want to add all our metadata (concentration, sample, drug) in plate format for convenience.
 
 First, read in the data you want to add columns to.
 
 ``` r
-bk2 <- system.file("extdata", "bacterial-killing-one-well-per-row.csv", 
+bk2 <- system.file("extdata", "example-2-data.csv", 
   package = "plateR")
 
 data2 <- read.csv(bk2)
@@ -135,14 +135,13 @@ head(data2)
 Now, we want to add the data from the plate layout file to this data frame and match it up by wells. Note that it doesn't matter what order the wells are in in `data2`: In the call to `add_plate` we'll specify which column in `data2` has the well IDs and it'll match it up that way.
 
 ``` r
-meta <- system.file("extdata", "just-metadata.csv", package = "plateR")
+meta <- system.file("extdata", "example-2-metadata.csv", package = "plateR")
 data2 <- add_plate(
       file = meta,                # full paths to the .csv files
       data = data2,               # data frame to add to    
       well_ids_column = "Wells",  # name of column of well IDs in data frame
       plate_size = 96             # total number of wells on the plate (optional)
 )
-#> [1] 96
 str(data2)
 #> 'data.frame':    96 obs. of  6 variables:
 #>  $ Wells           : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
