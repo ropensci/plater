@@ -76,31 +76,38 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 
 
-<div id="file-structure" class="section level2">
-<h2>File structure</h2>
-<p>When you installed <code>plateR</code>, several example .csv files were installed. These files have data and metadata from one experiment and we’ll use them to illustrate how <code>plateR</code> works. Let’s look at them briefly to see how the files should be structured. To find out where the files are stored on your computer, run this code.</p>
+<div id="file-structure-plater-format" class="section level2">
+<h2>File structure: <code>plateR</code> format</h2>
+<p>When you installed <code>plateR</code>, several example .csv files were installed. These files illustrate how <code>plateR</code> format files should be formatted. To find out where the files are stored on your computer, run this code.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the file path to the folder</span>
 <span class="kw">library</span>(plateR)
 <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 <span class="co">#&gt; [1] &quot;C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata&quot;</span></code></pre></div>
 <p>Now, open up the appropriate folder on your computer. You will see three files:</p>
 <ul>
-<li>example-1.csv</li>
-<li>example-2-data.csv</li>
-<li>example-2-metadata.csv</li>
+<li><code>example-1.csv</code></li>
+<li><code>example-2-data.csv</code></li>
+<li><code>example-2-metadata.csv</code></li>
 </ul>
-<p>Open example-1.csv in a spreadsheet application.</p>
-<p>As you can see, the file is formatted as several microtiter plates. The top-left most cell has the name of the information in that plate and the subsequent wells in the top row are labeled 1-12. The subsequent cells in the first column are labeled A-H. Plates are separated by an empty row. This specific example is for a 96-well plate, but for any standard size plate (12-384 wells), the same format applies: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.</p>
-<p>In the top plate, every well is filled, but that’s not necessary. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will simply be represented as <code>NA</code>. If they’re empty in every plate you’re using, they’ll be omitted.</p>
+<p>Open <code>example-1.csv</code> in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. The important features of <code>plateR</code> format are:</p>
+<ul>
+<li>Top-left most cell of each plate holds the name of the plate (to be used as the column title after conversion to a data frame)</li>
+<li>The rest of the top row is labeled 1-12.</li>
+<li>The rest of the first column is labeled A-H.</li>
+<li>Plates are separated by an empty row.</li>
+</ul>
+<p>Wells can be empty. In the top plate, every well is filled. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will be represented as <code>NA</code>. If they’re empty in every plate in the file, they’ll be omitted.</p>
+<p>The examples are 96-well, but any standard size plate (12-384 wells) can be used in <code>plateR</code> format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.</p>
 <div id="tips-for-creating-files" class="section level3">
 <h3>Tips for creating files</h3>
-<p>It’s easy and convenient to make plate layouts like this in a spreadsheet program. Just make sure to save them as .csv files. One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try highlighting and deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.</p>
+<p>It’s easy and convenient to make <code>plateR</code> format files in a spreadsheet program. Just make sure to save them as .csv files.</p>
+<p>One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.</p>
 </div>
 </div>
-<div id="starting-from-scratch-with-read_plate" class="section level2">
-<h2>Starting from scratch with <code>read_plate()</code></h2>
-<p>Commonly, an instrument will output data in the form of a plate and that’s where you’ll want to start. Take this data and copy and paste it into the format described above and save it as a .csv file. <code>read_plate()</code> will turn each plate in the file into a column, so add all the metadata you want as more plates below the data plate.</p>
-<p>Below we illustrate getting the file path for the .csv file of interest and then reading it in. Note that we use <code>system.file()</code> here to get the file path of the example file installed with the package, but for your own files you would specify the file path relative to the current working directory without using <code>system.file()</code>.</p>
+<div id="approach-1-starting-from-scratch-with-read_plate" class="section level2">
+<h2>Approach 1: Starting from scratch with <code>read_plate()</code></h2>
+<p>Let’s say you did the experiment shown in <code>example-1.csv</code>. The instruments measuring bacterial killing and viability gave you data shaped like a plate and you combined them, along with information about what each plate represents, into <code>example-1.csv</code>.</p>
+<p>But what you really want is a data frame with columns for each variable, matched up by well. That’s what <code>read_plate()</code> is for.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-1.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
    
 data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
@@ -125,50 +132,15 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
 <span class="co">#&gt; 4   A04                4        97          0.01 Sample A    Drug B</span>
 <span class="co">#&gt; 5   A05                1        99          0.01 Sample B    Drug B</span>
 <span class="co">#&gt; 6   A06                2        93          0.01 Sample C    Drug B</span></code></pre></div>
-<p>To check that the new data frame matched everything up as we expected, we can use <code>view_plate()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check concentrations column</span>
-<span class="kw">view_plate</span>( 
-      <span class="dt">data =</span> data,                         <span class="co"># data frame of interest</span>
-      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,           <span class="co"># name of the column with the well IDs</span>
-      <span class="dt">column_to_display =</span> <span class="st">&quot;Concentration&quot;</span>, <span class="co"># column to display </span>
-      <span class="dt">plate_size =</span> <span class="dv">96</span>                      <span class="co"># total number of wells on the plate (optional)</span>
-)   
-<span class="co">#&gt;       1     2     3     4     5     6     7     8     9 10 11 12</span>
-<span class="co">#&gt; A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .</span>
-<span class="co">#&gt; B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .</span>
-<span class="co">#&gt; C     1     1     1     1     1     1     1     1     1  .  .  .</span>
-<span class="co">#&gt; D    10    10    10    10    10    10    10    10    10  .  .  .</span>
-<span class="co">#&gt; E   100   100   100   100   100   100   100   100   100  .  .  .</span>
-<span class="co">#&gt; F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .</span>
-<span class="co">#&gt; G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .</span>
-<span class="co">#&gt; H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .</span>
-
-<span class="co"># check sample column</span>
-<span class="kw">view_plate</span>(data, <span class="st">&quot;Wells&quot;</span>, <span class="st">&quot;Sample&quot;</span>)
-<span class="co">#&gt;          1        2        3        4        5        6        7        8</span>
-<span class="co">#&gt; A Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; B Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; C Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; D Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; E Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; F Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; G Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt; H Sample A Sample B Sample C Sample A Sample B Sample C Sample A Sample B</span>
-<span class="co">#&gt;          9       10       11       12</span>
-<span class="co">#&gt; A Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; B Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; C Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; D Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; E Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; F Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; G Sample C Sample A Sample B Sample C</span>
-<span class="co">#&gt; H Sample C Sample A Sample B Sample C</span></code></pre></div>
+<p>Note that we use <code>system.file()</code> here to get the file path of the example file installed with the package, but for your own files you would specify the file path relative to the current working directory without using <code>system.file()</code>.</p>
+<p>So, now you’re done: you have a tidy data frame that’s easy to analyze.</p>
 </div>
-<div id="starting-with-some-data-with-add_plate" class="section level1">
-<h1>Starting with some data with <code>add_plate()</code></h1>
-<p>Sometimes instruments give you data in the form you want: one row per well. But with complicated plate layouts, it can be a pain to match up metadata to the appropriate well. That’s where <code>add_plate()</code> comes in: you take a data frame that already has one well per row and you add columns from a plate-shaped .csv file.</p>
-<p>In this case, we’ll imagine that the instrument that measured bacterial killing gave a file with one well per row (“example-2-data.csv”), but that the instrument that measured viability gave us the data in the form of a plate layout as before. We want to add all our metadata (concentration, sample, drug) in plate format for convenience.</p>
-<p>First, read in the data you want to add columns to.</p>
+<div id="approach-2-combine-two-files-with-add_plate" class="section level2">
+<h2>Approach 2: Combine two files with <code>add_plate()</code></h2>
+<p>The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. That’s where <code>add_plate()</code> comes in: you combine two spreadsheets: one that has one well per row and another that has plate-shaped data.</p>
+<p>Let’s imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (<code>example-2-data.csv</code>), while the instrument that measured viability gave us plate-shaped data like before (<code>example-2-metadata.csv</code>). In the second file, you also have the data labeling what well was what (concentration, sample, drug).</p>
+<p>You want to combine those two files, matching up the wells.</p>
+<p>First, read in the bacterial killing data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bk2 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-data.csv&quot;</span>, 
   <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 
@@ -187,10 +159,10 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(bk2)
 <span class="co">#&gt; 4   A04                4</span>
 <span class="co">#&gt; 5   A05                1</span>
 <span class="co">#&gt; 6   A06                2</span></code></pre></div>
-<p>Now, we want to add the data from the plate layout file to this data frame and match it up by wells. Note that it doesn’t matter what order the wells are in in <code>data2</code>: In the call to <code>add_plate</code> we’ll specify which column in <code>data2</code> has the well IDs and it’ll match it up that way.</p>
+<p>Now, you want to combine <code>data2</code> with all the plate-shaped data and match it up by well. That’s where <code>add_plate()</code> comes in. It takes a .csv file in <code>plateR</code> format and combines it with a one-well-per-row data frame.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">meta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-metadata.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
-      <span class="dt">file =</span> meta,                <span class="co"># full paths to the .csv files</span>
+      <span class="dt">file =</span> meta,                <span class="co"># full path to the .csv file</span>
       <span class="dt">data =</span> data2,               <span class="co"># data frame to add to    </span>
       <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,  <span class="co"># name of column of well IDs in data frame</span>
       <span class="dt">plate_size =</span> <span class="dv">96</span>             <span class="co"># total number of wells on the plate (optional)</span>
@@ -212,6 +184,27 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 <span class="co">#&gt; 4   A04                4        97          0.01 Sample A    Drug B</span>
 <span class="co">#&gt; 5   A05                1        99          0.01 Sample B    Drug B</span>
 <span class="co">#&gt; 6   A06                2        93          0.01 Sample C    Drug B</span></code></pre></div>
+<p>Note that it doesn’t matter what order the wells are in in <code>data2</code>: In the call to <code>add_plate()</code> the column in <code>data2</code> with the well IDs is specified and it’ll match it up using the well IDs.</p>
+<p>So, now you’re done: you have a tidy data frame that’s easy to analyze.</p>
+</div>
+<div id="seeing-is-believing" class="section level2">
+<h2>Seeing is believing</h2>
+<p>Sometimes it’s useful to look at data as though it’s back on the plate. That’s where <code>view_plate()</code> comes in.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">view_plate</span>( 
+      <span class="dt">data =</span> data2,                         <span class="co"># data frame of interest</span>
+      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,           <span class="co"># name of the column with the well IDs</span>
+      <span class="dt">column_to_display =</span> <span class="st">&quot;Concentration&quot;</span>, <span class="co"># column to display </span>
+      <span class="dt">plate_size =</span> <span class="dv">96</span>                      <span class="co"># total number of wells on the plate (optional)</span>
+)   
+<span class="co">#&gt;       1     2     3     4     5     6     7     8     9 10 11 12</span>
+<span class="co">#&gt; A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .</span>
+<span class="co">#&gt; B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .</span>
+<span class="co">#&gt; C     1     1     1     1     1     1     1     1     1  .  .  .</span>
+<span class="co">#&gt; D    10    10    10    10    10    10    10    10    10  .  .  .</span>
+<span class="co">#&gt; E   100   100   100   100   100   100   100   100   100  .  .  .</span>
+<span class="co">#&gt; F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .</span>
+<span class="co">#&gt; G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .</span>
+<span class="co">#&gt; H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .</span></code></pre></div>
 </div>
 
 
