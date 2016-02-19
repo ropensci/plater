@@ -35,3 +35,5 @@ Vignette
 --------
 
 For a detailed example of how to use `plateR`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plateR-basics.md>
+
+[![Travis-CI Build Status](https://travis-ci.org/seaaan/plateR.svg?branch=master)](https://travis-ci.org/seaaan/plateR)
