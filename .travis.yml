@@ -1,3 +1,7 @@
 language: r
 warnings_are_errors: true
 sudo: required
+cache: packages
+
+r_packages:
+   - rmarkdown
