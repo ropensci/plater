@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-02-18" />
+<meta name="date" content="2016-02-23" />
 
 <title>Getting started with plateR</title>
 
@@ -72,12 +72,50 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-02-18</em></h4>
+<h4 class="date"><em>2016-02-23</em></h4>
 </div>
 
 
+<div id="so-whats-the-point" class="section level2">
+<h2>So what’s the point?</h2>
+<p>You do your experiment in a plate. You think about which wells are which in terms of that plate. Maybe the data even comes out shaped like a plate.</p>
+<p>But that’s a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of <code>plateR</code> is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.</p>
+</div>
+<div id="an-example" class="section level2">
+<h2>An example</h2>
+<p>You do an experiment. Your data look like this:</p>
+<pre><code>#&gt;    1  2  3  4  5  6  7  8  9 10 11 12
+#&gt; A  2  3  2  4  1  2  2  0  5  1  0  0
+#&gt; B  2  3  7  6  6  9  8 10  7  3  0  2
+#&gt; C 12 11 11 59 58 71  8  8  0  3  5  0
+#&gt; D 16 19 17 98 81 90 10 13 12  2  4  3
+#&gt; E 61 53 70 91 91 80 15 13 12  5  2  1
+#&gt; F 95 80 99 98 82 89 16 19 17  4  3  5
+#&gt; G 83 84 83 80 87 87 75 61 54  5  1  3
+#&gt; H 83 83 80 85 94 93 84 85 91  5  5  2</code></pre>
+<p>Each sample got treated with a drug, in this pattern:</p>
+<pre><code>#&gt;   1 2 3 4 5 6 7 8 9   10   11   12
+#&gt; A A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; B A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; C A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; D A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; E A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; F A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; G A A A B B B C C C Ctrl Ctrl Ctrl
+#&gt; H A A A B B B C C C Ctrl Ctrl Ctrl</code></pre>
+<p>When you analyze it, you want it to look like this:</p>
+<pre><code>#&gt;   Wells BacterialKilling Treatment
+#&gt; 1   A01                2         A
+#&gt; 2   A02                3         A
+#&gt; 3   A03                2         A
+#&gt; 4   A04                4         B
+#&gt; 5   A05                1         B
+#&gt; 6   A06                2         B</code></pre>
+<p><code>plateR</code> makes that effortless.</p>
+</div>
 <div id="file-structure-plater-format" class="section level2">
 <h2>File structure: <code>plateR</code> format</h2>
+<p>Let’s get started.</p>
 <p>When you installed <code>plateR</code>, several example .csv files were installed. These files illustrate how <code>plateR</code> format files should be formatted. To find out where the files are stored on your computer, run this code.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the file path to the folder</span>
 <span class="kw">library</span>(plateR)

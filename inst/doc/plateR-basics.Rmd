@@ -19,7 +19,43 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
+## So what's the point? 
+You do your experiment in a plate. You think about which wells are which in terms of that plate. Maybe the data even comes out shaped like a plate. 
+
+But that's a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of `plateR` is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.
+
+## An example
+You do an experiment. Your data look like this: 
+
+```{r, echo = FALSE}
+library(plateR)
+bk <- system.file("extdata", "example-1.csv", package = "plateR")
+   
+data <- read_plate(bk)
+
+view_plate(data, "Wells", "BacterialKilling")
+```
+
+Each sample got treated with a drug, in this pattern: 
+
+```{r, echo=FALSE}
+data$Treatment <- gsub("Drug ", "", data$Treatment)
+data$Treatment <- gsub("Control", "Ctrl", data$Treatment)
+
+view_plate(data, "Wells", "Treatment")
+```
+
+When you analyze it, you want it to look like this: 
+
+```{r, echo=FALSE}
+head(data[, c("Wells", "BacterialKilling", "Treatment")])
+```
+
+`plateR` makes that effortless.
+
 ## File structure: `plateR` format 
+Let's get started.
+
 When you installed `plateR`, several example .csv files were installed. These files illustrate how `plateR` format files should be formatted. To find out where the files are stored on your computer, run this code.   
 
 ```{r}
