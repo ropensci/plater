@@ -20,7 +20,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## So what's the point? 
-You do your experiment in a plate. You think about which wells are which in terms of that plate. Maybe the data even comes out shaped like a plate. 
+You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data even comes out shaped like a plate. 
 
 But that's a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of `plateR` is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.
 
@@ -70,7 +70,9 @@ Now, open up the appropriate folder on your computer. You will see three files:
 - `example-2-part-A.csv`
 - `example-2-part-B.csv`
 
-Open `example-1.csv` in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. The important features of `plateR` format are: 
+Open `example-1.csv` in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. This is `plateR` format. 
+
+The important features of `plateR` format are: 
 
 - Top-left most cell of each plate holds the name of the plate (to be used as the column title after conversion to a data frame)
 - The rest of the top row is labeled 1-12. 
@@ -82,12 +84,14 @@ Wells can be empty. In the top layout, every well is filled. Scroll down to the 
 The examples are 96-well, but any standard size plate (12-384 wells) can be used in `plateR` format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates. 
 
 ### Tips for creating files
-It's easy and convenient to make `plateR` format files in a spreadsheet program. Just make sure to save them as .csv files. 
+The idea is that you store your data in `plateR` format and then use `plateR` to convert it into a useful data frame. Each plate layout in the file will be converted to a column and each well will be represented as a row, with values in each column corresponding to the values at that well in the plate layouts. 
+
+To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate-shaped layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file. 
 
 One caution: some spreadsheet programs will include columns in the .csv output if they've ever had text in them, even if they're currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file. 
 
 ## Approach 1: Starting from scratch with `read_plate()`
-Let's say you did the experiment shown in `example-1.csv`. The instruments measuring bacterial killing and viability gave you data shaped like a plate and you combined them, along with information about what each plate represents, into `example-1.csv`. 
+Let's say you did the experiment shown in `example-1.csv`. The instrument measuring bacterial killing gave you data shaped like a plate and you combined it with information about each well into `example-1.csv`. 
 
 But what you really want is a data frame with columns for each variable, matched up by well. That's what `read_plate()` is for. 
 
@@ -109,7 +113,7 @@ Note that we use `system.file()` here to get the file path of the example file i
 So, now you're done: you have a tidy data frame that's easy to analyze. 
 
 ## Approach 2: Combine two files with `add_plate()`
-The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. That's where `add_plate()` comes in: you combine two spreadsheets: one that has one well per row and another that has plate-shaped data.
+The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. The purpose of `add_plate()` is to combine two spreadsheets: one that has one well per row and another that has plate-shaped data.
 
 Let's imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (`example-2-part-B.csv`). The annotations, with information about what was in each well (concentration, sample, drug), are easiest to think about as plate-shaped data like before (`example-2-part-B.csv`). 
 

@@ -78,7 +78,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <div id="so-whats-the-point" class="section level2">
 <h2>So what’s the point?</h2>
-<p>You do your experiment in a plate. You think about which wells are which in terms of that plate. Maybe the data even comes out shaped like a plate.</p>
+<p>You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data even comes out shaped like a plate.</p>
 <p>But that’s a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of <code>plateR</code> is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.</p>
 </div>
 <div id="an-example" class="section level2">
@@ -127,7 +127,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><code>example-2-part-A.csv</code></li>
 <li><code>example-2-part-B.csv</code></li>
 </ul>
-<p>Open <code>example-1.csv</code> in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. The important features of <code>plateR</code> format are:</p>
+<p>Open <code>example-1.csv</code> in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. This is <code>plateR</code> format.</p>
+<p>The important features of <code>plateR</code> format are:</p>
 <ul>
 <li>Top-left most cell of each plate holds the name of the plate (to be used as the column title after conversion to a data frame)</li>
 <li>The rest of the top row is labeled 1-12.</li>
@@ -138,13 +139,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The examples are 96-well, but any standard size plate (12-384 wells) can be used in <code>plateR</code> format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.</p>
 <div id="tips-for-creating-files" class="section level3">
 <h3>Tips for creating files</h3>
-<p>It’s easy and convenient to make <code>plateR</code> format files in a spreadsheet program. Just make sure to save them as .csv files.</p>
+<p>The idea is that you store your data in <code>plateR</code> format and then use <code>plateR</code> to convert it into a useful data frame. Each plate layout in the file will be converted to a column and each well will be represented as a row, with values in each column corresponding to the values at that well in the plate layouts.</p>
+<p>To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate-shaped layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file.</p>
 <p>One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.</p>
 </div>
 </div>
 <div id="approach-1-starting-from-scratch-with-read_plate" class="section level2">
 <h2>Approach 1: Starting from scratch with <code>read_plate()</code></h2>
-<p>Let’s say you did the experiment shown in <code>example-1.csv</code>. The instruments measuring bacterial killing and viability gave you data shaped like a plate and you combined them, along with information about what each plate represents, into <code>example-1.csv</code>.</p>
+<p>Let’s say you did the experiment shown in <code>example-1.csv</code>. The instrument measuring bacterial killing gave you data shaped like a plate and you combined it with information about each well into <code>example-1.csv</code>.</p>
 <p>But what you really want is a data frame with columns for each variable, matched up by well. That’s what <code>read_plate()</code> is for.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-1.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
    
@@ -174,7 +176,7 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
 </div>
 <div id="approach-2-combine-two-files-with-add_plate" class="section level2">
 <h2>Approach 2: Combine two files with <code>add_plate()</code></h2>
-<p>The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. That’s where <code>add_plate()</code> comes in: you combine two spreadsheets: one that has one well per row and another that has plate-shaped data.</p>
+<p>The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. The purpose of <code>add_plate()</code> is to combine two spreadsheets: one that has one well per row and another that has plate-shaped data.</p>
 <p>Let’s imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (<code>example-2-part-B.csv</code>). The annotations, with information about what was in each well (concentration, sample, drug), are easiest to think about as plate-shaped data like before (<code>example-2-part-B.csv</code>).</p>
 <p>You want to combine those two files, matching up the wells.</p>
 <p>First, read in the bacterial killing data.</p>
