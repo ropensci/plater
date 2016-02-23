@@ -67,8 +67,8 @@ system.file("extdata", package = "plateR")
 Now, open up the appropriate folder on your computer. You will see three files: 
 
 - `example-1.csv`
-- `example-2-data.csv`
-- `example-2-metadata.csv`
+- `example-2-part-A.csv`
+- `example-2-part-B.csv`
 
 Open `example-1.csv` in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. The important features of `plateR` format are: 
 
@@ -77,7 +77,7 @@ Open `example-1.csv` in a spreadsheet application. As you can see, the file is f
 - The rest of the first column is labeled A-H. 
 - Plates are separated by an empty row. 
 
-Wells can be empty. In the top plate, every well is filled. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will be represented as `NA`. If they're empty in every plate in the file, they'll be omitted.
+Wells can be empty. In the top layout, every well is filled. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will be represented as `NA`. If they're empty in every plate in the file, they'll be omitted.
 
 The examples are 96-well, but any standard size plate (12-384 wells) can be used in `plateR` format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates. 
 
@@ -111,14 +111,14 @@ So, now you're done: you have a tidy data frame that's easy to analyze.
 ## Approach 2: Combine two files with `add_plate()`
 The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. That's where `add_plate()` comes in: you combine two spreadsheets: one that has one well per row and another that has plate-shaped data.
 
-Let's imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (`example-2-data.csv`), while the instrument that measured viability gave us plate-shaped data like before (`example-2-metadata.csv`). In the second file, you also have the data labeling what well was what (concentration, sample, drug).
+Let's imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (`example-2-part-B.csv`). The annotations, with information about what was in each well (concentration, sample, drug), are easiest to think about as plate-shaped data like before (`example-2-part-B.csv`). 
 
 You want to combine those two files, matching up the wells. 
 
 First, read in the bacterial killing data.
 
 ```{r}
-bk2 <- system.file("extdata", "example-2-data.csv", 
+bk2 <- system.file("extdata", "example-2-part-A.csv", 
   package = "plateR")
 
 data2 <- read.csv(bk2)
@@ -131,7 +131,7 @@ head(data2)
 Now, you want to combine `data2` with all the plate-shaped data and match it up by well. That's where `add_plate()` comes in. It takes a .csv file in `plateR` format and combines it with a one-well-per-row data frame. 
 
 ```{r}
-meta <- system.file("extdata", "example-2-metadata.csv", package = "plateR")
+meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
       file = meta,                # full path to the .csv file
       data = data2,               # data frame to add to    
