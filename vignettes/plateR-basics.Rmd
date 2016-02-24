@@ -20,9 +20,9 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## So what's the point? 
-You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data even comes out shaped like a plate. 
+You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data from the instrument even comes out shaped like a plate. 
 
-But that's a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of `plateR` is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.
+But that's a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of `plateR` is to let you store your data shaped like a plate and then effortlessly turn it into a tidy form for data analysis.
 
 ## An example
 You do an experiment. Your data look like this: 
@@ -42,7 +42,8 @@ view_plate(data, "Wells", "Concentration")
 When you analyze it, you want it to look like this: 
 
 ```{r, echo=FALSE}
-head(data[, c("Wells", "BacterialKilling", "Concentration")])
+data$Measurement <- data$BacterialKilling
+head(data[, c("Wells", "Measurement", "Concentration")])
 ```
 
 `plateR` makes that effortless.
@@ -73,14 +74,16 @@ The important features of `plateR` format are:
 - The rest of the first column is labeled A-H. 
 - Plates are separated by an empty row. 
 
-Wells can be empty. In the top layout, every well is filled. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will be represented as `NA`. If they're empty in every plate in the file, they'll be omitted.
+Wells can be empty, as shown in the plate layout labeled Concentration. Empty wells will be represented as `NA`. If they're empty in every plate in the file, they'll be omitted.
 
-The examples are 96-well, but any standard size plate (12-384 wells) can be used in `plateR` format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates. 
+These examples are 96-well, but any standard size plate (12-384 wells) can be used in `plateR` format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates. 
 
 ### Tips for creating files
-The idea is that you store your data in `plateR` format and then use `plateR` to convert it into a useful data frame. Each plate layout in the file will be converted to a column and each well will be represented as a row, with values in each column corresponding to the values at that well in the plate layouts. 
+The idea is that you store your data in `plateR` format and then use `plateR` to convert it into a data frame that's useful to analyze. Storing the data in `plateR` format has the advantage of making it easy to translate mentally between the experiment you did and the data, as well as avoiding tedious and error-prone copy and pasting. 
 
-To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate-shaped layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file. 
+When data in `plateR` format gets turned into a data frame, each plate layout gets converted to a column and each well gets represented as a row. 
+
+To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file. 
 
 One caution: some spreadsheet programs will include columns in the .csv output if they've ever had text in them, even if they're currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file. 
 

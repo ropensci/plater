@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-02-23" />
+<meta name="date" content="2016-02-24" />
 
 <title>Getting started with plateR</title>
 
@@ -72,14 +72,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-02-23</em></h4>
+<h4 class="date"><em>2016-02-24</em></h4>
 </div>
 
 
 <div id="so-whats-the-point" class="section level2">
 <h2>So what’s the point?</h2>
-<p>You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data even comes out shaped like a plate.</p>
-<p>But that’s a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of <code>plateR</code> is to let you store your data shaped like a plate and then turn it into a tidy form for data analysis effortlessly.</p>
+<p>You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data from the instrument even comes out shaped like a plate.</p>
+<p>But that’s a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of <code>plateR</code> is to let you store your data shaped like a plate and then effortlessly turn it into a tidy form for data analysis.</p>
 </div>
 <div id="an-example" class="section level2">
 <h2>An example</h2>
@@ -96,13 +96,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 #&gt; G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .
 #&gt; H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .</code></pre>
 <p>When you analyze it, you want it to look like this:</p>
-<pre><code>#&gt;   Wells BacterialKilling Concentration
-#&gt; 1   A01                2          0.01
-#&gt; 2   A02                3          0.01
-#&gt; 3   A03                2          0.01
-#&gt; 4   A04                4          0.01
-#&gt; 5   A05                1          0.01
-#&gt; 6   A06                2          0.01</code></pre>
+<pre><code>#&gt;   Wells Measurement Concentration
+#&gt; 1   A01           2          0.01
+#&gt; 2   A02           3          0.01
+#&gt; 3   A03           2          0.01
+#&gt; 4   A04           4          0.01
+#&gt; 5   A05           1          0.01
+#&gt; 6   A06           2          0.01</code></pre>
 <p><code>plateR</code> makes that effortless.</p>
 </div>
 <div id="file-structure-plater-format" class="section level2">
@@ -127,12 +127,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The rest of the first column is labeled A-H.</li>
 <li>Plates are separated by an empty row.</li>
 </ul>
-<p>Wells can be empty. In the top layout, every well is filled. Scroll down to the plate labeled Concentration. Here you see the same structure, but some of the wells are empty. Those wells will be represented as <code>NA</code>. If they’re empty in every plate in the file, they’ll be omitted.</p>
-<p>The examples are 96-well, but any standard size plate (12-384 wells) can be used in <code>plateR</code> format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.</p>
+<p>Wells can be empty, as shown in the plate layout labeled Concentration. Empty wells will be represented as <code>NA</code>. If they’re empty in every plate in the file, they’ll be omitted.</p>
+<p>These examples are 96-well, but any standard size plate (12-384 wells) can be used in <code>plateR</code> format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.</p>
 <div id="tips-for-creating-files" class="section level3">
 <h3>Tips for creating files</h3>
-<p>The idea is that you store your data in <code>plateR</code> format and then use <code>plateR</code> to convert it into a useful data frame. Each plate layout in the file will be converted to a column and each well will be represented as a row, with values in each column corresponding to the values at that well in the plate layouts.</p>
-<p>To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate-shaped layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file.</p>
+<p>The idea is that you store your data in <code>plateR</code> format and then use <code>plateR</code> to convert it into a data frame that’s useful to analyze. Storing the data in <code>plateR</code> format has the advantage of making it easy to translate mentally between the experiment you did and the data, as well as avoiding tedious and error-prone copy and pasting.</p>
+<p>When data in <code>plateR</code> format gets turned into a data frame, each plate layout gets converted to a column and each well gets represented as a row.</p>
+<p>To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file.</p>
 <p>One caution: some spreadsheet programs will include columns in the .csv output if they’ve ever had text in them, even if they’re currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.</p>
 </div>
 </div>

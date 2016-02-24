@@ -16,7 +16,8 @@ data <- read_plate(bk)
 view_plate(data, "Wells", "Concentration")
 
 ## ---- echo=FALSE---------------------------------------------------------
-head(data[, c("Wells", "BacterialKilling", "Concentration")])
+data$Measurement <- data$BacterialKilling
+head(data[, c("Wells", "Measurement", "Concentration")])
 
 ## ------------------------------------------------------------------------
 # get the file path to the folder
