@@ -10,37 +10,29 @@ An example
 
 You do an experiment. Your data look like this:
 
-    #>    1  2  3  4  5  6  7  8  9 10 11 12
-    #> A  2  3  2  4  1  2  2  0  5  1  0  0
-    #> B  2  3  7  6  6  9  8 10  7  3  0  2
-    #> C 12 11 11 59 58 71  8  8  0  3  5  0
-    #> D 16 19 17 98 81 90 10 13 12  2  4  3
-    #> E 61 53 70 91 91 80 15 13 12  5  2  1
-    #> F 95 80 99 98 82 89 16 19 17  4  3  5
-    #> G 83 84 83 80 87 87 75 61 54  5  1  3
-    #> H 83 83 80 85 94 93 84 85 91  5  5  2
+![Microtiter plate with colored wells.](plate.jpg)
 
-Each sample got treated with a drug, in this pattern:
+Each sample got treated with different concentrations of drug, in this pattern:
 
-    #>   1 2 3 4 5 6 7 8 9   10   11   12
-    #> A A A A B B B C C C Ctrl Ctrl Ctrl
-    #> B A A A B B B C C C Ctrl Ctrl Ctrl
-    #> C A A A B B B C C C Ctrl Ctrl Ctrl
-    #> D A A A B B B C C C Ctrl Ctrl Ctrl
-    #> E A A A B B B C C C Ctrl Ctrl Ctrl
-    #> F A A A B B B C C C Ctrl Ctrl Ctrl
-    #> G A A A B B B C C C Ctrl Ctrl Ctrl
-    #> H A A A B B B C C C Ctrl Ctrl Ctrl
+    #>       1     2     3     4     5     6     7     8     9 10 11 12
+    #> A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .
+    #> B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .
+    #> C     1     1     1     1     1     1     1     1     1  .  .  .
+    #> D    10    10    10    10    10    10    10    10    10  .  .  .
+    #> E   100   100   100   100   100   100   100   100   100  .  .  .
+    #> F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .
+    #> G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .
+    #> H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .
 
 When you analyze it, you want it to look like this:
 
-    #>   Wells BacterialKilling Treatment
-    #> 1   A01                2         A
-    #> 2   A02                3         A
-    #> 3   A03                2         A
-    #> 4   A04                4         B
-    #> 5   A05                1         B
-    #> 6   A06                2         B
+    #>   Wells BacterialKilling Concentration
+    #> 1   A01                2          0.01
+    #> 2   A02                3          0.01
+    #> 3   A03                2          0.01
+    #> 4   A04                4          0.01
+    #> 5   A05                1          0.01
+    #> 6   A06                2          0.01
 
 `plateR` makes that effortless.
 

@@ -2,7 +2,7 @@
 title: "Getting started with `plateR`"
 author: "Sean Hughes"
 date: "`r Sys.Date()`"
-output rmarkdown::html_vignette
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -27,28 +27,22 @@ But that's a terrible shape for data analysis. You want one well per row. Trying
 ## An example
 You do an experiment. Your data look like this: 
 
-```{r, echo = FALSE}
-library(plateR)
-bk <- system.file("extdata", "example-1.csv", package = "plateR")
-   
-data <- read_plate(bk)
+![Microtiter plate with colored wells.](plate.jpg)
 
-view_plate(data, "Wells", "BacterialKilling")
-```
-
-Each sample got treated with a drug, in this pattern: 
+Each sample got treated with different concentrations of drug, in this pattern: 
 
 ```{r, echo=FALSE}
-data$Treatment <- gsub("Drug ", "", data$Treatment)
-data$Treatment <- gsub("Control", "Ctrl", data$Treatment)
+library(plateR)
+bk <- system.file("extdata", "example-1.csv", package = "plateR")
+data <- read_plate(bk)
 
-view_plate(data, "Wells", "Treatment")
+view_plate(data, "Wells", "Concentration")
 ```
 
 When you analyze it, you want it to look like this: 
 
 ```{r, echo=FALSE}
-head(data[, c("Wells", "BacterialKilling", "Treatment")])
+head(data[, c("Wells", "BacterialKilling", "Concentration")])
 ```
 
 `plateR` makes that effortless.
