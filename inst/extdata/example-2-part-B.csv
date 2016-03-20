@@ -1,29 +1,29 @@
+Drug,1,2,3,4,5,6,7,8,9,10,11,12
+A,A,A,A,A,A,A,A,A,A,A,,
+B,A,A,A,A,A,A,A,A,A,A,,
+C,A,A,A,A,A,A,A,A,A,A,,
+D,A,A,A,A,A,A,A,A,A,A,,
+E,B,B,B,B,B,B,B,B,B,B,,
+F,B,B,B,B,B,B,B,B,B,B,,
+G,B,B,B,B,B,B,B,B,B,B,,
+H,B,B,B,B,B,B,B,B,B,B,,
+,,,,,,,,,,,,
 Concentration,1,2,3,4,5,6,7,8,9,10,11,12
-A,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,,,
-B,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,,,
-C,1,1,1,1,1,1,1,1,1,,,
-D,10,10,10,10,10,10,10,10,10,,,
-E,100,100,100,100,100,100,100,100,100,,,
-F,1000,1000,1000,1000,1000,1000,1000,1000,1000,,,
-G,10000,10000,10000,10000,10000,10000,10000,10000,10000,,,
-H,100000,100000,100000,100000,100000,100000,100000,100000,100000,,,
+A,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+B,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+C,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+D,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+E,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+F,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+G,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
+H,100,20,4,0.8,0.16,0.032,0.0064,0.00128,0.000256,0.0000512,0,
 ,,,,,,,,,,,,
-Sample,1,2,3,4,5,6,7,8,9,10,11,12
-A,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-B,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-D,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-E,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-F,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-G,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-H,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C,Sample A,Sample B,Sample C
-,,,,,,,,,,,,
-Treatment,1,2,3,4,5,6,7,8,9,10,11,12
-A,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-B,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-C,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-D,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-E,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-F,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-G,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
-H,Drug A,Drug A,Drug A,Drug B,Drug B,Drug B,Drug C,Drug C,Drug C,Control,Control,Control
+Bacteria,1,2,3,4,5,6,7,8,9,10,11,12
+A,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,Blank
+B,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,Blank
+C,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,Blank
+D,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,Blank
+E,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,E. coli,Blank
+F,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,S. enterocolitis,Blank
+G,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,C. trachomatis,Blank
+H,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,N. gonorrhoeae,Blank
