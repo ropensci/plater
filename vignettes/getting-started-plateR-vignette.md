@@ -3,7 +3,8 @@ How `plateR` helps you
 
 The idea is that you've done an experiment in a plate and you want to turn what you did into data that's ready to be analyzed as painlessly as possible. There are just two simple steps:
 
-1 Put the data in a file in `plateR` format 2 Read in the data with `read_plate` or `add_plate` depending on your situation
+1.  Put the data in a file in `plateR` format
+2.  Read in the data with `read_plate` or `add_plate` depending on your situation
 
 What makes `plateR` helpful is that you can store all of the information about your experiment in the shape of a plate, which is probably how you remember and recorded what you did. Then `plateR` will take that intuitive file and rearrange it into a data frame with one well per row, which is ideal for analysis.
 
