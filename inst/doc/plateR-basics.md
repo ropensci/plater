@@ -3,7 +3,7 @@ How `plateR` helps you
 
 When you do an experiment in a plate, it's easy and intuitive to store the data you get and a description of the experiment (what wells were controls, what wells were experimental, etc) in the shape of a plate. But turning that into a machine-readable format involves complicated mental gymnastics and error-prone copy-and-pasting.
 
-What `plateR` provides is a systematic format for storing information in plate layouts and then functions that painlessly rearrange that intuitive file into a data frame with one well per row, which is ideal for analysis.
+What `plateR` provides is a systematic format for storing information in plate layouts and functions that painlessly rearrange that intuitive file into a data frame with one well per row, which is ideal for analysis.
 
 There are just two simple steps:
 
