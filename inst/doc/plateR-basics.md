@@ -1,156 +1,115 @@
-So what's the point?
---------------------
+How `plateR` helps you
+----------------------
 
-You do your experiment in a plate. You think about which wells are which in terms of that plate (these wells were Drug A, these wells were Drug B, etc.). Maybe the data from the instrument even comes out shaped like a plate.
+When you do an experiment in a plate, it's easy and intuitive to store the data you get and a description of the experiment (what wells were controls, what wells were experimental, etc) in the shape of a plate. But turning that into a machine-readable format involves complicated mental gymnastics and error-prone copy-and-pasting.
 
-But that's a terrible shape for data analysis. You want one well per row. Trying to match up your mental picture of the plate to a column of well IDs is a huge pain though. The point of `plateR` is to let you store your data shaped like a plate and then effortlessly turn it into a tidy form for data analysis.
+What `plateR` provides is a systematic format for storing information in plate layouts and then functions that painlessly rearrange that intuitive file into a data frame with one well per row, which is ideal for analysis.
 
-An example
-----------
+There are just two simple steps:
 
-You do an experiment. Your data look like this:
+1.  Put the data in a file in `plateR` format
+2.  Read in the data with `read_plate` or `add_plate` depending on your situation
 
-![Microtiter plate with colored wells.](plate.jpg)
+The example
+-----------
 
-Each sample got treated with different concentrations of drug, in this pattern:
+Imagine you've invented two new antibiotics. To show how well they work, you filled up a 96-well plate with dilutions of them and mixed in four different types of bacteria. Then, you measured how many of the bacteria got killed. So for each well in the plate you know:
 
-    #>       1     2     3     4     5     6     7     8     9 10 11 12
-    #> A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .
-    #> B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .
-    #> C     1     1     1     1     1     1     1     1     1  .  .  .
-    #> D    10    10    10    10    10    10    10    10    10  .  .  .
-    #> E   100   100   100   100   100   100   100   100   100  .  .  .
-    #> F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .
-    #> G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .
-    #> H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .
+-   The drug (A or B)
+-   The concentration of drug (100 uM to 0.01 nM and no drug)
+-   The bacterial species (E. coli, S. enterocolitis, C. trachomatis, and N. gonorrhoeae)
+-   The amount of killing in the well
 
-When you analyze it, you want it to look like this:
+The first three items are variables you chose in setting up the experiment. The fourth item is what you measured.
 
-    #>   Wells Measurement Concentration
-    #> 1   A01           2          0.01
-    #> 2   A02           3          0.01
-    #> 3   A03           2          0.01
-    #> 4   A04           4          0.01
-    #> 5   A05           1          0.01
-    #> 6   A06           2          0.01
+We will analyze this experiment two different ways to illustrate two common data analysis scenarios:
 
-`plateR` makes that effortless.
+1.  Assuming the instrument gives back data shaped like a plate, we'll create one file with all four variables and read it in with `read_plate()`.
+2.  Assuming the instrument gives back data in one-well-per-row format, we'll create two files--one with the data and one with the three variables--and then combine the files with `add_plate()`.
 
-File structure: `plateR` format
--------------------------------
+Step 1: Put the data in `plateR` format
+---------------------------------------
 
-Let's get started.
+The first step is to create a file for the experiment. `plateR` format is designed to store all the plate-shaped information about an experiment in a single file. It's simply a .csv file representing a single plate, containing one or more plate layouts. Each layout maps a single variable, so for the example experiment, there would be four layouts in the file: Drug, Concentration, Bacteria, and Killing. Alternatively, if the Killing data are in one-well-per-row format, there would only be three layouts in the file.
 
-When you installed `plateR`, several example .csv files were installed. These files illustrate how `plateR` format files should be formatted. To find out where the files are stored on your computer, run this code.
+Several examples came with the package. Load `plateR` (i.e. run `library(plateR)`) and then run `system.file("extdata", package = "plateR")`. Open the folder listed there and then open `example-1.csv` in a spreadsheet editor. As you can see, there are four layouts in the file, describing the four variables in the experiment.
 
-``` r
-# get the file path to the folder
-library(plateR)
-system.file("extdata", package = "plateR")
-#> [1] "C:/Users/smhughes/Documents/R/win-library/3.2/plateR/extdata"
-```
+The format is pretty simple:
 
-Now, open up the appropriate folder on your computer. You will see three files:
+-   .csv file
+-   Top left cell of each layout is the name
+-   The rest of the top row of each layout is the column numbers (1:12 for a 96-well plate)
+-   The rest of the left column is the row names (A:H for a 96-well plate)
+-   One line between layouts
 
--   `example-1.csv`
--   `example-2-part-A.csv`
--   `example-2-part-B.csv`
+You can use `plateR` format with any standard plate size (6 to 384 wells). Not every well has to be filled in every layout. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
 
-Open `example-1.csv` in a spreadsheet application. As you can see, the file is formatted as several microtiter plates. This is `plateR` format.
+Step 2: Read in the data
+------------------------
 
-The important features of `plateR` format are:
+Now that your file is set up, you're ready to read in the data.
 
--   Top-left most cell of each plate holds the name of the plate (to be used as the column title after conversion to a data frame)
--   The rest of the top row is labeled 1-12.
--   The rest of the first column is labeled A-H.
--   Plates are separated by an empty row.
+Again, we will show two examples:
 
-Wells can be empty, as shown in the plate layout labeled Concentration. Empty wells will be represented as `NA`. If they're empty in every plate in the file, they'll be omitted.
+1.  A single `plateR` format file with `read_plate()`
+2.  A one-well-per-row file and a `plateR` format file with `add_plate()`
 
-These examples are 96-well, but any standard size plate (12-384 wells) can be used in `plateR` format: plate name top left, numbers along the top row to label columns, letters along the left column to label rows, and an empty row between plates.
+### Step 2: Read a single `plateR` format file with `read_plate()`
 
-### Tips for creating files
-
-The idea is that you store your data in `plateR` format and then use `plateR` to convert it into a data frame that's useful to analyze. Storing the data in `plateR` format has the advantage of making it easy to translate mentally between the experiment you did and the data, as well as avoiding tedious and error-prone copy and pasting.
-
-When data in `plateR` format gets turned into a data frame, each plate layout gets converted to a column and each well gets represented as a row.
-
-To create a file in this format, copy and paste your data into a spreadsheet program and then continue creating more plate layouts below it, with one layout for each column you want in your data frame. Fill in the wells with the appropriate information. Wells can either contain data or annotations, so if you measured more than one thing about each well, just create one plate-layout (in the same file) for each measurement. Similarly, for each variable you want to record about a well (sample source, treatment, experiment/control, etc.), add another plate layout to the file.
-
-One caution: some spreadsheet programs will include columns in the .csv output if they've ever had text in them, even if they're currently empty. So if you get errors about the plate layout being incorrect, but it looks right to you, try deleting 10 columns to the right of the plate and 10 rows under the plate and re-saving the file.
-
-Approach 1: Starting from scratch with `read_plate()`
------------------------------------------------------
-
-Let's say you did the experiment shown in `example-1.csv`. The instrument measuring bacterial killing gave you data shaped like a plate and you combined it with information about each well into `example-1.csv`.
-
-But what you really want is a data frame with columns for each variable, matched up by well. That's what `read_plate()` is for.
+Here is how it works. (Note that below we use `system.file()` here to get the file path of the example file, but for your own files you would specify the file path without using `system.file()`).
 
 ``` r
-bk <- system.file("extdata", "example-1.csv", package = "plateR")
+file_path <- system.file("extdata", "example-1.csv", package = "plateR")
    
 data <- read_plate(
-      file = bk,                    # full path to the .csv file
+      file = file_path,             # full path to the .csv file
       well_ids_column = "Wells",    # name to give column of well IDs (optional)
       plate_size = 96               # total number of wells on the plate (optional)
 )
 str(data)
 #> 'data.frame':    96 obs. of  5 variables:
-#>  $ Wells           : chr  "A01" "A02" "A03" "A04" ...
-#>  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...
-#>  $ Concentration   : num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 NA ...
-#>  $ Sample          : chr  "Sample A" "Sample B" "Sample C" "Sample A" ...
-#>  $ Treatment       : chr  "Drug A" "Drug A" "Drug A" "Drug B" ...
+#>  $ Wells        : chr  "A01" "A02" "A03" "A04" ...
+#>  $ Drug         : chr  "A" "A" "A" "A" ...
+#>  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...
+#>  $ Bacteria     : chr  "E. coli" "E. coli" "E. coli" "E. coli" ...
+#>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
 
 head(data)
-#>   Wells BacterialKilling Concentration   Sample Treatment
-#> 1   A01                2          0.01 Sample A    Drug A
-#> 2   A02                3          0.01 Sample B    Drug A
-#> 3   A03                2          0.01 Sample C    Drug A
-#> 4   A04                4          0.01 Sample A    Drug B
-#> 5   A05                1          0.01 Sample B    Drug B
-#> 6   A06                2          0.01 Sample C    Drug B
+#>   Wells Drug Concentration Bacteria Killing
+#> 1   A01    A       100.000  E. coli      98
+#> 2   A02    A        20.000  E. coli      95
+#> 3   A03    A         4.000  E. coli      92
+#> 4   A04    A         0.800  E. coli      41
+#> 5   A05    A         0.160  E. coli      17
+#> 6   A06    A         0.032  E. coli       2
 ```
 
-Note that we use `system.file()` here to get the file path of the example file installed with the package, but for your own files you would specify the file path relative to the current working directory without using `system.file()`.
+So what happened? `read_plate()` read in the `plateR` format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named "Wells" with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.
 
-So, now you're done: you have a tidy data frame that's easy to analyze.
+### Step 2 (again): Combine a one-well-per-row file and a `plateR` format file with `add_plate()`
 
-Approach 2: Combine two files with `add_plate()`
-------------------------------------------------
+Scientific instruments that work on plates often provide data in the shape of a plate. In that case, you're all set to create a `plateR` format file as described above. Sometimes, though, you'll get data back formatted with one well per row. In that case, you'd either need to copy-and-paste the data into a plate layout to use `read_plate()` or you'd need to copy-and-paste all the other information (Drug, Concentration, Bacteria) to line up with the data.
 
-The above approach works when all of your data are plate-shaped. Sometimes, though, instruments give you data with one row per well. But you probably think about your experiment in terms of what well was what, and it can be a pain to figure out just from the well ID. The purpose of `add_plate()` is to combine two spreadsheets: one that has one well per row and another that has plate-shaped data.
-
-Let's imagine you did the same experiment as above, except that the instrument that measured bacterial killing gave a file with one well per row (`example-2-part-B.csv`). The annotations, with information about what was in each well (concentration, sample, drug), are easiest to think about as plate-shaped data like before (`example-2-part-B.csv`).
-
-You want to combine those two files, matching up the wells.
-
-First, read in the bacterial killing data.
+`add_plate()` solves this problem. You provide a data frame with one well per row and well IDs and then you provide a `plateR` format file with the other information and `add_plate()` knits them together well-by-well. Here's an example using the other two files installed along with `plateR`.
 
 ``` r
-bk2 <- system.file("extdata", "example-2-part-A.csv", 
-  package = "plateR")
-
-data2 <- read.csv(bk2)
+file2A <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+data2 <- read.csv(file2A)
 
 str(data2)
 #> 'data.frame':    96 obs. of  2 variables:
-#>  $ Wells           : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
-#>  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...
+#>  $ Wells  : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
+#>  $ Killing: num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
 
 head(data2)
-#>   Wells BacterialKilling
-#> 1   A01                2
-#> 2   A02                3
-#> 3   A03                2
-#> 4   A04                4
-#> 5   A05                1
-#> 6   A06                2
-```
+#>   Wells Killing
+#> 1   A01      98
+#> 2   A02      95
+#> 3   A03      92
+#> 4   A04      41
+#> 5   A05      17
+#> 6   A06       2
 
-Now, you want to combine `data2` with all the plate-shaped data and match it up by well. That's where `add_plate()` comes in. It takes a .csv file in `plateR` format and combines it with a one-well-per-row data frame.
-
-``` r
 meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
       file = meta,                # full path to the .csv file
@@ -158,47 +117,21 @@ data2 <- add_plate(
       well_ids_column = "Wells",  # name of column of well IDs in data frame
       plate_size = 96             # total number of wells on the plate (optional)
 )
+
 str(data2)
 #> 'data.frame':    96 obs. of  5 variables:
-#>  $ Wells           : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
-#>  $ BacterialKilling: int  2 3 2 4 1 2 2 0 5 1 ...
-#>  $ Concentration   : num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 NA ...
-#>  $ Sample          : chr  "Sample A" "Sample B" "Sample C" "Sample A" ...
-#>  $ Treatment       : chr  "Drug A" "Drug A" "Drug A" "Drug B" ...
+#>  $ Wells        : Factor w/ 96 levels "A01","A02","A03",..: 1 2 3 4 5 6 7 8 9 10 ...
+#>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
+#>  $ Drug         : chr  "A" "A" "A" "A" ...
+#>  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...
+#>  $ Bacteria     : chr  "E. coli" "E. coli" "E. coli" "E. coli" ...
 
 head(data2)
-#>   Wells BacterialKilling Concentration   Sample Treatment
-#> 1   A01                2          0.01 Sample A    Drug A
-#> 2   A02                3          0.01 Sample B    Drug A
-#> 3   A03                2          0.01 Sample C    Drug A
-#> 4   A04                4          0.01 Sample A    Drug B
-#> 5   A05                1          0.01 Sample B    Drug B
-#> 6   A06                2          0.01 Sample C    Drug B
-```
-
-Note that it doesn't matter what order the wells are in in `data2`: In the call to `add_plate()` the column in `data2` with the well IDs is specified and it'll match it up using the well IDs.
-
-So, now you're done: you have a tidy data frame that's easy to analyze.
-
-Seeing is believing
--------------------
-
-Sometimes it's useful to look at data as though it's back on the plate. That's where `view_plate()` comes in.
-
-``` r
-view_plate( 
-      data = data2,                         # data frame of interest
-      well_ids_column = "Wells",           # name of the column with the well IDs
-      column_to_display = "Concentration", # column to display 
-      plate_size = 96                      # total number of wells on the plate (optional)
-)   
-#>       1     2     3     4     5     6     7     8     9 10 11 12
-#> A  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  .  .  .
-#> B   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1  .  .  .
-#> C     1     1     1     1     1     1     1     1     1  .  .  .
-#> D    10    10    10    10    10    10    10    10    10  .  .  .
-#> E   100   100   100   100   100   100   100   100   100  .  .  .
-#> F  1000  1000  1000  1000  1000  1000  1000  1000  1000  .  .  .
-#> G 10000 10000 10000 10000 10000 10000 10000 10000 10000  .  .  .
-#> H 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05 1e+05  .  .  .
+#>   Wells Killing Drug Concentration Bacteria
+#> 1   A01      98    A       100.000  E. coli
+#> 2   A02      95    A        20.000  E. coli
+#> 3   A03      92    A         4.000  E. coli
+#> 4   A04      41    A         0.800  E. coli
+#> 5   A05      17    A         0.160  E. coli
+#> 6   A06       2    A         0.032  E. coli
 ```

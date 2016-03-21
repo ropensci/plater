@@ -5,30 +5,16 @@
 #     variant: markdown_github
 # then switch back to output: rmarkdown::html_vignette. Just open plateR-basics.md and resave to update time stamp
 
+library(plateR)
+
 # print results of code using #>
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
-## ---- echo=FALSE---------------------------------------------------------
-library(plateR)
-bk <- system.file("extdata", "example-1.csv", package = "plateR")
-data <- read_plate(bk)
-
-view_plate(data, "Wells", "Concentration")
-
-## ---- echo=FALSE---------------------------------------------------------
-data$Measurement <- data$BacterialKilling
-head(data[, c("Wells", "Measurement", "Concentration")])
-
 ## ------------------------------------------------------------------------
-# get the file path to the folder
-library(plateR)
-system.file("extdata", package = "plateR")
-
-## ------------------------------------------------------------------------
-bk <- system.file("extdata", "example-1.csv", package = "plateR")
+file_path <- system.file("extdata", "example-1.csv", package = "plateR")
    
 data <- read_plate(
-      file = bk,                    # full path to the .csv file
+      file = file_path,             # full path to the .csv file
       well_ids_column = "Wells",    # name to give column of well IDs (optional)
       plate_size = 96               # total number of wells on the plate (optional)
 )
@@ -37,16 +23,13 @@ str(data)
 head(data)
 
 ## ------------------------------------------------------------------------
-bk2 <- system.file("extdata", "example-2-part-A.csv", 
-  package = "plateR")
-
-data2 <- read.csv(bk2)
+file2A <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+data2 <- read.csv(file2A)
 
 str(data2)
 
 head(data2)
 
-## ------------------------------------------------------------------------
 meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
       file = meta,                # full path to the .csv file
@@ -54,15 +37,8 @@ data2 <- add_plate(
       well_ids_column = "Wells",  # name of column of well IDs in data frame
       plate_size = 96             # total number of wells on the plate (optional)
 )
+
 str(data2)
 
 head(data2)
-
-## ------------------------------------------------------------------------
-view_plate( 
-      data = data2,                         # data frame of interest
-      well_ids_column = "Wells",           # name of the column with the well IDs
-      column_to_display = "Concentration", # column to display 
-      plate_size = 96                      # total number of wells on the plate (optional)
-)   
 
