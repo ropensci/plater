@@ -47,7 +47,7 @@
 #' @export
 read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
   
-   data <- data.frame(w = getWellIds(plate_size))
+   data <- data.frame(w = getWellIds(plate_size), stringsAsFactors = FALSE)
    colnames(data) <- well_ids_column
    
    # read in file
