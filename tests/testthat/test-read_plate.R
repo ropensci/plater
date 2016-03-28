@@ -34,7 +34,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    context("testing read_plate-calculateNumberOfPlates()")
    ################################################################################
    makeRawFile <- function(filename) {
-      readLines(paste0(path, filename, ".csv"))
+      readLines(paste0(path, filename, ".csv"), warn = FALSE)
    }
    
    test_that("calculateNumberOfPlates works with one plate no blank row", {
@@ -82,8 +82,10 @@ for (i in c(12, 24, 48, 96, 384)) {
 context("testing read_plate-checkUniquePlateNames()")
 ################################################################################
    test_that("duplicate plate names get disambiguated", {
-      plate <- read_plate(paste0(path, "twoPlatesNoBlankRow.csv"), "wells", i) 
-      
+      # suppress irrelevant warning about last line of file
+      suppressWarnings(
+         plate <- read_plate(paste0(path, "twoPlatesNoBlankRow.csv"), "wells", i) 
+      )
       expect_true("values" %in% colnames(plate))
       expect_true("values.2" %in% colnames(plate))
    })

@@ -93,17 +93,6 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(all(r), is_true())
    })
    
-   test_that("add_plate stops if wells missing from df with multiple files", {
-      filename <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
-      filename <- c(paste0(path, filename))
-      complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
-         stringsAsFactors = FALSE)
-      complete$d <- as.character(complete$d)
-      
-      expect_that(add_plate(complete[1:(i-1), ], i, "wells", filename),
-         throws_error())
-   })
-   
    test_that("add_plate error with unequal numbers of files/column names", {
       complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters],
          stringsAsFactors = FALSE)
