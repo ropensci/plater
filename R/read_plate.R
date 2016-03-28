@@ -81,8 +81,9 @@ read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
    # only return rows which have value for more than the well ID
-   nonNA <- apply(result, 1, FUN = function(x) sum(!is.na(x)))
-   result[nonNA > 1, ]
+   keep <- rowSums(!is.na(result)) > 1
+   
+   result[keep, ]
 }
 
 
