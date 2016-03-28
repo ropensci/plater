@@ -93,7 +93,9 @@ arePlateDimensionsValid <- function(plate, plateSize) {
 areRowLabelsValid <- function(plate, plateSize) {
    rows <- numberOfRows(plateSize)
    
-   return(identical(letters[1:rows], tolower(plate[[1]]))) 
+   rowLabels <- trimWhiteSpace(tolower(plate[[1]]))
+   
+   return(identical(letters[1:rows], rowLabels)) 
 }
 
 # requires:    plate is non-null and has valid dimensions, but the row labels 
@@ -120,4 +122,10 @@ wrongRowLabelsErrorMessage <- function(plate, plateSize) {
       "' but expected '",lower, "' or '", upper, "'.", sep = "")
    
    return(output)
+}
+
+trimWhiteSpace <- function(text) {
+   whiteSpace <- "^\\s+|\\s+$"
+   
+   gsub(whiteSpace, replacement = "", text)
 }

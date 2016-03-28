@@ -46,6 +46,13 @@ for (i in c(12, 24, 48, 96, 384)) {
       validatePlate(plate, i)
    })
    
+   test_that("validatePlate() passes with white space around row labels", {
+      # no error
+      # contains spaces in the row labels
+      plate <- readPlate(getFileForValidatePlate("validPlateWithWhiteSpaceInRowNames.csv"))
+      validatePlate(plate, i)
+   })
+   
    ################################################################################
    context("testing convertOnePlate-wrongRowLabelsErrorMessage()")
    ################################################################################
