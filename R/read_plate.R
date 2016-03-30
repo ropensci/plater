@@ -46,7 +46,6 @@
 #'
 #' @export
 read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
-   
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
    result <- lapply(raw_file_list, FUN = function(f) {
@@ -56,15 +55,11 @@ read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
    
    result <- combine_list_to_dataframe(result)
    
+   # rename well IDs column to whatever user chose
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
-   # only return rows which have value for more than the well ID
-   keep <- rowSums(!is.na(result)) > 1
-   
-   result[keep, ]
+   result
 }
-
-
 
 # Calculate the number of plates contained in the file.
 #
@@ -171,5 +166,8 @@ combine_list_to_dataframe <- function(result) {
          result)      
    }
    
-   result
+   # only return rows which have value for more than the well ID
+   keep <- rowSums(!is.na(result)) > 1
+   
+   result[keep, ]
 }
