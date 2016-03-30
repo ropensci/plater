@@ -54,16 +54,7 @@ read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
       }
    )
    
-   if (length(result) == 1) {
-      result <- result[[1]]
-   } else {
-      # ensure that plate names are unique
-      result <- checkUniquePlateNames(result)
-
-      # combine result into one data frame
-      result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
-         result)      
-   }
+   result <- combine_list_to_dataframe(result)
    
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
@@ -157,4 +148,28 @@ checkUniquePlateNames <- function(result) {
       })
    }
    return(result)
+}
+
+# Merge together list of dataframes into a single dataframe.
+#
+# @throws error is any column name is a duplicate, other than "wellIds"
+#
+# @param result List, with each element containing a dataframe, with a column
+#        named "wellIds"
+# @return A dataframe merged together from the list elements. Wells are included
+#         if they're non-missing in at least one of the data frames, otherwise
+#         omitted.
+combine_list_to_dataframe <- function(result) {
+   if (length(result) == 1) {
+      result <- result[[1]]
+   } else {
+      # ensure that plate names are unique
+      result <- checkUniquePlateNames(result)
+      
+      # combine result into one data frame
+      result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 
+         result)      
+   }
+   
+   result
 }
