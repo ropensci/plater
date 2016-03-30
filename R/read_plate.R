@@ -7,8 +7,6 @@
 #' described below.
 #' @param well_ids_column The name to give the column that will contain the well
 #' names. Default "Wells".
-#' @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
-#'  384. Default 96.
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{well_ids_column} and contain the well names (A01, A02..). 
 #' There will be as many additional columns as plates in \code{file}. Empty 
@@ -45,7 +43,9 @@
 #' a single file (e.g. data measured, subject, treatment, replicate, etc.).
 #'
 #' @export
-read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
+read_plate <- function(file, well_ids_column = "Wells") {
+   plate_size <- guess_plate_size(file)
+   
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
    result <- lapply(raw_file_list, FUN = function(f) {

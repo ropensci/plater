@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-03-21" />
+<meta name="date" content="2016-03-30" />
 
 <title>Getting started with plateR</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-03-21</em></h4>
+<h4 class="date"><em>2016-03-30</em></h4>
 </div>
 
 
@@ -131,8 +131,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
    
 data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
       <span class="dt">file =</span> file_path,             <span class="co"># full path to the .csv file</span>
-      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,    <span class="co"># name to give column of well IDs (optional)</span>
-      <span class="dt">plate_size =</span> <span class="dv">96</span>               <span class="co"># total number of wells on the plate (optional)</span>
+      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>     <span class="co"># name to give column of well IDs (optional)</span>
 )
 <span class="kw">str</span>(data)
 <span class="co">#&gt; 'data.frame':    96 obs. of  5 variables:</span>
@@ -177,8 +176,7 @@ meta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span cla
 data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
       <span class="dt">file =</span> meta,                <span class="co"># full path to the .csv file</span>
       <span class="dt">data =</span> data2,               <span class="co"># data frame to add to    </span>
-      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>,  <span class="co"># name of column of well IDs in data frame</span>
-      <span class="dt">plate_size =</span> <span class="dv">96</span>             <span class="co"># total number of wells on the plate (optional)</span>
+      <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>   <span class="co"># name of column of well IDs in data frame</span>
 )
 
 <span class="kw">str</span>(data2)

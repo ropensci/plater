@@ -7,7 +7,7 @@
 Converts data from a microtiter plate layout to a data frame with one well 
 per row and merges it into an existing data frame by well name.}
 \usage{
-add_plate(file, data, well_ids_column, plate_size = 96)
+add_plate(file, data, well_ids_column)
 }
 \arguments{
 \item{file}{A character vector with the path of a .csv file formatted as 
@@ -18,9 +18,6 @@ a column with well names.}
 
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
-
-\item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
-384. Default 96.}
 }
 \value{
 Returns data with as many new columns as plates in \code{file}. 

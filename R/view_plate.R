@@ -5,6 +5,8 @@
 #' @param column_to_display The column containing the data to display.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
+#' @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
+#'  384. Default 96.
 #' @inheritParams read_plate
 #' @return A data frame representing the data in \code{column_to_display} as 
 #' though laid out on a microtiter plate with \code{plate_size} wells.

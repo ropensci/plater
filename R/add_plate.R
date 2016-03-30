@@ -17,15 +17,15 @@
 #' @return Returns data with as many new columns as plates in \code{file}. 
 #' Empty wells are indicated with NA.
 #' @export
-add_plate <- function(file, data, well_ids_column, plate_size = 96) {
-   toAdd <- read_plate(file, "wellIds", plate_size)
+add_plate <- function(file, data, well_ids_column) {
+   toAdd <- read_plate(file, "wellIds")
 
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)
    
    # validate well IDs
    missingLeadingZeroes <- areLeadingZeroesMissing(data, well_ids_column, 
-      plate_size)   
+      guess_plate_size(file))   
    
    if(missingLeadingZeroes) {
       toAdd$wellIds <- removeLeadingZeroes(toAdd$wellIds)

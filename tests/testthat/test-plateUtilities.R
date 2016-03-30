@@ -153,3 +153,52 @@ test_that("validateWellIdsColumn() throws error with missing column", {
    expect_that(validateWellIds(data.frame(Wells = 1:10), "Wezlls"), 
       throws_error())
 })
+
+################################################################################
+context("testing plateUtilities-plate_dimensions()")
+################################################################################
+test_that("test columns", {
+   expect_that(plate_dimensions("Columns", "PlateSize", 12), equals(4))
+   expect_that(plate_dimensions("Columns", "PlateSize", 24), equals(6))
+   expect_that(plate_dimensions("Columns", "PlateSize", 48), equals(8))
+   expect_that(plate_dimensions("Columns", "PlateSize", 96), equals(12))
+   expect_that(plate_dimensions("Columns", "PlateSize", 384), equals(24))
+})
+
+test_that("test rows", {
+   expect_that(plate_dimensions("Rows", "PlateSize", 12), equals(3))
+   expect_that(plate_dimensions("Rows", "PlateSize", 24), equals(4))
+   expect_that(plate_dimensions("Rows", "PlateSize", 48), equals(6))
+   expect_that(plate_dimensions("Rows", "PlateSize", 96), equals(8))
+   expect_that(plate_dimensions("Rows", "PlateSize", 384), equals(16))
+})
+
+test_that("test plate size", {
+   expect_that(plate_dimensions("PlateSize", "Columns", 4), equals(12))
+   expect_that(plate_dimensions("PlateSize", "Columns", 6), equals(24))
+   expect_that(plate_dimensions("PlateSize", "Columns", 8), equals(48))
+   expect_that(plate_dimensions("PlateSize", "Columns", 12), equals(96))
+   expect_that(plate_dimensions("PlateSize", "Columns", 24), equals(384))
+})
+
+test_that("test invalids", {
+   expect_that(length(plate_dimensions("PlateSize", "Columns", 1)), equals(0))
+   expect_that(length(plate_dimensions("Columns", "PlateSize", -1)), equals(0))
+   expect_that(length(plate_dimensions("PlateSize", "Rows", 9)), equals(0))
+})
+
+################################################################################
+context("testing plateUtilities-get_plate_size_from_number_of_columns()")
+################################################################################
+test_that("valid input", {
+   expect_that(get_plate_size_from_number_of_columns(4), equals(12))
+   expect_that(get_plate_size_from_number_of_columns(6), equals(24))
+   expect_that(get_plate_size_from_number_of_columns(8), equals(48))
+   expect_that(get_plate_size_from_number_of_columns(12), equals(96))
+   expect_that(get_plate_size_from_number_of_columns(24), equals(384))
+})
+
+test_that("valid input", {
+   expect_that(get_plate_size_from_number_of_columns(17), 
+      equals("Invalid number of columns: 17"))
+})

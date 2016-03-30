@@ -82,8 +82,7 @@ file_path <- system.file("extdata", "example-1.csv", package = "plateR")
    
 data <- read_plate(
       file = file_path,             # full path to the .csv file
-      well_ids_column = "Wells",    # name to give column of well IDs (optional)
-      plate_size = 96               # total number of wells on the plate (optional)
+      well_ids_column = "Wells"     # name to give column of well IDs (optional)
 )
 str(data)
 
@@ -110,8 +109,7 @@ meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
       file = meta,                # full path to the .csv file
       data = data2,               # data frame to add to    
-      well_ids_column = "Wells",  # name of column of well IDs in data frame
-      plate_size = 96             # total number of wells on the plate (optional)
+      well_ids_column = "Wells"   # name of column of well IDs in data frame
 )
 
 str(data2)
