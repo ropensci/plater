@@ -1,5 +1,5 @@
-#' Reads plate layouts and adds them to an existing data frame. 
-#'  
+#' Read plate layouts and add them to existing data frame. 
+#' 
 #' Converts data from a microtiter plate layout to a data frame with one well 
 #' per row and merges it into an existing data frame by well name. 
 #'

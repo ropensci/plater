@@ -2,10 +2,7 @@
 % Please edit documentation in R/add_plate.R
 \name{add_plate}
 \alias{add_plate}
-\title{Reads plate layouts and adds them to an existing data frame. 
- 
-Converts data from a microtiter plate layout to a data frame with one well 
-per row and merges it into an existing data frame by well name.}
+\title{Read plate layouts and add them to existing data frame.}
 \usage{
 add_plate(file, data, well_ids_column)
 }
@@ -24,6 +21,10 @@ Returns data with as many new columns as plates in \code{file}.
 Empty wells are indicated with NA.
 }
 \description{
+Converts data from a microtiter plate layout to a data frame with one well 
+per row and merges it into an existing data frame by well name.
+}
+\details{
 If data contains more wells than in \code{file}, NA will be added to the 
 merged column for those wells. If the file contains more wells than 
 \code{data}, an error will result.
