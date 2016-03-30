@@ -46,21 +46,8 @@
 #'
 #' @export
 read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
-   # read in file
-   raw_file <- readLines(file)
    
-   # get list of data frames with new columns
-   number_of_rows <- numberOfRows(plate_size)
-   
-   number_of_plates <- calculateNumberOfPlates(raw_file, number_of_rows)
-   
-   raw_file_list <- lapply(1:number_of_plates, FUN =
-      function(plate) {
-         first_row <- (plate - 1) * (number_of_rows + 1) + plate
-         last_row <- first_row + number_of_rows
-         raw_file[first_row:last_row]
-      }
-   )
+   raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
    result <- lapply(raw_file_list, FUN = function(f) {
          getColumn(plate_size, f)
@@ -133,6 +120,31 @@ calculateNumberOfPlates <- function(raw_file, number_of_rows) {
                      "plate and a blank row between plates."))
       }
    }
+}
+
+# Read in the data and convert to a list of plate layouts. 
+# 
+# @param file Path to the plate file
+# @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
+#                   384. Default 96.
+get_list_of_plate_layouts <- function(file, plate_size) {
+   # read in file
+   raw_file <- readLines(file)
+   
+   # get list of data frames with new columns
+   number_of_rows <- numberOfRows(plate_size)
+   
+   number_of_plates <- calculateNumberOfPlates(raw_file, number_of_rows)
+   
+   raw_file_list <- lapply(1:number_of_plates, FUN =
+         function(plate) {
+            first_row <- (plate - 1) * (number_of_rows + 1) + plate
+            last_row <- first_row + number_of_rows
+            raw_file[first_row:last_row]
+         }
+   )
+   
+   raw_file_list
 }
 
 # Make sure all plate names are unique. 
