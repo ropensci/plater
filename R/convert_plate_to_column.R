@@ -9,8 +9,8 @@
 # @param plateSize The number of wells in the plate
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other containing the values in the indicated 
-#              wells). Empty wells are indicated with NA.  
-convertOnePlate <- function(plate, plateSize) {
+#              wells). Empty wells are omitted.  
+convert_plate_to_column <- function(plate, plateSize) {
    plate <- readPlate(plate)
    
    columnName <- plate[1, 1]
@@ -41,6 +41,10 @@ convertOnePlate <- function(plate, plateSize) {
    df <- data.frame(wellIds = wells, columnName = plate, 
          stringsAsFactors = FALSE)
    names(df) <- c("wellIds", columnName)
+   
+   # remove any NA values from the new column
+   column <- colnames(df)[colnames(df) != "wellIds"]
+   df <- df[!(is.na(df[, column])), ]
    
    return (df)   
 }

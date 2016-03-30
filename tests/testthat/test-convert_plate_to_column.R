@@ -2,7 +2,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    path <- paste0("testData/", i, "/")
    
    ################################################################################
-   context("testing convertOnePlate-validatePlate()")
+   context("testing convert_plate_to_column-validatePlate()")
    ################################################################################
    getFileForValidatePlate <- function(file) {
       result <- readLines(paste0(path, file))
@@ -54,7 +54,7 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing convertOnePlate-wrongRowLabelsErrorMessage()")
+   context("testing convert_plate_to_column-wrongRowLabelsErrorMessage()")
    ################################################################################
    
    test_that("wrongRowLabelsErrorMessage() fails for invalid plate dimensions", {
@@ -77,25 +77,16 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing convertOnePlate-convertOnePlate")
+   context("testing convert_plate_to_column-convert_plate_to_column")
    ################################################################################
    getFileForConvertPlate <- function(file) {
       readLines(paste0(path, file))
    }
    
-   test_that("convertOnePlate() gives correct output", {
+   test_that("convert_plate_to_column() gives correct output", {
       # every well present, all have own ID as contents
-      plate <- convertOnePlate(getFileForConvertPlate("allWellIds.csv"), i)   
+      plate <- convert_plate_to_column(getFileForConvertPlate("allWellIds.csv"), i)   
       expect_that(plate$values, is_identical_to(plate$wellIds))
    })
    
-   test_that("convertOnePlate() gives correct output with some empty wells", {
-      # every well present, all have own ID as contents
-      plate <- convertOnePlate(getFileForConvertPlate("wellIdsAndEmptyWells.csv"), i)
-      expectedNAs <- c("12" = 1, "24" = 1, "48" = 5, "96" = 27, "384" = 30)
-      expect_that(sum(is.na(plate$values)), 
-         is_equivalent_to(expectedNAs[as.character(i)]))
-      plate <- plate[!is.na(plate$values), ]
-      expect_that(plate$values, is_identical_to(plate$wellIds))
-   })
 }

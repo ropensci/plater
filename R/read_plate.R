@@ -50,7 +50,7 @@ read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
    result <- lapply(raw_file_list, FUN = function(f) {
-         getColumn(plate_size, f)
+         convert_plate_to_column(f, plate_size)
       }
    )
    
@@ -74,24 +74,6 @@ read_plate <- function(file, well_ids_column = "Wells", plate_size = 96) {
 }
 
 
-# Gets one column from a plate and removes any NA rows.
-#
-# @param plate_size The number of wells in the plate
-# @param plate A character vector with each element containing a comma-
-# delimited row of a plate
-#
-# @return A two-column data frame, one column containing well IDs and the other
-# containing the data contained in `plate`.
-getColumn <- function(plate_size, plate) {
-   # get data frame with annotations and remove unused wells
-   annotations <- convertOnePlate(plate, plate_size)
-   
-   # remove any NA values from the new column
-   column <- colnames(annotations)[colnames(annotations) != "wellIds"]
-   annotations <- annotations[!(is.na(annotations[, column])), ]
-   
-   return(annotations)
-}
 
 # Calculate the number of plates contained in the file.
 #
