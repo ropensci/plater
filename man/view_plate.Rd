@@ -18,7 +18,7 @@ well IDs.}
 384. Default 96.}
 }
 \value{
-A data frame representing the data in \code{column_to_display} as 
+A depiction of the data in \code{column_to_display} as 
 though laid out on a microtiter plate with \code{plate_size} wells.
 }
 \description{

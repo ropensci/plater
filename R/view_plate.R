@@ -8,7 +8,7 @@
 #' @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
 #'  384. Default 96.
 #' @inheritParams read_plate
-#' @return A data frame representing the data in \code{column_to_display} as 
+#' @return A depiction of the data in \code{column_to_display} as 
 #' though laid out on a microtiter plate with \code{plate_size} wells.
 #' @export
 view_plate <- function(data, well_ids_column, column_to_display, 
