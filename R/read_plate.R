@@ -55,6 +55,8 @@ read_plate <- function(file, well_ids_column = "Wells") {
    # rename well IDs column to whatever user chose
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
+   class(result) <- c("tbl_df", "tbl", "data.frame")
+   
    result
 }
 

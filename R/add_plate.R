@@ -19,7 +19,11 @@
 #' @export
 add_plate <- function(file, data, well_ids_column) {
    toAdd <- read_plate(file, "wellIds")
-
+   
+   # make it not a tbl_df in order to get out a vector instead of 
+   # a column when a single colname is provided below
+   class(data) <- class(data)[!(class(data) %in% c("tbl_df", "tbl"))]
+   
    # validate well_ids_column
    validateColumnIsInData(data, well_ids_column)
    
@@ -48,6 +52,8 @@ add_plate <- function(file, data, well_ids_column) {
       )
    ), ]
    
+   class(result) <- c("tbl_df", "tbl", "data.frame")
+   result
 }
 
 # Returns an error message indicating which wells in annotations are not in
