@@ -48,10 +48,7 @@ read_plate <- function(file, well_ids_column = "Wells") {
    
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
-   result <- lapply(raw_file_list, FUN = function(f) {
-         convert_plate_to_column(f, plate_size)
-      }
-   )
+   result <- convert_all_layouts(raw_file_list, plate_size)
    
    result <- combine_list_to_dataframe(result)
    
@@ -59,6 +56,33 @@ read_plate <- function(file, well_ids_column = "Wells") {
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
    
    result
+}
+
+# Wrapper around convert_plate_to_column that reports which layout generates an
+# error to help users find it. 
+# 
+# Catches any errors thrown and prefaces the error message with 
+# "Error in layout #x" where x is the number of the layout generating the error.
+#
+# @param raw_file_list The list of containing plates from readLines
+# @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
+#                   384. Default 96.
+# @return A list of two-column data frames of the same length as the input list.
+convert_all_layouts <- function(raw_file_list, plate_size) {
+
+   convert <- function(f, layout_number) {
+      tryCatch(
+         expr = convert_plate_to_column(f, plate_size), 
+         error = function(e) { 
+            e$message <- paste0("Error in layout #", layout_number, ": ", 
+                                 e$message)
+            stop(e)
+         }
+      )
+   }
+   
+   mapply(FUN = convert, raw_file_list, 1:length(raw_file_list), 
+      SIMPLIFY = FALSE)
 }
 
 # Calculate the number of plates contained in the file.
