@@ -20,7 +20,11 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
       plate_names <- generate_plate_names(files)
    }
    
-   x <- mapply(
+   if(length(files) != length(plate_names)) {
+      stop("files and plate_names must have the same length.")
+   }
+   
+   list_of_data_frames <- mapply(
       FUN = function(file, plate_name) { 
          p <- read_plate(file, well_ids_column)
          p$Plate <- plate_name
@@ -28,18 +32,15 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
       }, 
       files, plate_names, SIMPLIFY = FALSE
    )
-   y <- dplyr::bind_rows(x)
-
-   rownames(y) <- NULL
    
-   y
+   result <- dplyr::bind_rows(list_of_data_frames)
+
+   rownames(result) <- NULL
+   
+   result
 }
 
-# process file paths to neater default Plate value
-# rbind lists of data frames
-#     What if they have different columns?
-#     What if there is a column called "Plate"? 
-
+# Strip file paths and ".csv" to generate just file name as plate identifier
 generate_plate_names <- function(files) {
    # remove leading file paths
    files <- regmatches(files, regexpr("[^/\\\\]*.[Cc][Ss][Vv]$", files))
