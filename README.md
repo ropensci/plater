@@ -26,6 +26,8 @@ But data in those dimensions aren't ideal for analysis. That's where `read_plate
 
 Now you can easily whip up some plate layouts describing the details of your experiment, and the experimental data itself, and pop it into a tidy form with no trouble.
 
+To make it even easier, if you have multiple plates in an experiment, use `read_plates()` to read them all in and combine them into a single data frame.
+
 Seeing your data
 ----------------
 
