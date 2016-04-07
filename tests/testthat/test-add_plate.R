@@ -110,6 +110,16 @@ for (i in c(12, 24, 48, 96, 384)) {
       
    })
    
+   test_that("add_plate works for complete valid data", {
+      filename <- paste0(path, "allWellIds.csv")
+      complete <- data.frame(wells = getWellIds(i), d = letters[1:nLetters])
+      complete$d <- as.character(complete$d)
+      
+      result <- add_plate(filename, complete, "wells")
+      expect_is(result, 
+         "tbl_df")
+   })
+   
    ################################################################################
    context("testing add_plate-wrongWellsErrorMessage()")
    ################################################################################
