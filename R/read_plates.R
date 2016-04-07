@@ -26,7 +26,9 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    
    list_of_data_frames <- mapply(
       FUN = function(file, plate_name) { 
-         tryCatch(expr = { 
+         
+         tryCatch(
+            expr = { 
                p <- read_plate(file, well_ids_column)
                p$Plate <- plate_name
                p
@@ -36,8 +38,8 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
                   e$message)
                stop(e, call. = FALSE)
             })
-      }, 
-      files, plate_names, SIMPLIFY = FALSE
+         
+      }, files, plate_names, SIMPLIFY = FALSE
    )
    
    result <- dplyr::bind_rows(list_of_data_frames)
@@ -55,7 +57,3 @@ generate_plate_names <- function(files) {
    # remove .csv
    gsub(".[Cc][Ss][Vv]$", "", files)
 }
-
-
-
-
