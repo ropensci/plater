@@ -62,7 +62,7 @@ ensureCorrectWellIds <- function(data, well_ids_column, plate_size) {
       stop(paste0("There are more rows in your data ", 
          "frame than wells in the plate size you specified. In other words, ",
          "data$", well_ids_column, " has ", length(wells), " elements, which is ",
-         "longer than plate_size = ", plate_size))
+         "longer than plate_size = ", plate_size), call. = FALSE)
    }
    
    if (areWellIdsCorrect(wells, plate_size)) {
@@ -80,7 +80,7 @@ ensureCorrectWellIds <- function(data, well_ids_column, plate_size) {
          return(data)
       } else {
          # some well IDs are duplicates or incorrect
-         stop("Well IDs are invalid.")
+         stop("Well IDs are invalid.", call. = FALSE)
       }
    }
 }
@@ -113,11 +113,11 @@ areWellIdsCorrect <- function(wells, plate_size) {
 fillInMissingWellIds <- function(data, well_ids_column, plate_size) {
    if (nrow(data) >= plate_size) {
       stop(paste0("data has ", nrow(data), " rows, which is >= the plate size ",
-         "(", plate_size, "). It should have fewer rows."))
+         "(", plate_size, "). It should have fewer rows."), call. = FALSE)
    }
    
    if(!areLeadingZeroesValid(data, well_ids_column, plate_size)) {
-      stop("Some well IDs are missing leading zeroes.")
+      stop("Some well IDs are missing leading zeroes.", call. = FALSE)
    }
    
    # find which are missing

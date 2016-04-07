@@ -58,7 +58,7 @@ numberOfColumns <- function(plateSize) {
    
    if (length(n) == 0) {
       stop(paste0("Invalid plateSize: ", plateSize, 
-         ". Must be 12, 24, 48, 96 or 384."))
+         ". Must be 12, 24, 48, 96 or 384."), call. = FALSE)
    }
    
    n
@@ -131,6 +131,7 @@ guess_plate_size <- function(file) {
    if(is.numeric(size)) {
       return(size)
    } else {
-      stop(paste0("Could not guess plate size from number of columns. ", size))
+      stop(paste0("Could not guess plate size from number of columns. ", size), 
+         call. = FALSE)
    }
 }

@@ -76,9 +76,9 @@ convert_all_layouts <- function(raw_file_list, plate_size) {
       tryCatch(
          expr = convert_plate_to_column(f, plate_size), 
          error = function(e) { 
-            e$message <- paste0("Error in layout #", layout_number, ": ", 
+            e <- paste0("Error in layout #", layout_number, ": ", 
                                  e$message)
-            stop(e)
+            stop(e, call. = FALSE)
          }
       )
    }
@@ -111,7 +111,8 @@ calculateNumberOfPlates <- function(raw_file, number_of_rows) {
       } else {
          stop(paste0("File length is incorrect. Must be a multiple of the ", 
                      "number of rows in the plate plus a header row for each ",
-                     "plate and a blank row between plates."))
+                     "plate and a blank row between plates."), 
+            call. = FALSE)
       }
    }
 }

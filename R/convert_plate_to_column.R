@@ -110,10 +110,10 @@ areRowLabelsValid <- function(plate, plateSize) {
 #              labels that were expected
 wrongRowLabelsErrorMessage <- function(plate, plateSize) {
    if (!arePlateDimensionsValid(plate, plateSize)) {
-      stop("plate must have valid dimensions")
+      stop("plate must have valid dimensions", call. = FALSE)
    }
    if (areRowLabelsValid(plate, plateSize)) {
-      stop("row labels must be invalid")
+      stop("row labels must be invalid", call. = FALSE)
    }
    found <- paste(plate[[1]], collapse = " ")
    

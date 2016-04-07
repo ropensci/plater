@@ -97,13 +97,14 @@ areLeadingZeroesMissing <- function(data, well_ids_column, plate_size) {
          if(!(all(data[, well_ids_column] %in% 
                getWellIdsWithoutLeadingZeroes(plate_size)))) {
             # some missing leading zeroes, some not, give up
-            stop("Invalid well IDs--some have leading zeroes and some don't.")
+            stop("Invalid well IDs--some have leading zeroes and some don't.", 
+               call. = FALSE)
          } else {
             return(TRUE)
          }
       } else {
          # problem is not with leading zeroes
-         stop("Some well IDs are invalid.")
+         stop("Some well IDs are invalid.", call. = FALSE)
       }
    }
 }
