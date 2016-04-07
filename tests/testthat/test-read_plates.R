@@ -48,4 +48,10 @@ for (i in c(12, 24, 48, 96, 384)) {
    test_that("read_plates returns a tbl_df", {
       expect_is(example_plate, "tbl_df")
    })
+   
+   test_that("read_plates should report name of plate causing error", {
+      expect_error(read_plates(
+         paste0(path, c("read_plates-validOne.csv", "incorrectRowLabels.csv"))), 
+      "in file 'incorrectRowLabels'")
+   })
 }

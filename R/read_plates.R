@@ -26,9 +26,16 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    
    list_of_data_frames <- mapply(
       FUN = function(file, plate_name) { 
-         p <- read_plate(file, well_ids_column)
-         p$Plate <- plate_name
-         p
+         tryCatch(expr = { 
+               p <- read_plate(file, well_ids_column)
+               p$Plate <- plate_name
+               p
+            }, 
+            error = function(e) { 
+               e <- paste0("Error in file '", plate_name, "': ", 
+                  e$message)
+               stop(e, call. = FALSE)
+            })
       }, 
       files, plate_names, SIMPLIFY = FALSE
    )
