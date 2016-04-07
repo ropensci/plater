@@ -2,4 +2,5 @@
 
 export(add_plate)
 export(read_plate)
+export(read_plates)
 export(view_plate)
