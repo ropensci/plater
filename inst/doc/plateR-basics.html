@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-03-30" />
+<meta name="date" content="2016-07-25" />
 
 <title>Getting started with plateR</title>
 
@@ -72,23 +72,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-03-30</em></h4>
+<h4 class="date"><em>2016-07-25</em></h4>
 </div>
 
 
 <div id="how-plater-helps-you" class="section level2">
 <h2>How <code>plateR</code> helps you</h2>
-<p>When you do an experiment in a plate, it’s easy and intuitive to store the data you get and a description of the experiment (what wells were controls, what wells were experimental, etc) in the shape of a plate. But turning that into a machine-readable format involves complicated mental gymnastics and error-prone copy-and-pasting.</p>
-<p>What <code>plateR</code> provides is a systematic format for storing information in plate layouts and functions that painlessly rearrange that intuitive file into a data frame with one well per row, which is ideal for analysis.</p>
-<p>There are just two simple steps:</p>
+<p><code>plateR</code> makes it easy to work with data from experiments performed in plates.</p>
+<p>Many scientific instruments (such as plate readers and qPCR machines) produce data in tabular form that mimics a microtiter plate: each cell corresponds to a well as physically laid out on the plate. For experiments like this, it’s often easiest to keep records of what was what (control vs. treatment, concentration, sample type, etc.) in a similar plate layout form. But while plate-shaped data is easy to think about, it’s not easy to analyze. The point of <code>plateR</code> is to seamlessly convert plate-shaped data (easy to think about) into tidy data (easy to analyze). It does this by defining a simple, systematic format for storing information in plate layouts. Then it painlessly rearranges data that intuitive format into a tidy data frame.</p>
+<p>There are just two steps:</p>
 <ol style="list-style-type: decimal">
 <li>Put the data in a file in <code>plateR</code> format</li>
-<li>Read in the data with <code>read_plate</code> or <code>add_plate</code> depending on your situation</li>
+<li>Read in the data <code>plateR</code> functions</li>
 </ol>
 </div>
 <div id="the-example" class="section level2">
 <h2>The example</h2>
-<p>Imagine you’ve invented two new antibiotics. To show how well they work, you filled up a 96-well plate with dilutions of them and mixed in four different types of bacteria. Then, you measured how many of the bacteria got killed. So for each well in the plate you know:</p>
+<p>Imagine you’ve invented two new antibiotics. To show how well they work, you filled up a 96-well plate with dilutions of the antibiotics and mixed in four different types of bacteria. Then, you measured how many of the bacteria got killed. So for each well in the plate you know:</p>
 <ul>
 <li>The drug (A or B)</li>
 <li>The concentration of drug (100 uM to 0.01 nM and no drug)</li>
@@ -96,16 +96,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The amount of killing in the well</li>
 </ul>
 <p>The first three items are variables you chose in setting up the experiment. The fourth item is what you measured.</p>
-<p>We will analyze this experiment two different ways to illustrate two common data analysis scenarios:</p>
-<ol style="list-style-type: decimal">
-<li>Assuming the instrument gives back data shaped like a plate, we’ll create one file with all four variables and read it in with <code>read_plate()</code>.</li>
-<li>Assuming the instrument gives back data in one-well-per-row format, we’ll create two files–one with the data and one with the three variables–and then combine the files with <code>add_plate()</code>.</li>
-</ol>
 </div>
 <div id="step-1-put-the-data-in-plater-format" class="section level2">
 <h2>Step 1: Put the data in <code>plateR</code> format</h2>
-<p>The first step is to create a file for the experiment. <code>plateR</code> format is designed to store all the plate-shaped information about an experiment in a single file. It’s simply a .csv file representing a single plate, containing one or more plate layouts. Each layout maps a single variable, so for the example experiment, there would be four layouts in the file: Drug, Concentration, Bacteria, and Killing. Alternatively, if the Killing data are in one-well-per-row format, there would only be three layouts in the file.</p>
-<p>Several examples came with the package. Load <code>plateR</code> (i.e. run <code>library(plateR)</code>) and then run <code>system.file(&quot;extdata&quot;, package = &quot;plateR&quot;)</code>. Open the folder listed there and then open <code>example-1.csv</code> in a spreadsheet editor. As you can see, there are four layouts in the file, describing the four variables in the experiment.</p>
+<p>The first step is to create a file for the experiment. <code>plateR</code> format is designed to store all the information about an experiment in one file. It’s simply a .csv file representing a single plate, containing one or more plate layouts. Each layout maps to a variable, so for the example experiment, there are four layouts in the file: Drug, Concentration, Bacteria, and Killing.</p>
+<p>A <code>plateR</code> format file for the example experiment came with the package. Load <code>plateR</code> (i.e. run <code>library(plateR)</code>) and then run <code>system.file(&quot;extdata&quot;, package = &quot;plateR&quot;)</code>. Open the folder listed there and then open <code>example-1.csv</code> in a spreadsheet editor.</p>
 <p>The format is pretty simple:</p>
 <ul>
 <li>.csv file</li>
@@ -114,15 +109,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The rest of the left column is the row names (A:H for a 96-well plate)</li>
 <li>One line between layouts</li>
 </ul>
-<p>You can use <code>plateR</code> format with any standard plate size (6 to 384 wells). Not every well has to be filled in every layout. If a well is blank in every layout in a file, it’s omitted. If it’s blank in some but not others, it’ll get <code>NA</code> where it’s blank.</p>
+<p>You can use <code>plateR</code> format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it’s omitted. If it’s blank in some but not others, it’ll get <code>NA</code> where it’s blank.</p>
 </div>
 <div id="step-2-read-in-the-data" class="section level2">
 <h2>Step 2: Read in the data</h2>
 <p>Now that your file is set up, you’re ready to read in the data.</p>
-<p>Again, we will show two examples:</p>
+<p>We will analyze this experiment two different ways to illustrate two common data analysis scenarios:</p>
 <ol style="list-style-type: decimal">
-<li>A single <code>plateR</code> format file with <code>read_plate()</code></li>
-<li>A one-well-per-row file and a <code>plateR</code> format file with <code>add_plate()</code></li>
+<li>Assuming the instrument gives back the killing data shaped like a plate, we’ll create one file with all four variables and read it in with <code>read_plate()</code>.</li>
+<li>Assuming the instrument gives back tidy data (one-well-per-row), we’ll create two files–one with the data and one with the three variables–and then combine the files with <code>add_plate()</code>.</li>
 </ol>
 <div id="step-2-read-a-single-plater-format-file-with-read_plate" class="section level3">
 <h3>Step 2: Read a single <code>plateR</code> format file with <code>read_plate()</code></h3>
@@ -134,7 +129,7 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
       <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>     <span class="co"># name to give column of well IDs (optional)</span>
 )
 <span class="kw">str</span>(data)
-<span class="co">#&gt; 'data.frame':    96 obs. of  5 variables:</span>
+<span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    96 obs. of  5 variables:</span>
 <span class="co">#&gt;  $ Wells        : chr  &quot;A01&quot; &quot;A02&quot; &quot;A03&quot; &quot;A04&quot; ...</span>
 <span class="co">#&gt;  $ Drug         : chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...</span>
 <span class="co">#&gt;  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...</span>
@@ -150,11 +145,12 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
 <span class="co">#&gt; 5   A05    A         0.160  E. coli      17</span>
 <span class="co">#&gt; 6   A06    A         0.032  E. coli       2</span></code></pre></div>
 <p>So what happened? <code>read_plate()</code> read in the <code>plateR</code> format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named “Wells” with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.</p>
+<p>When you have multiple plates, you can combine them all into a common data frame with the <code>read_plates()</code> function.</p>
 </div>
 <div id="step-2-again-combine-a-one-well-per-row-file-and-a-plater-format-file-with-add_plate" class="section level3">
 <h3>Step 2 (again): Combine a one-well-per-row file and a <code>plateR</code> format file with <code>add_plate()</code></h3>
-<p>Scientific instruments that work on plates often provide data in the shape of a plate. In that case, you’re all set to create a <code>plateR</code> format file as described above. Sometimes, though, you’ll get data back formatted with one well per row. In that case, you’d either need to copy-and-paste the data into a plate layout to use <code>read_plate()</code> or you’d need to copy-and-paste all the other information (Drug, Concentration, Bacteria) to line up with the data.</p>
-<p><code>add_plate()</code> solves this problem. You provide a data frame with one well per row and well IDs and then you provide a <code>plateR</code> format file with the other information and <code>add_plate()</code> knits them together well-by-well. Here’s an example using the other two files installed along with <code>plateR</code>.</p>
+<p>In the previous example, we assumed that the killing data was provided by the instrument in plate-shaped form, so it could just be pasted into the <code>plateR</code> format file. Sometimes, though, you’ll get data back formatted with one well per row.</p>
+<p><code>add_plate()</code> is set up to help in this situation. You provide a tidy data frame including well IDs and then you provide a <code>plateR</code> format file with the other information and <code>add_plate()</code> knits them together well-by-well. Here’s an example using the other two files installed along with <code>plateR</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">file2A &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-part-A.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(file2A)
 
@@ -180,7 +176,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 )
 
 <span class="kw">str</span>(data2)
-<span class="co">#&gt; 'data.frame':    96 obs. of  5 variables:</span>
+<span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    96 obs. of  5 variables:</span>
 <span class="co">#&gt;  $ Wells        : Factor w/ 96 levels &quot;A01&quot;,&quot;A02&quot;,&quot;A03&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...</span>
 <span class="co">#&gt;  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...</span>
 <span class="co">#&gt;  $ Drug         : chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...</span>
@@ -195,6 +191,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 <span class="co">#&gt; 4   A04      41    A         0.800  E. coli</span>
 <span class="co">#&gt; 5   A05      17    A         0.160  E. coli</span>
 <span class="co">#&gt; 6   A06       2    A         0.032  E. coli</span></code></pre></div>
+<p><code>add_plate</code> then makes it easy to store data in a mix of formats, in some cases tidy and in some cases plate-shaped, which is the reality of many experiments.</p>
 </div>
 </div>
 
