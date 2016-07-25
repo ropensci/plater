@@ -5,5 +5,4 @@
 ^cran-comments\.md$
 ^\.travis\.yml$
 ^README\.md$
-^inst/doc/plate\.jpg$
 ^inst/doc/plateR-basics\.md$
