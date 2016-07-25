@@ -1,6 +1,7 @@
-# plateR 0.2.0.9000
+# plateR 0.2.1
 * Reorganize parameters for consistency
 * Add defaults for parameters
+* Add read_plates()
 
 # plateR 0.2
 * Introduce new data format with multiple plate layouts per .csv file (replacing multiple files at once)
