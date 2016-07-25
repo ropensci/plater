@@ -14,17 +14,17 @@
 view_plate <- function(data, well_ids_column, column_to_display, 
                       plate_size = 96) {
    # validate well_ids_column
-   validateColumnIsInData(data, well_ids_column)
-   validateColumnIsInData(data, column_to_display)
+   validate_column_is_in_data(data, well_ids_column)
+   validate_column_is_in_data(data, column_to_display)
 
-   nRows <- numberOfRows(plate_size) # stops if not 12, 24, 48, 96 or 384
-   nColumns <- numberOfColumns(plate_size)
+   n_rows <- number_of_rows(plate_size) # stops if not 12, 24, 48, 96 or 384
+   n_columns <- number_of_columns(plate_size)
    
    # convert well IDs to character; if factor, order can be wrong
    data[ , well_ids_column] <- as.character(data[ , well_ids_column])
    
    # ensure the well IDs are correct
-   data <- ensureCorrectWellIds(data, well_ids_column, plate_size)
+   data <- ensure_correct_well_ids(data, well_ids_column, plate_size)
    
    # transform
    # sort by wellIds 
@@ -35,9 +35,9 @@ view_plate <- function(data, well_ids_column, column_to_display,
    toDisplay <- ifelse(is.na(toDisplay), ".", toDisplay)
    
    # create result and name rows and columns
-   result <- data.frame(matrix(toDisplay, nrow = nRows, byrow = TRUE))
-   rownames(result) <- LETTERS[1:nRows]
-   colnames(result) <- 1:nColumns
+   result <- data.frame(matrix(toDisplay, nrow = n_rows, byrow = TRUE))
+   rownames(result) <- LETTERS[1:n_rows]
+   colnames(result) <- 1:n_columns
    
    return(result)
 }
@@ -46,7 +46,7 @@ view_plate <- function(data, well_ids_column, column_to_display,
 #
 # Well-formed well IDs are of the form A01..H12 (for 96-well plates). That is, 
 # they have leading zeroes, each is unique, and every expected well ID is 
-# present. \code{ensureCorrectWellIds} fills in missing well IDs (with NA in 
+# present. \code{ensure_correct_well_ids} fills in missing well IDs (with NA in 
 # other columns) and leading zeroes. It throws an error if there are more rows
 # than wells for that plate size, if any well IDs are duplicated, or if any 
 # well IDs are invalid for that plate size.   
@@ -55,9 +55,9 @@ view_plate <- function(data, well_ids_column, column_to_display,
 # @param well_ids_column The name of the column in data containing the well IDs
 # @param plate_size The size of the plate
 # @return Data with valid well IDs
-ensureCorrectWellIds <- function(data, well_ids_column, plate_size) {
+ensure_correct_well_ids <- function(data, well_ids_column, plate_size) {
    wells <- data[[well_ids_column]]
-   trueWells <- getWellIds(plate_size) # stops if not 12, 24, 48, 96 or 384
+   true_wells <- get_well_ids(plate_size) # stops if not 12, 24, 48, 96 or 384
    if (length(wells) > plate_size) {
       stop(paste0("There are more rows in your data ", 
          "frame than wells in the plate size you specified. In other words, ",
@@ -65,18 +65,18 @@ ensureCorrectWellIds <- function(data, well_ids_column, plate_size) {
          "longer than plate_size = ", plate_size), call. = FALSE)
    }
    
-   if (areWellIdsCorrect(wells, plate_size)) {
+   if (are_well_ids_correct(wells, plate_size)) {
       return(data)
    } else {
-      if(!areLeadingZeroesValid(data, well_ids_column, plate_size)) {
-         data <- correctLeadingZeroes(data, well_ids_column, plate_size)
+      if(!are_leading_zeroes_valid(data, well_ids_column, plate_size)) {
+         data <- correct_leading_zeroes(data, well_ids_column, plate_size)
       }
 
       if (length(wells) < plate_size) {
-         data <- fillInMissingWellIds(data, well_ids_column, plate_size)
+         data <- fill_in_missing_well_ids(data, well_ids_column, plate_size)
       }
       
-      if(areWellIdsCorrect(data[[well_ids_column]], plate_size)) {
+      if(are_well_ids_correct(data[[well_ids_column]], plate_size)) {
          return(data)
       } else {
          # some well IDs are duplicates or incorrect
@@ -91,14 +91,14 @@ ensureCorrectWellIds <- function(data, well_ids_column, plate_size) {
 # @param plate_size The size of the plate.
 # @return TRUE if wells is the same length as plate_size and contains every well 
 # ID expected for that plate size.
-areWellIdsCorrect <- function(wells, plate_size) {
+are_well_ids_correct <- function(wells, plate_size) {
    if (length(wells) != plate_size) {
       return(FALSE)
    }
-   trueWells <- getWellIds(plate_size)
+   true_wells <- get_well_ids(plate_size)
    wells <- wells[order(wells)]
 
-   return(all(wells == trueWells))
+   return(all(wells == true_wells))
 }
 
 # Returns \code{data} with the full set of valid well IDs for its size. 
@@ -108,34 +108,34 @@ areWellIdsCorrect <- function(wells, plate_size) {
 # 
 # All well IDs should have leading zeroes, if appropriate. 
 #
-# @inheritParams ensureCorrectWellIds 
+# @inheritParams ensure_correct_well_ids 
 # @return Data with valid well IDs
-fillInMissingWellIds <- function(data, well_ids_column, plate_size) {
+fill_in_missing_well_ids <- function(data, well_ids_column, plate_size) {
    if (nrow(data) >= plate_size) {
       stop(paste0("data has ", nrow(data), " rows, which is >= the plate size ",
          "(", plate_size, "). It should have fewer rows."), call. = FALSE)
    }
    
-   if(!areLeadingZeroesValid(data, well_ids_column, plate_size)) {
+   if(!are_leading_zeroes_valid(data, well_ids_column, plate_size)) {
       stop("Some well IDs are missing leading zeroes.", call. = FALSE)
    }
    
    # find which are missing
    wells <- as.character(data[, well_ids_column])
-   complete <- getWellIds(plate_size)
+   complete <- get_well_ids(plate_size)
    missing <- !(complete %in% wells)
 
    # create replacement data frame
-   wellsToAdd <- complete[missing]
+   wells_to_add <- complete[missing]
    temp <- data[0 , -which(colnames(data) == well_ids_column), drop = FALSE]
-   temp[1:length(wellsToAdd), ] <- NA
+   temp[1:length(wells_to_add), ] <- NA
    
    # cbind replacement and column with wells
-   originalNames <- colnames(temp)
-   temp <- cbind(temp, wellsToAdd)
+   original_names <- colnames(temp)
+   temp <- cbind(temp, wells_to_add)
    
    # rename column with wells to user's name
-   colnames(temp) <- c(originalNames, well_ids_column)
+   colnames(temp) <- c(original_names, well_ids_column)
    
    # if user provided factor wellIds, make sure full set of levels are there 
    if (is.factor(data$wells)) {
@@ -148,15 +148,15 @@ fillInMissingWellIds <- function(data, well_ids_column, plate_size) {
 
 # Returns TRUE if all well IDs that should have leading zeroes do.
 #
-# @inheritParams ensureCorrectWellIds 
+# @inheritParams ensure_correct_well_ids 
 # @return TRUE if all well IDs that should have leading zeroes do. This
 # includes the case where no well IDs need leading zeroes (e.g. if all are >
 # 9 or if none of the IDs are valid well IDs without leading zeroes). Thus this
 # function returns TRUE for data$well_ids_column containing arbitrary, non-ID 
 # text.
-areLeadingZeroesValid <- function(data, well_ids_column, plate_size) {
+are_leading_zeroes_valid <- function(data, well_ids_column, plate_size) {
    wells <- data[[well_ids_column]]
-   missing <- getWellIdsWithoutLeadingZeroes(plate_size)
+   missing <- get_well_ids_without_leading_zeroes(plate_size)
    missing <- missing[nchar(missing) == 2]
    if (any(wells %in% missing)) {
       return(FALSE)
@@ -166,19 +166,19 @@ areLeadingZeroesValid <- function(data, well_ids_column, plate_size) {
 
 # Returns \code{data} with leading zeroes added to well IDs missing them.
 #
-# @inheritParams ensureCorrectWellIds 
+# @inheritParams ensure_correct_well_ids 
 # @return Data with correct leading zeroes in well IDs
-correctLeadingZeroes <- function(data, well_ids_column, plate_size) {
+correct_leading_zeroes <- function(data, well_ids_column, plate_size) {
    # convert to character and store if needed to be changed back to factor   
-   wasFactor <- FALSE
+   was_factor <- FALSE
    if(is.factor(data[[well_ids_column]])) {
-      wasFactor <- TRUE
+      was_factor <- TRUE
       data[, well_ids_column] <- as.character(data[, well_ids_column]) 
    }   
    
    # build lookup table
-   missing <- getWellIdsWithoutLeadingZeroes(plate_size)
-   correct <- getWellIds(plate_size)
+   missing <- get_well_ids_without_leading_zeroes(plate_size)
+   correct <- get_well_ids(plate_size)
    lookup <- data.frame(correct = correct, missing = missing, 
       stringsAsFactors = FALSE)
    
@@ -195,7 +195,7 @@ correctLeadingZeroes <- function(data, well_ids_column, plate_size) {
    data <- data[ , !(names(data) =="temp")]
    
    # return to factor if needed
-   if(wasFactor) {
+   if(was_factor) {
       data[ , well_ids_column] <- factor(data[ , well_ids_column])
    }
 

@@ -8,7 +8,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       filename <- paste0(path, "allWellIds.csv")
    
       result <- read_plate(filename, "wells")
-      expect_that(result$values, is_identical_to(getWellIds(i)))
+      expect_that(result$values, is_identical_to(get_well_ids(i)))
       expect_that(result$values, is_identical_to(result$wells))
    })
    
@@ -24,7 +24,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       filename <- c(paste0(path, "oneFullOnePartEmpty.csv"))
       
       result <- read_plate(filename, "wells")
-      expect_that(result$full, is_identical_to(getWellIds(i)))
+      expect_that(result$full, is_identical_to(get_well_ids(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
       expect_that(all(r), is_true())
@@ -36,50 +36,50 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    ################################################################################
-   context("testing read_plate-calculateNumberOfPlates()")
+   context("testing read_plate-calculate_number_of_plates()")
    ################################################################################
    makeRawFile <- function(filename) {
       readLines(paste0(path, filename, ".csv"), warn = FALSE)
    }
    
-   test_that("calculateNumberOfPlates works with one plate no blank row", {
+   test_that("calculate_number_of_plates works with one plate no blank row", {
       raw <- makeRawFile("allWellIds")   
       
-      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      result <- calculate_number_of_plates(raw, number_of_rows(i))
       expect_that(result, is_identical_to(1))
    })
    
-   test_that("calculateNumberOfPlates works with one plate with blank row", {
+   test_that("calculate_number_of_plates works with one plate with blank row", {
       raw <- makeRawFile("onePlateOneBlankRow")   
       
-      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      result <- calculate_number_of_plates(raw, number_of_rows(i))
       expect_that(result, is_identical_to(1))
    })
    
-   test_that("calculateNumberOfPlates fails with one plate with 2 blank rows", {
+   test_that("calculate_number_of_plates fails with one plate with 2 blank rows", {
       raw <- makeRawFile("onePlateTwoBlankRows")   
       
-      expect_that(calculateNumberOfPlates(raw, numberOfRows(i)), throws_error())
+      expect_that(calculate_number_of_plates(raw, number_of_rows(i)), throws_error())
    })
    
-   test_that("calculateNumberOfPlates works with two plates no blank row", {
+   test_that("calculate_number_of_plates works with two plates no blank row", {
       raw <- makeRawFile("twoPlatesNoBlankRow")   
       
-      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      result <- calculate_number_of_plates(raw, number_of_rows(i))
       expect_that(result, is_identical_to(2))
    })
    
-   test_that("calculateNumberOfPlates works with two plates with blank row", {
+   test_that("calculate_number_of_plates works with two plates with blank row", {
       raw <- makeRawFile("twoPlatesOneBlankRow")   
       
-      result <- calculateNumberOfPlates(raw, numberOfRows(i))
+      result <- calculate_number_of_plates(raw, number_of_rows(i))
       expect_that(result, is_identical_to(2))
    })
    
-   test_that("calculateNumberOfPlates fails with two plates with 2 blank rows", {
+   test_that("calculate_number_of_plates fails with two plates with 2 blank rows", {
       raw <- makeRawFile("twoPlatesTwoBlankRows")   
       
-      expect_that(calculateNumberOfPlates(raw, numberOfRows(i)), throws_error())
+      expect_that(calculate_number_of_plates(raw, number_of_rows(i)), throws_error())
    })
 }
 

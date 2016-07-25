@@ -97,7 +97,7 @@ convert_all_layouts <- function(raw_file_list, plate_size) {
 # @param number_of_rows The expected number of rows for the given plate size
 #
 # @return the number of plates in the file
-calculateNumberOfPlates <- function(raw_file, number_of_rows) {
+calculate_number_of_plates <- function(raw_file, number_of_rows) {
    result <- (length(raw_file) + 1) / (number_of_rows + 2)
    
    is_integer <- function(x) x %% 1 == 0
@@ -127,9 +127,9 @@ get_list_of_plate_layouts <- function(file, plate_size) {
    raw_file <- readLines(file)
    
    # get list of data frames with new columns
-   number_of_rows <- numberOfRows(plate_size)
+   number_of_rows <- number_of_rows(plate_size)
    
-   number_of_plates <- calculateNumberOfPlates(raw_file, number_of_rows)
+   number_of_plates <- calculate_number_of_plates(raw_file, number_of_rows)
    
    raw_file_list <- lapply(1:number_of_plates, FUN =
          function(plate) {
@@ -151,18 +151,18 @@ get_list_of_plate_layouts <- function(file, plate_size) {
 # columns will be checked for duplication.
 #
 # @return result with any duplicated names replaced
-checkUniquePlateNames <- function(result) {
+check_unique_plate_names <- function(result) {
    # get plate names
-   plateNames <- sapply(result, FUN = function(x) colnames(x)[2])
+   plate_names <- sapply(result, FUN = function(x) colnames(x)[2])
    
-   if(any(duplicated(plateNames))) {
-      duplicates <- which(duplicated(plateNames))
+   if(any(duplicated(plate_names))) {
+      duplicates <- which(duplicated(plate_names))
       
       # replace duplicate column names with .n 
       result <- lapply(1:length(result), FUN = function(n) {
          if (n %in% duplicates) {
-            newName <- paste0(colnames(result[[n]])[2], ".", n)
-            colnames(result[[n]])[2] <- newName
+            new_name <- paste0(colnames(result[[n]])[2], ".", n)
+            colnames(result[[n]])[2] <- new_name
             result[[n]]
          } else {
             result[[n]]
@@ -186,7 +186,7 @@ combine_list_to_dataframe <- function(result) {
       result <- result[[1]]
    } else {
       # ensure that plate names are unique
-      result <- checkUniquePlateNames(result)
+      result <- check_unique_plate_names(result)
       
       # combine result into one data frame
       result <- Reduce(function(x, y) merge(x, y, by = "wellIds", all = TRUE), 

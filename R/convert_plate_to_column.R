@@ -6,24 +6,24 @@
 #
 # @param plate A character vector with each element containing a comma-
 # delimited row of a plate
-# @param plateSize The number of wells in the plate
+# @param plate_size The number of wells in the plate
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other containing the values in the indicated 
 #              wells). Empty wells are omitted.  
-convert_plate_to_column <- function(plate, plateSize) {
+convert_plate_to_column <- function(plate, plate_size) {
    plate <- readPlate(plate)
    
-   columnName <- plate[1, 1]
+   column_name <- plate[1, 1]
    
-   if(is.na(columnName)) {
-      columnName <- "values"
+   if(is.na(column_name)) {
+      column_name <- "values"
    }
    
    # remove column names
    plate <- plate[-1, ]
    
    # stop if plate is invalid
-   validatePlate(plate, plateSize)
+   validate_plate(plate, plate_size)
    
    # remove column of row labels
    plate <- plate[-1]
@@ -36,11 +36,11 @@ convert_plate_to_column <- function(plate, plateSize) {
    plate <- as.vector(t(plate))
    
    # generate well labels,
-   wells <- getWellIds(rows * cols)
+   wells <- get_well_ids(rows * cols)
    
-   df <- data.frame(wellIds = wells, columnName = plate, 
+   df <- data.frame(wellIds = wells, column_name = plate, 
          stringsAsFactors = FALSE)
-   names(df) <- c("wellIds", columnName)
+   names(df) <- c("wellIds", column_name)
    
    # remove any NA values from the new column
    column <- colnames(df)[colnames(df) != "wellIds"]
@@ -58,46 +58,46 @@ readPlate <- function(plate) {
 
 # requires:    plate is non-null
 # param:       plate    a data frame
-# param:       plateSize expected plate size   
+# param:       plate_size expected plate size   
 # throws:      stops if dimensions of plate (minus one column) are not (8, 12) 
 #              or (16, 24) or if row labels are incorrect (not A:H or A:P)
-validatePlate <- function(plate, plateSize) {
-   if (!arePlateDimensionsValid(plate, plateSize)) {
+validate_plate <- function(plate, plate_size) {
+   if (!are_plate_dimensions_valid(plate, plate_size)) {
       stop(paste0("Invalid plate dimensions. Found ", nrow(plate), " rows and ", 
-         ncol(plate) - 1, " columns. Must be (", numberOfRows(plateSize), ", ",
-         numberOfColumns(plateSize), ") for a ", plateSize, "-well plate."), 
+         ncol(plate) - 1, " columns. Must be (", number_of_rows(plate_size), ", ",
+         number_of_columns(plate_size), ") for a ", plate_size, "-well plate."), 
          call. = FALSE)
    }
       
-   if (!areRowLabelsValid(plate, plateSize)) {
-      stop(wrongRowLabelsErrorMessage(plate, plateSize))
+   if (!are_row_labels_valid(plate, plate_size)) {
+      stop(wrong_row_labels_error_message(plate, plate_size))
    }
 }
 
 # requires:    plate is non-null and has at least one row and column
 # param:       plate    a data frame
-# param:       plateSize expected plate size   
+# param:       plate_size expected plate size   
 # returns:     true if dimensions of plate (minus one column) are not (8, 12) 
 #              or (16, 24)
-arePlateDimensionsValid <- function(plate, plateSize) {
+are_plate_dimensions_valid <- function(plate, plate_size) {
    rows <- nrow(plate)
    cols <- ncol(plate) - 1
    
-   expectedRows <- numberOfRows(plateSize)
-   expectedCols <- numberOfColumns(plateSize)
+   expected_rows <- number_of_rows(plate_size)
+   expected_cols <- number_of_columns(plate_size)
    
-   return(rows == expectedRows && cols == expectedCols)
+   return(rows == expected_rows && cols == expected_cols)
 }
 
 # requires:    plate is non-null and has at least 1 column
 # param:       plate    a data frame
-# param:       plateSize expected plate size   
+# param:       plate_size expected plate size   
 # returns:     true if column 1 is letters[1:8] or [1:16]. It may be in upper-, 
 #              lower-, or mixed-case.
-areRowLabelsValid <- function(plate, plateSize) {
-   rows <- numberOfRows(plateSize)
+are_row_labels_valid <- function(plate, plate_size) {
+   rows <- number_of_rows(plate_size)
    
-   rowLabels <- trimWhiteSpace(tolower(plate[[1]]))
+   rowLabels <- trim_white_space(tolower(plate[[1]]))
    
    return(identical(letters[1:rows], rowLabels)) 
 }
@@ -105,19 +105,19 @@ areRowLabelsValid <- function(plate, plateSize) {
 # requires:    plate is non-null and has valid dimensions, but the row labels 
 #              are incorrect
 # param:       plate    a data frame
-# param:       plateSize expected plate size
+# param:       plate_size expected plate size
 # returns:     an error message, describing the row labels found and the row 
 #              labels that were expected
-wrongRowLabelsErrorMessage <- function(plate, plateSize) {
-   if (!arePlateDimensionsValid(plate, plateSize)) {
+wrong_row_labels_error_message <- function(plate, plate_size) {
+   if (!are_plate_dimensions_valid(plate, plate_size)) {
       stop("plate must have valid dimensions", call. = FALSE)
    }
-   if (areRowLabelsValid(plate, plateSize)) {
+   if (are_row_labels_valid(plate, plate_size)) {
       stop("row labels must be invalid", call. = FALSE)
    }
    found <- paste(plate[[1]], collapse = " ")
    
-   rows <- numberOfRows(plateSize)
+   rows <- number_of_rows(plate_size)
    
    lower <- paste(letters[1:rows], collapse = " ")
    upper <- paste(LETTERS[1:rows], collapse = " ")
@@ -128,8 +128,8 @@ wrongRowLabelsErrorMessage <- function(plate, plateSize) {
    return(output)
 }
 
-trimWhiteSpace <- function(text) {
-   whiteSpace <- "^\\s+|\\s+$"
+trim_white_space <- function(text) {
+   white_space <- "^\\s+|\\s+$"
    
-   gsub(whiteSpace, replacement = "", text)
+   gsub(white_space, replacement = "", text)
 }

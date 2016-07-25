@@ -17,30 +17,30 @@
 #' Empty wells are indicated with NA.
 #' @export
 add_plate <- function(file, data, well_ids_column) {
-   toAdd <- read_plate(file, "wellIds")
+   to_add <- read_plate(file, "wellIds")
    
    # make it not a tbl_df in order to get out a vector instead of 
    # a column when a single colname is provided below
    class(data) <- class(data)[!(class(data) %in% c("tbl_df", "tbl"))]
    
    # validate well_ids_column
-   validateColumnIsInData(data, well_ids_column)
+   validate_column_is_in_data(data, well_ids_column)
    
    # validate well IDs
-   missingLeadingZeroes <- areLeadingZeroesMissing(data, well_ids_column, 
+   missing_leading_zeroes <- are_leading_zeroes_missing(data, well_ids_column, 
       guess_plate_size(file))   
    
-   if(missingLeadingZeroes) {
-      toAdd$wellIds <- removeLeadingZeroes(toAdd$wellIds)
+   if(missing_leading_zeroes) {
+      to_add$wellIds <- remove_leading_zeroes(to_add$wellIds)
    }
    
    # ensure data has all wells that the file does
-   if(!(all(toAdd$wellIds %in% data[ , well_ids_column]))) {
-      stop(wrongWellsErrorMessage(data, well_ids_column, toAdd))
+   if(!(all(to_add$wellIds %in% data[ , well_ids_column]))) {
+      stop(wrong_wells_error_message(data, well_ids_column, to_add))
    }
    
    # merge new columns with input data frame
-   result <- merge(data, toAdd, by.x = well_ids_column, by.y = "wellIds", 
+   result <- merge(data, to_add, by.x = well_ids_column, by.y = "wellIds", 
       all.x = TRUE) # all.x adds NA rows for wells missing from file
    
    # maintain order provided by user
@@ -66,7 +66,7 @@ add_plate <- function(file, data, well_ids_column) {
 # @param annotations The data frame with extra wells (with well_ids_column named
 # "wellIds")
 # @return An error message describing which wells are missing.
-wrongWellsErrorMessage <- function(data, well_ids_column, annotations) {
+wrong_wells_error_message <- function(data, well_ids_column, annotations) {
    missing <- annotations$wellIds[!(annotations$wellIds %in% 
          data[ , well_ids_column])]
    if(length(missing) == 0) {
@@ -87,14 +87,14 @@ wrongWellsErrorMessage <- function(data, well_ids_column, annotations) {
 # @param well_ids_column The name of the column containing the well IDs. 
 # @return TRUE if leading zeroes are missing or FALSE if all leading zeroes are
 # missing.  
-areLeadingZeroesMissing <- function(data, well_ids_column, plate_size) {
-   if ((all(data[ , well_ids_column] %in% getWellIds(plate_size)))) {
+are_leading_zeroes_missing <- function(data, well_ids_column, plate_size) {
+   if ((all(data[ , well_ids_column] %in% get_well_ids(plate_size)))) {
       return(FALSE)
    } else {
-      if (!areLeadingZeroesValid(data, well_ids_column, plate_size)) {
+      if (!are_leading_zeroes_valid(data, well_ids_column, plate_size)) {
          # leading zeroes are invalid
          if(!(all(data[, well_ids_column] %in% 
-               getWellIdsWithoutLeadingZeroes(plate_size)))) {
+               get_well_ids_without_leading_zeroes(plate_size)))) {
             # some missing leading zeroes, some not, give up
             stop("Invalid well IDs--some have leading zeroes and some don't.", 
                call. = FALSE)
