@@ -7,3 +7,6 @@
 ^README\.md$
 ^inst/doc/plateR-basics\.md$
 ^CONDUCT\.md$
+^LICENSE$
+^paper\.bib$
+^paper\.md$
