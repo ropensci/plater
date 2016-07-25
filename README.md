@@ -44,5 +44,3 @@ Code of conduct
 ---------------
 
 `plateR` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to it's development, you must agree to abide by its terms.
-
-[![ropensci\_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
