@@ -15,13 +15,13 @@ names to give the individual plates in the resulting data frame. Defaults to
 the file names (stripped of path and .csv).}
 
 \item{well_ids_column}{The name to give the column that will contain the well
-names. Default "Wells".}
+identifiers. Default "Wells".}
 }
 \value{
 Returns a data frame like that returned by \code{read_plate}, 
-containing the data from all of the plates stacked on top of each other. The
-plates will be identified with a column called "Plate" containing the names
-given in \code{plate_names}.
+containing the data from all of the plates. The plates will be identified 
+with a column called "Plate" containing the names given in 
+\code{plate_names}.
 }
 \description{
 A wrapper around \code{read_plate} that handles multiple plates and combines

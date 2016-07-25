@@ -10,9 +10,9 @@
 #' the file names (stripped of path and .csv). 
 #' @inheritParams read_plate  
 #' @return Returns a data frame like that returned by \code{read_plate}, 
-#' containing the data from all of the plates stacked on top of each other. The
-#' plates will be identified with a column called "Plate" containing the names
-#' given in \code{plate_names}. 
+#' containing the data from all of the plates. The plates will be identified 
+#' with a column called "Plate" containing the names given in 
+#' \code{plate_names}. 
 #' 
 #' @export
 read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {

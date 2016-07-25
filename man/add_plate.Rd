@@ -2,16 +2,16 @@
 % Please edit documentation in R/add_plate.R
 \name{add_plate}
 \alias{add_plate}
-\title{Read plate layouts and add them to existing data frame.}
+\title{Read a plateR-formatted file and combine it with an existing data frame.}
 \usage{
 add_plate(file, data, well_ids_column)
 }
 \arguments{
-\item{file}{A character vector with the path of a .csv file formatted as 
-as described in \code{\link{read_plate}}.}
+\item{file}{The path of a .csv file formatted as described in 
+\code{\link{read_plate}}.}
 
-\item{data}{The data frame to merge the new annotations into. Must contain
-a column with well names.}
+\item{data}{The data frame to merge the file into. Must contain a column with
+well names.}
 
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
@@ -21,7 +21,7 @@ Returns data with as many new columns as plates in \code{file}.
 Empty wells are indicated with NA.
 }
 \description{
-Converts data from a microtiter plate layout to a data frame with one well 
+Converts data from \code{plateR} format to a data frame with one well 
 per row and merges it into an existing data frame by well name.
 }
 \details{

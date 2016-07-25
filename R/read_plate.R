@@ -1,18 +1,18 @@
-#' Read plate layouts.
+#' Read a plateR-formatted file and turn it into a tidy data frame.
 #' 
-#' Converts data from a microtiter plate layout to a data frame with one well 
+#' Converts data from \code{plateR} format to a data frame with one well 
 #' per row identified by well name.
 #'
 #' @param file A character vector with the path of a .csv file formatted as 
 #' described below.
 #' @param well_ids_column The name to give the column that will contain the well
-#' names. Default "Wells".
+#' identifiers. Default "Wells".
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{well_ids_column} and contain the well names (A01, A02..). 
-#' There will be as many additional columns as plates in \code{file}. Empty 
-#' wells are indicated with NA.
+#' There will be as many additional columns as layouts in \code{file}. Empty 
+#' wells are omitted.
 #' 
-#' @section File format:
+#' @section \code{plateR} format:
 #' The .csv file should be formatted as a microtiter plate. The top-left most 
 #' cell contains the name to use for the column representing that plate. For 
 #' example, for a 96-well plate, the subsequent wells in the top row should be 

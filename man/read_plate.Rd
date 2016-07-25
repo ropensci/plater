@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_plate.R
 \name{read_plate}
 \alias{read_plate}
-\title{Read plate layouts.}
+\title{Read a plateR-formatted file and turn it into a tidy data frame.}
 \usage{
 read_plate(file, well_ids_column = "Wells")
 }
@@ -11,19 +11,19 @@ read_plate(file, well_ids_column = "Wells")
 described below.}
 
 \item{well_ids_column}{The name to give the column that will contain the well
-names. Default "Wells".}
+identifiers. Default "Wells".}
 }
 \value{
 Returns a data frame with each well as a row. One column will be 
 named with \code{well_ids_column} and contain the well names (A01, A02..). 
-There will be as many additional columns as plates in \code{file}. Empty 
-wells are indicated with NA.
+There will be as many additional columns as layouts in \code{file}. Empty 
+wells are omitted.
 }
 \description{
-Converts data from a microtiter plate layout to a data frame with one well 
+Converts data from \code{plateR} format to a data frame with one well 
 per row identified by well name.
 }
-\section{File format}{
+\section{\code{plateR} format}{
 
 The .csv file should be formatted as a microtiter plate. The top-left most 
 cell contains the name to use for the column representing that plate. For 
