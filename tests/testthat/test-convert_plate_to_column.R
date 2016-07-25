@@ -12,44 +12,44 @@ for (i in c(12, 24, 48, 96, 384)) {
    }
    
    test_that("validate plate fails for incorrect plate dimensions", {
-      bottomRow <- readPlate(get_file_for_validate_plate("missingBottomRow.csv"))
+      bottomRow <- plate_text_to_data_frame(get_file_for_validate_plate("missingBottomRow.csv"))
       expect_that(validate_plate(bottomRow), throws_error())   
       
-      rightColumn <- readPlate(get_file_for_validate_plate("missingRightColumn.csv"))
+      rightColumn <- plate_text_to_data_frame(get_file_for_validate_plate("missingRightColumn.csv"))
       expect_that(validate_plate(rightColumn), throws_error())
       
-      missingMiddle <- readPlate(get_file_for_validate_plate("missingMiddleRow.csv"))
+      missingMiddle <- plate_text_to_data_frame(get_file_for_validate_plate("missingMiddleRow.csv"))
       expect_that(validate_plate(missingMiddle), throws_error())   
      
-      extraRow <- readPlate(get_file_for_validate_plate("oneExtraRow.csv"))
+      extraRow <- plate_text_to_data_frame(get_file_for_validate_plate("oneExtraRow.csv"))
       expect_that(validate_plate(extraRow), throws_error())   
       
-      extraCol <- readPlate(get_file_for_validate_plate("oneExtraColumn.csv"))
+      extraCol <- plate_text_to_data_frame(get_file_for_validate_plate("oneExtraColumn.csv"))
       expect_that(validate_plate(extraCol), throws_error())
    })
    
    test_that("validate_plate() fails for incorrect row labels", {
-      wrongRowLabels <- readPlate(get_file_for_validate_plate("incorrectRowLabels.csv"))
+      wrongRowLabels <- plate_text_to_data_frame(get_file_for_validate_plate("incorrectRowLabels.csv"))
       expect_that(validate_plate(wrongRowLabels), throws_error()) 
       
-      wrongRowLabels <- readPlate(get_file_for_validate_plate("missingRowLabels.csv"))
+      wrongRowLabels <- plate_text_to_data_frame(get_file_for_validate_plate("missingRowLabels.csv"))
       expect_that(validate_plate(wrongRowLabels), throws_error()) 
    })
    
    test_that("validate_plate() passes with valid input", {
       # no error
-      plate <- readPlate(get_file_for_validate_plate("validPlate.csv"))
+      plate <- plate_text_to_data_frame(get_file_for_validate_plate("validPlate.csv"))
       validate_plate(plate, i)
       
       # missing column data, but includes all titles
-      plate <- readPlate(get_file_for_validate_plate("missingColumnsWithCorrectTitles.csv"))
+      plate <- plate_text_to_data_frame(get_file_for_validate_plate("missingColumnsWithCorrectTitles.csv"))
       validate_plate(plate, i)
    })
    
    test_that("validate_plate() passes with white space around row labels", {
       # no error
       # contains spaces in the row labels
-      plate <- readPlate(get_file_for_validate_plate("validPlateWithWhiteSpaceInRowNames.csv"))
+      plate <- plate_text_to_data_frame(get_file_for_validate_plate("validPlateWithWhiteSpaceInRowNames.csv"))
       validate_plate(plate, i)
    })
    
@@ -58,12 +58,12 @@ for (i in c(12, 24, 48, 96, 384)) {
    ################################################################################
    
    test_that("wrong_row_labels_error_message() fails for invalid plate dimensions", {
-      missingRow <- readPlate(get_file_for_validate_plate("missingBottomRow.csv"))
+      missingRow <- plate_text_to_data_frame(get_file_for_validate_plate("missingBottomRow.csv"))
       expect_that(wrong_row_labels_error_message(validPlate, i), throws_error())
    })
    
    test_that("wrong_row_labels_error_message()", {
-      incorrectRowLabels <- readPlate(get_file_for_validate_plate("incorrectRowLabels.csv"))
+      incorrectRowLabels <- plate_text_to_data_frame(get_file_for_validate_plate("incorrectRowLabels.csv"))
       message <- wrong_row_labels_error_message(incorrectRowLabels, i)
       
       rows <- number_of_rows(i)

@@ -1,6 +1,6 @@
 # Reads and converts one plate to a data frame. 
 #  
-# convertOnePlate() maps data from a microtiter plate layout to columns 
+# convert_plate_to_column maps data from a microtiter plate layout to columns 
 # identified by well names. Columns are named by the value held in the top-left
 # cell of \code{plate} or called "value" if empty.
 #
@@ -11,7 +11,7 @@
 #              A02..) and the other containing the values in the indicated 
 #              wells). Empty wells are omitted.  
 convert_plate_to_column <- function(plate, plate_size) {
-   plate <- readPlate(plate)
+   plate <- plate_text_to_data_frame(plate)
    
    column_name <- plate[1, 1]
    
@@ -51,7 +51,7 @@ convert_plate_to_column <- function(plate, plate_size) {
 
 # requires:    plate contains a character vector, as specified above
 # returns:     a data frame created from the plate
-readPlate <- function(plate) {
+plate_text_to_data_frame <- function(plate) {
    utils::read.table(textConnection(plate), sep = ",", 
       na.strings = "", stringsAsFactors = FALSE)
 }
