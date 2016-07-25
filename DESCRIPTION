@@ -4,8 +4,8 @@ Version: 0.2.0.9000
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
     role = c("aut", "cre"))
 Description: Tools for interacting with data in the form of microtiter plates.
-    This includes converting from plate layouts of data or annotations to data
-    frames as well as displaying data as though laid out on a plate.
+    This includes converting from plate-shaped data to tidy data frames as well 
+    as displaying data as though laid out on a plate.
 Depends:
     R (>= 3.1.0)
 License: GPL-3
