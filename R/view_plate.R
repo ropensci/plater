@@ -31,11 +31,11 @@ view_plate <- function(data, well_ids_column, column_to_display,
    data <- data[order(data[ , well_ids_column]), ]
    
    # get data to display and replace NA with '.'
-   toDisplay <- as.character(data[[column_to_display]])
-   toDisplay <- ifelse(is.na(toDisplay), ".", toDisplay)
+   to_display <- as.character(data[[column_to_display]])
+   to_display <- ifelse(is.na(to_display), ".", to_display)
    
    # create result and name rows and columns
-   result <- data.frame(matrix(toDisplay, nrow = n_rows, byrow = TRUE))
+   result <- data.frame(matrix(to_display, nrow = n_rows, byrow = TRUE))
    rownames(result) <- LETTERS[1:n_rows]
    colnames(result) <- 1:n_columns
    

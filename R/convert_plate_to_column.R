@@ -38,7 +38,7 @@ convert_plate_to_column <- function(plate, plate_size) {
    # generate well labels,
    wells <- get_well_ids(rows * cols)
    
-   df <- data.frame(wellIds = wells, column_name = plate, 
+   df <- data.frame(wellIds = wells, ColumnName = plate, 
          stringsAsFactors = FALSE)
    names(df) <- c("wellIds", column_name)
    
