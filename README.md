@@ -2,6 +2,8 @@
 plateR
 ======
 
+[![Travis-CI Build Status](https://travis-ci.org/seaaan/plateR.svg?branch=master)](https://travis-ci.org/seaaan/plateR)
+
 plateR makes it easy to work with data from experiments performed in plates.
 
 Installation
@@ -38,4 +40,9 @@ Vignette
 
 For a detailed example of how to use `plateR`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plateR-basics.md>
 
-[![Travis-CI Build Status](https://travis-ci.org/seaaan/plateR.svg?branch=master)](https://travis-ci.org/seaaan/plateR)
+Code of conduct
+---------------
+
+`plateR` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to it's development, you must agree to abide by its terms.
+
+[![ropensci\_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)

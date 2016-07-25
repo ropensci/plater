@@ -6,3 +6,4 @@
 ^\.travis\.yml$
 ^README\.md$
 ^inst/doc/plateR-basics\.md$
+^CONDUCT\.md$
