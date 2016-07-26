@@ -43,4 +43,4 @@ For a detailed example of how to use `plateR`, check out <https://github.com/sea
 Code of conduct
 ---------------
 
-`plateR` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to it's development, you must agree to abide by its terms.
+`plateR` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms.
