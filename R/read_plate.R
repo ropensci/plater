@@ -43,6 +43,17 @@
 #' a single file (e.g. data measured, subject, treatment, replicate, etc.).
 #'
 #' @export
+#' @examples 
+#' 
+#' file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+#' 
+#' # Data are stored in plate-shaped form
+#' data <- read_plate(
+#'    file = file_path,
+#'    well_ids_column = "Wells")
+#' 
+#' # Now data are tidy
+#' head(data)
 read_plate <- function(file, well_ids_column = "Wells") {
    plate_size <- guess_plate_size(file)
    

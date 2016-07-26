@@ -56,4 +56,16 @@ file. After the first plate, leave one row blank, and then add another plate
 formatted as described above. As many plates as necessary can be included in
 a single file (e.g. data measured, subject, treatment, replicate, etc.).
 }
+\examples{
+
+file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+
+# Data are stored in plate-shaped form
+data <- read_plate(
+   file = file_path,
+   well_ids_column = "Wells")
+
+# Now data are tidy
+head(data)
+}
 

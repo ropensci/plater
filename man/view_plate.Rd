@@ -24,4 +24,16 @@ though laid out on a microtiter plate with \code{plate_size} wells.
 \description{
 Displays the data in the form of a microtiter plate.
 }
+\examples{
+# Get some tidy data
+file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+data <- read_plate(file = file_path, well_ids_column = "Wells")
+head(data)
+
+# See which wells got which drug
+view_plate(data, "Wells", "Drug", 96)
+
+# See concentration of the drugs across the plate
+view_plate(data, "Wells", "Concentration", 96)
+}
 

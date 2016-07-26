@@ -15,6 +15,19 @@
 #' \code{plate_names}. 
 #' 
 #' @export
+#' @examples 
+#' # Combine multiple files into one tidy data frame
+#' file1 <- system.file("extdata", "example-1.csv", package = "plateR")
+#' file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+#' 
+#' # Data are stored in plate-shaped form
+#' data <- read_plates(
+#'    files = c(file1, file2),
+#'    plate_names = c("Experiment 1", "Experiment 2"),
+#'    well_ids_column = "Wells")
+#' 
+#' # Data from both plates are tidy and in the same data frame
+#' head(data)
 read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    if(is.null(plate_names)) {
       plate_names <- generate_plate_names(files)

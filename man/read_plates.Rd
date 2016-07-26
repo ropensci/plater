@@ -27,4 +27,18 @@ with a column called "Plate" containing the names given in
 A wrapper around \code{read_plate} that handles multiple plates and combines
 them all into a single data frame.
 }
+\examples{
+# Combine multiple files into one tidy data frame
+file1 <- system.file("extdata", "example-1.csv", package = "plateR")
+file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+
+# Data are stored in plate-shaped form
+data <- read_plates(
+   files = c(file1, file2),
+   plate_names = c("Experiment 1", "Experiment 2"),
+   well_ids_column = "Wells")
+
+# Data from both plates are tidy and in the same data frame
+head(data)
+}
 

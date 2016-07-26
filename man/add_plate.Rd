@@ -29,4 +29,22 @@ If data contains more wells than in \code{file}, NA will be added to the
 merged column for those wells. If the file contains more wells than 
 \code{data}, an error will result.
 }
+\examples{
+
+# Part of the data is tidy
+file <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+data <- read.csv(file)
+
+# Part of the data is plate-shaped
+plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
+
+# Combine the two
+data <- add_plate(
+   file = plate_shaped,
+   data = data, 
+   well_ids_column = "Wells")
+
+# Now data are tidy
+head(data)
+}
 
