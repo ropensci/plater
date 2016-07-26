@@ -30,7 +30,6 @@ merged column for those wells. If the file contains more wells than
 \code{data}, an error will result.
 }
 \examples{
-
 # Part of the data is tidy
 file <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
 data <- read.csv(file)

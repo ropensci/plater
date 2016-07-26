@@ -57,7 +57,6 @@ formatted as described above. As many plates as necessary can be included in
 a single file (e.g. data measured, subject, treatment, replicate, etc.).
 }
 \examples{
-
 file_path <- system.file("extdata", "example-1.csv", package = "plateR")
 
 # Data are stored in plate-shaped form

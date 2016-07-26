@@ -44,7 +44,6 @@
 #'
 #' @export
 #' @examples 
-#' 
 #' file_path <- system.file("extdata", "example-1.csv", package = "plateR")
 #' 
 #' # Data are stored in plate-shaped form
