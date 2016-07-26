@@ -40,3 +40,19 @@ str(data2)
 
 head(data2)
 
+## ------------------------------------------------------------------------
+# same file as above
+file1 <- system.file("extdata", "example-1.csv", package = "plateR")
+
+# new file
+file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+
+data <- read_plates(
+   files = c(file1, file2),
+   plate_names = c("Experiment 1", "Experiment 2"),
+   well_ids_column = "Wells") # optional
+
+str(data)
+
+head(data)
+

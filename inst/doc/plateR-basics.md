@@ -80,8 +80,6 @@ head(data)
 
 So what happened? `read_plate()` read in the `plateR` format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named "Wells" with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.
 
-When you have multiple plates, you can combine them all into a common data frame with the `read_plates()` function.
-
 ### Step 2 (again): Combine a one-well-per-row file and a `plateR` format file with `add_plate()`
 
 In the previous example, we assumed that the killing data was provided by the instrument in plate-shaped form, so it could just be pasted into the `plateR` format file. Sometimes, though, you'll get data back formatted with one well per row.
@@ -132,3 +130,44 @@ head(data2)
 ```
 
 `add_plate` then makes it easy to store data in a mix of formats, in some cases tidy and in some cases plate-shaped, which is the reality of many experiments.
+
+Multiple plates
+---------------
+
+Say you were happy with the tests of you antibiotics, so you decided to do a second experiment, testing some other common pathogenic bacteria. Now you have data from two separate plates. Rather than handling them separately, you can combine them all into a common data frame with the `read_plates()` function.
+
+Just like before, you create one `plateR` file per plate, with all the information describing the experiment. In this case, you'll have two files, one from each experiment. Then, just read them in with `read_plates()`. You can specify names for each plate, which will become a column in the output identifying which plate the well was on. By default it'll use the file names.
+
+``` r
+# same file as above
+file1 <- system.file("extdata", "example-1.csv", package = "plateR")
+
+# new file
+file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+
+data <- read_plates(
+   files = c(file1, file2),
+   plate_names = c("Experiment 1", "Experiment 2"),
+   well_ids_column = "Wells") # optional
+
+str(data)
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    192 obs. of  6 variables:
+#>  $ Wells        : chr  "A01" "A02" "A03" "A04" ...
+#>  $ Drug         : chr  "A" "A" "A" "A" ...
+#>  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...
+#>  $ Bacteria     : chr  "E. coli" "E. coli" "E. coli" "E. coli" ...
+#>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
+#>  $ Plate        : chr  "Experiment 1" "Experiment 1" "Experiment 1" "Experiment 1" ...
+
+head(data)
+#> Source: local data frame [6 x 6]
+#> 
+#>   Wells  Drug Concentration Bacteria Killing        Plate
+#>   <chr> <chr>         <dbl>    <chr>   <dbl>        <chr>
+#> 1   A01     A       100.000  E. coli      98 Experiment 1
+#> 2   A02     A        20.000  E. coli      95 Experiment 1
+#> 3   A03     A         4.000  E. coli      92 Experiment 1
+#> 4   A04     A         0.800  E. coli      41 Experiment 1
+#> 5   A05     A         0.160  E. coli      17 Experiment 1
+#> 6   A06     A         0.032  E. coli       2 Experiment 1
+```
