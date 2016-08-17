@@ -52,8 +52,10 @@ paste just the cells within the plate to a fresh worksheet and save it.
  
 Multiple columns of information about a plate can be included in a single 
 file. After the first plate, leave one row blank, and then add another plate
-formatted as described above. As many plates as necessary can be included in
-a single file (e.g. data measured, subject, treatment, replicate, etc.).
+formatted as described above. (The "blank" row should appear as blank in a 
+spreadsheet editor, but as a row of commas when viewed as plain text.) As 
+many plates as necessary can be included in a single file (e.g. data 
+measured, subject, treatment, replicate, etc.).
 }
 \examples{
 file_path <- system.file("extdata", "example-1.csv", package = "plateR")

@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-07-26" />
+<meta name="date" content="2016-08-17" />
 
 <title>Getting started with plateR</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-07-26</em></h4>
+<h4 class="date"><em>2016-08-17</em></h4>
 </div>
 
 
@@ -107,7 +107,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Top left cell of each layout is the name</li>
 <li>The rest of the top row of each layout is the column numbers (1:12 for a 96-well plate)</li>
 <li>The rest of the left column is the row names (A:H for a 96-well plate)</li>
-<li>One line between layouts</li>
+<li>One line between layouts (This row should appear as blank in a spreadsheet editor, but as a row of commas when viewed as plain text.)</li>
 </ul>
 <p>You can use <code>plateR</code> format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it’s omitted. If it’s blank in some but not others, it’ll get <code>NA</code> where it’s blank.</p>
 </div>
