@@ -3,8 +3,7 @@
 #' Converts data from \code{plateR} format to a data frame with one well 
 #' per row identified by well name.
 #'
-#' @param file A character vector with the path of a .csv file formatted as 
-#' described below.
+#' @param file The path of a .csv file formatted as described below.
 #' @param well_ids_column The name to give the column that will contain the well
 #' identifiers. Default "Wells".
 #' @return Returns a data frame with each well as a row. One column will be 
