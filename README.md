@@ -4,7 +4,7 @@ plateR
 
 [![Travis-CI Build Status](https://travis-ci.org/seaaan/plateR.svg?branch=master)](https://travis-ci.org/seaaan/plateR)
 
-plateR makes it easy to work with data from experiments performed in plates.
+plateR makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate based instruments.
 
 Installation
 ------------
