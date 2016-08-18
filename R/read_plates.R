@@ -59,6 +59,9 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
 
    rownames(result) <- NULL
    
+   # make Plate the first column instead of the last column
+   result <- dplyr::select(result, Plate, dplyr::everything())
+   
    result
 }
 

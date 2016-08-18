@@ -28,9 +28,14 @@ for (i in c(12, 24, 48, 96, 384)) {
    
    test_that("read_plates should contain all columns present in *any* of the input data frames", {
       expect_that(colnames(example_plate), 
-         is_identical_to(c("Wells", "Donor", "Drug", "Plate", "Media")))
+         is_identical_to(c("Plate", "Wells", "Donor", "Drug", "Media")))
    })
-   
+
+   test_that("Plate should be first column in result of read_plates", {
+      expect_that(colnames(example_plate)[1], 
+         is_identical_to("Plate"))
+   })
+      
    test_that("read_plates without plate_names arg should be named by files", {
       expect_that(unique(example_plate$Plate), is_identical_to(plates))
    })
