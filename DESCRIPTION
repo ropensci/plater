@@ -14,7 +14,8 @@ License: GPL-3
 LazyData: true
 Suggests:
     testthat,
-    knitr
+    knitr,
+    rmarkdown
 URL: https://github.com/seaaan/plateR
 BugReports: https://github.com/seaaan/plateR/issues
 VignetteBuilder: knitr
