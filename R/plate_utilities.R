@@ -67,17 +67,17 @@ number_of_columns <- function(plate_size) {
 # Returns the size of a plate given the number of columns.
 #
 # @param columns 4, 6, 8, 12, 24
-# @return the size of the plate or an error message. 
+# @return the size of the plate or throws error if invalid number of columns. 
 # @examples get_plate_size_from_number_of_columns(12)
 get_plate_size_from_number_of_columns <- function(columns) {
    n <- plate_dimensions("PlateSize", "Columns", columns)
    
    if (length(n) == 0) {
-      return(paste0("Invalid number of columns: ", columns))
+      stop(paste0("Could not guess plate size from number of columns. ", 
+                     "Invalid number of columns: ", columns))
    }
    
    n
-
 }
 
 # Helper function to return rows/columns/plate size from another value
@@ -126,12 +126,5 @@ guess_plate_size <- function(file) {
    
    number_of_columns <- max(as.numeric(first_line_vector))
    
-   size <- get_plate_size_from_number_of_columns(number_of_columns)
-   
-   if(is.numeric(size)) {
-      return(size)
-   } else {
-      stop(paste0("Could not guess plate size from number of columns. ", size), 
-         call. = FALSE)
-   }
+   get_plate_size_from_number_of_columns(number_of_columns)
 }

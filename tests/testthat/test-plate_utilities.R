@@ -198,7 +198,7 @@ test_that("valid input", {
    expect_that(get_plate_size_from_number_of_columns(24), equals(384))
 })
 
-test_that("valid input", {
-   expect_that(get_plate_size_from_number_of_columns(17), 
-      equals("Invalid number of columns: 17"))
-})
+test_that("invalid column size", 
+   expect_error(get_plate_size_from_number_of_columns(17),
+      paste0("Could not guess plate size from number of columns. ", 
+         "Invalid number of columns: ", 17)))
