@@ -105,22 +105,6 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(all(r), is_true())
    })
    
-   test_that("add_plate error with unequal numbers of files/column names", {
-      complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters],
-         stringsAsFactors = FALSE)
-      complete$d <- as.character(complete$d)
-      
-      multipleFiles <- c("allWellIds.csv", "wellIdsAndEmptyWells.csv")
-      multipleFiles <- c(paste0(path, multipleFiles))
-      oneFile <- multipleFiles[1]
-      
-      multipleColNames <- c("full", "partial")
-      oneColName <- "full"
-      
-      expect_that(read.plate(complete, i, "wells", multipleFiles, oneColName), throws_error())
-      expect_that(read.plate(complete, i, "wells", oneFile, multipleColNames), throws_error())
-   })
-   
    test_that("add_plate works for complete valid data", {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
