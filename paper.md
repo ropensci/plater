@@ -1,14 +1,14 @@
 ---
-  title: 'plateR: Tools to Make it Easy to Work with Microtiter Plate-Shaped Data'
-  tags:
-    - data import
-    - R
-  authors:
-   - name: Sean M Hughes
-     orcid: 0000-0002-9409-9405
-     affiliation: University of Washington
-  date: 25 July 2016
-  bibliography: paper.bib
+title: 'plateR: Tools to Make it Easy to Work with Microtiter Plate-Shaped Data'
+tags:
+ - data import
+ - R
+authors:
+- name: Sean M Hughes
+  orcid: 0000-0002-9409-9405
+  affiliation: University of Washington
+date: 19 August 2016
+bibliography: paper.bib
 ---
 
 # Summary
