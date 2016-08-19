@@ -67,7 +67,7 @@ number_of_columns <- function(plate_size) {
 # Returns the size of a plate given the number of columns.
 #
 # @param columns 4, 6, 8, 12, 24
-# @return TRUE and the size of the plate or FALSE and an error message. 
+# @return the size of the plate or an error message. 
 # @examples get_plate_size_from_number_of_columns(12)
 get_plate_size_from_number_of_columns <- function(columns) {
    n <- plate_dimensions("PlateSize", "Columns", columns)
