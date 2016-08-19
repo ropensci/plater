@@ -122,7 +122,7 @@ guess_plate_size <- function(file) {
    first_line_vector <- strsplit(first_line, ",")[[1]]
    
    # remove title field
-   first_line_vector <- first_line_vector[2:length(first_line_vector)]
+   first_line_vector <- first_line_vector[-1]
    
    number_of_columns <- max(as.numeric(first_line_vector))
    
