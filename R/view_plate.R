@@ -25,9 +25,8 @@
 #' view_plate(data, "Wells", "OxygenProduction", 12)
 view_plate <- function(data, well_ids_column, column_to_display, 
                       plate_size = 96) {
-   # validate well_ids_column
-   validate_column_is_in_data(data, well_ids_column)
-   validate_column_is_in_data(data, column_to_display)
+   # validate column names
+   validate_column_is_in_data(data, c(well_ids_column, column_to_display))
 
    n_rows <- number_of_rows(plate_size) # stops if not 12, 24, 48, 96 or 384
    n_columns <- number_of_columns(plate_size)

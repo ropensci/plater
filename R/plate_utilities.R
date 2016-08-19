@@ -102,10 +102,20 @@ plate_dimensions <- function(get, from, value) {
 # 
 # @param data A data frame
 # @param col_name The name of the column of well IDs
-validate_column_is_in_data <- function(data, col_name) {
-   if (!(col_name %in% colnames(data))) {
-      stop(paste0("There is no column named '", col_name, 
-         "' in your data frame."), call. = FALSE)
+validate_column_is_in_data <- function(data, col_names) {
+   if (any(!(col_names %in% colnames(data)))) {
+      the_offender <- which(!(col_names %in% colnames(data)))
+      the_offender <- col_names[the_offender]
+      
+      if (length(the_offender) > 1) {
+         the_offender <- paste0(the_offender, collapse = ", ")
+         the_offender <- paste0("are no columns named ", the_offender)
+      } else {
+         the_offender <- paste0("is no column named '", the_offender, "'")
+      }
+      
+      stop(paste0("There ", the_offender, " in your data frame."), 
+         call. = FALSE)
    }
 }
 

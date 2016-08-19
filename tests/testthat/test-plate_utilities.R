@@ -202,3 +202,25 @@ test_that("invalid column size",
    expect_error(get_plate_size_from_number_of_columns(17),
       paste0("Could not guess plate size from number of columns. ", 
          "Invalid number of columns: ", 17)))
+
+################################################################################
+context("testing plate_utilities-validate_column_is_in_data()")
+################################################################################
+d <- data.frame(ColumnA = 1, ColumnB = 1, ColumnC = 1)
+
+test_that("valid one column input", 
+   expect_silent(validate_column_is_in_data(d, "ColumnA")))
+
+test_that("valid two column input", 
+   expect_silent(validate_column_is_in_data(d, c("ColumnA", "ColumnB"))))
+
+test_that("valid two column input out of order", 
+   expect_silent(validate_column_is_in_data(d, c("ColumnB", "ColumnA"))))
+
+test_that("invalid single column", 
+   expect_error(validate_column_is_in_data(d, "ColumnD"), 
+      "There is no column named 'ColumnD' in your data frame."))
+
+test_that("invalid double column", 
+   expect_error(validate_column_is_in_data(d, c("ColumnD", "ColumnE")), 
+      "There are no columns named ColumnD, ColumnE in your data frame."))
