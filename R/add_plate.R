@@ -7,10 +7,10 @@
 #' merged column for those wells. If the file contains more wells than 
 #' \code{data}, an error will result.
 #'
-#' @param file The path of a .csv file formatted as described in 
-#' \code{\link{read_plate}}.
 #' @param data The data frame to merge the file into. Must contain a column with
 #' well names.
+#' @param file The path of a .csv file formatted as described in 
+#' \code{\link{read_plate}}.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
 #' @return Returns data with as many new columns as plates in \code{file}. 
@@ -26,13 +26,20 @@
 #' 
 #' # Combine the two
 #' data <- add_plate(
-#'    file = plate_shaped,
 #'    data = data, 
+#'    file = plate_shaped,
 #'    well_ids_column = "Wells")
 #' 
 #' # Now data are tidy
 #' head(data)
-add_plate <- function(file, data, well_ids_column) {
+add_plate <- function(data, file, well_ids_column) {
+   if ("data.frame" %in% class(file) && class(data) == "character") {
+      warning("file and class arguments to add_plate appear to be reversed.")
+      temp <- data
+      data <- file
+      file <- temp
+   }
+   
    to_add <- read_plate(file, "wellIds")
    
    # make it not a tbl_df in order to get out a vector instead of 

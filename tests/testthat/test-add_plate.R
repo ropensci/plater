@@ -10,9 +10,21 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
    
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       expect_that(result$values, is_identical_to(get_well_ids(i)))
       expect_that(factor(result$values), is_identical_to(result$wells))
+   })
+   
+   test_that("add_plate works with reversed file and data arguments but gives warning", {
+      filename <- paste0(path, "allWellIds.csv")
+      complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
+      complete$d <- as.character(complete$d)
+      
+      expect_warning({
+         result <- add_plate(filename, complete, "wells")
+         expect_that(result$values, is_identical_to(get_well_ids(i)))
+         expect_that(factor(result$values), is_identical_to(result$wells))         
+      }, "reversed")
    })
    
    test_that("add_plate works without leading zeroes", {
@@ -21,7 +33,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       expect_that(result$wells, 
          is_identical_to(factor(get_well_ids_without_leading_zeroes(i))))
       expect_that(factor(remove_leading_zeroes(result$values)), 
@@ -33,7 +45,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       
       expect_that(as.character(result$wells), is_identical_to(get_well_ids(i)))
       r <- is.na(result$values) | result$values == as.character(result$wells)
@@ -47,7 +59,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       
       expect_that(result$wells, 
          is_identical_to(factor(get_well_ids_without_leading_zeroes(i))))
@@ -61,7 +73,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      expect_that(add_plate(filename, complete[1:(i-1), ], "wells"),
+      expect_that(add_plate(complete[1:(i-1), ], filename, "wells"),
          throws_error())
    })
    
@@ -75,7 +87,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          remove_leading_zeroes(complete$wells), 
          complete$wells)
       
-      expect_that(add_plate(filename, complete, "wells"),
+      expect_that(add_plate(complete, filename, "wells"),
          throws_error())
    })
    
@@ -86,7 +98,7 @@ for (i in c(12, 24, 48, 96, 384)) {
          stringsAsFactors = FALSE)
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       expect_that(result$full, is_identical_to(get_well_ids(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
@@ -107,7 +119,6 @@ for (i in c(12, 24, 48, 96, 384)) {
       
       expect_that(read.plate(complete, i, "wells", multipleFiles, oneColName), throws_error())
       expect_that(read.plate(complete, i, "wells", oneFile, multipleColNames), throws_error())
-      
    })
    
    test_that("add_plate works for complete valid data", {
@@ -115,7 +126,7 @@ for (i in c(12, 24, 48, 96, 384)) {
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      result <- add_plate(filename, complete, "wells")
+      result <- add_plate(complete, filename, "wells")
       expect_is(result, 
          "tbl_df")
    })

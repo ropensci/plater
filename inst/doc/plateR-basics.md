@@ -106,8 +106,8 @@ head(data2)
 
 meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
+      data = data2,               # data frame to add to 
       file = meta,                # full path to the .csv file
-      data = data2,               # data frame to add to    
       well_ids_column = "Wells"   # name of column of well IDs in data frame
 )
 
@@ -152,22 +152,22 @@ data <- read_plates(
 
 str(data)
 #> Classes 'tbl_df', 'tbl' and 'data.frame':    192 obs. of  6 variables:
+#>  $ Plate        : chr  "Experiment 1" "Experiment 1" "Experiment 1" "Experiment 1" ...
 #>  $ Wells        : chr  "A01" "A02" "A03" "A04" ...
 #>  $ Drug         : chr  "A" "A" "A" "A" ...
 #>  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...
 #>  $ Bacteria     : chr  "E. coli" "E. coli" "E. coli" "E. coli" ...
 #>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
-#>  $ Plate        : chr  "Experiment 1" "Experiment 1" "Experiment 1" "Experiment 1" ...
 
 head(data)
 #> Source: local data frame [6 x 6]
 #> 
-#>   Wells  Drug Concentration Bacteria Killing        Plate
-#>   <chr> <chr>         <dbl>    <chr>   <dbl>        <chr>
-#> 1   A01     A       100.000  E. coli      98 Experiment 1
-#> 2   A02     A        20.000  E. coli      95 Experiment 1
-#> 3   A03     A         4.000  E. coli      92 Experiment 1
-#> 4   A04     A         0.800  E. coli      41 Experiment 1
-#> 5   A05     A         0.160  E. coli      17 Experiment 1
-#> 6   A06     A         0.032  E. coli       2 Experiment 1
+#>          Plate Wells  Drug Concentration Bacteria Killing
+#>          <chr> <chr> <chr>         <dbl>    <chr>   <dbl>
+#> 1 Experiment 1   A01     A       100.000  E. coli      98
+#> 2 Experiment 1   A02     A        20.000  E. coli      95
+#> 3 Experiment 1   A03     A         4.000  E. coli      92
+#> 4 Experiment 1   A04     A         0.800  E. coli      41
+#> 5 Experiment 1   A05     A         0.160  E. coli      17
+#> 6 Experiment 1   A06     A         0.032  E. coli       2
 ```

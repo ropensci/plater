@@ -31,8 +31,8 @@ head(data2)
 
 meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
 data2 <- add_plate(
+      data = data2,               # data frame to add to 
       file = meta,                # full path to the .csv file
-      data = data2,               # data frame to add to    
       well_ids_column = "Wells"   # name of column of well IDs in data frame
 )
 

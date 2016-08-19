@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-08-17" />
+<meta name="date" content="2016-08-18" />
 
 <title>Getting started with plateR</title>
 
@@ -72,7 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-08-17</em></h4>
+<h4 class="date"><em>2016-08-18</em></h4>
 </div>
 
 
@@ -172,8 +172,8 @@ data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(file2A)
 
 meta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-part-B.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
+      <span class="dt">data =</span> data2,               <span class="co"># data frame to add to </span>
       <span class="dt">file =</span> meta,                <span class="co"># full path to the .csv file</span>
-      <span class="dt">data =</span> data2,               <span class="co"># data frame to add to    </span>
       <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>   <span class="co"># name of column of well IDs in data frame</span>
 )
 
@@ -216,24 +216,24 @@ data &lt;-<span class="st"> </span><span class="kw">read_plates</span>(
 
 <span class="kw">str</span>(data)
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    192 obs. of  6 variables:</span>
+<span class="co">#&gt;  $ Plate        : chr  &quot;Experiment 1&quot; &quot;Experiment 1&quot; &quot;Experiment 1&quot; &quot;Experiment 1&quot; ...</span>
 <span class="co">#&gt;  $ Wells        : chr  &quot;A01&quot; &quot;A02&quot; &quot;A03&quot; &quot;A04&quot; ...</span>
 <span class="co">#&gt;  $ Drug         : chr  &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...</span>
 <span class="co">#&gt;  $ Concentration: num  1.00e+02 2.00e+01 4.00 8.00e-01 1.60e-01 3.20e-02 6.40e-03 1.28e-03 2.56e-04 5.12e-05 ...</span>
 <span class="co">#&gt;  $ Bacteria     : chr  &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; ...</span>
 <span class="co">#&gt;  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...</span>
-<span class="co">#&gt;  $ Plate        : chr  &quot;Experiment 1&quot; &quot;Experiment 1&quot; &quot;Experiment 1&quot; &quot;Experiment 1&quot; ...</span>
 
 <span class="kw">head</span>(data)
 <span class="co">#&gt; Source: local data frame [6 x 6]</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;   Wells  Drug Concentration Bacteria Killing        Plate</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;   &lt;dbl&gt;        &lt;chr&gt;</span>
-<span class="co">#&gt; 1   A01     A       100.000  E. coli      98 Experiment 1</span>
-<span class="co">#&gt; 2   A02     A        20.000  E. coli      95 Experiment 1</span>
-<span class="co">#&gt; 3   A03     A         4.000  E. coli      92 Experiment 1</span>
-<span class="co">#&gt; 4   A04     A         0.800  E. coli      41 Experiment 1</span>
-<span class="co">#&gt; 5   A05     A         0.160  E. coli      17 Experiment 1</span>
-<span class="co">#&gt; 6   A06     A         0.032  E. coli       2 Experiment 1</span></code></pre></div>
+<span class="co">#&gt;          Plate Wells  Drug Concentration Bacteria Killing</span>
+<span class="co">#&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Experiment 1   A01     A       100.000  E. coli      98</span>
+<span class="co">#&gt; 2 Experiment 1   A02     A        20.000  E. coli      95</span>
+<span class="co">#&gt; 3 Experiment 1   A03     A         4.000  E. coli      92</span>
+<span class="co">#&gt; 4 Experiment 1   A04     A         0.800  E. coli      41</span>
+<span class="co">#&gt; 5 Experiment 1   A05     A         0.160  E. coli      17</span>
+<span class="co">#&gt; 6 Experiment 1   A06     A         0.032  E. coli       2</span></code></pre></div>
 </div>
 
 

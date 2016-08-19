@@ -4,14 +4,14 @@
 \alias{add_plate}
 \title{Read a plateR-formatted file and combine it with an existing data frame.}
 \usage{
-add_plate(file, data, well_ids_column)
+add_plate(data, file, well_ids_column)
 }
 \arguments{
-\item{file}{The path of a .csv file formatted as described in 
-\code{\link{read_plate}}.}
-
 \item{data}{The data frame to merge the file into. Must contain a column with
 well names.}
+
+\item{file}{The path of a .csv file formatted as described in 
+\code{\link{read_plate}}.}
 
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
@@ -39,8 +39,8 @@ plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plateR
 
 # Combine the two
 data <- add_plate(
-   file = plate_shaped,
    data = data, 
+   file = plate_shaped,
    well_ids_column = "Wells")
 
 # Now data are tidy
