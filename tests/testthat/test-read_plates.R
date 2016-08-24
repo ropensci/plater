@@ -59,4 +59,9 @@ for (i in c(12, 24, 48, 96, 384)) {
          paste0(path, c("read_plates-validOne.csv", "incorrectRowLabels.csv"))), 
       "in file 'incorrectRowLabels'")
    })
+   
+   test_that("read_plates works with a plate containing only one well", {
+      result <- read_plates(paste0(path, c(plates[1], "oneWell"), ".csv"))
+      expect_true(all(is.na(result$values) | result$values == "singleton"))
+   })
 }

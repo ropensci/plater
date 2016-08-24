@@ -115,6 +115,29 @@ for (i in c(12, 24, 48, 96, 384)) {
          "tbl_df")
    })
    
+   test_that("add_plate works for plate with single element with full plate df", {
+      filename <- paste0(path, "oneWell.csv")
+      complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
+      complete$d <- as.character(complete$d)
+      
+      result <- add_plate(complete, filename, "wells")
+      
+      expect_that(as.character(result$wells), is_identical_to(get_well_ids(i)))
+      r <- is.na(result$values) | result$values == "singleton"
+      expect_that(all(r), is_true())
+   })
+   
+   test_that("add_plate works for plate with single element with single well df", {
+      filename <- paste0(path, "oneWell.csv")
+      complete <- data.frame(wells = "A01", d = "A")
+      complete$d <- as.character(complete$d)
+      
+      result <- add_plate(complete, filename, "wells")
+      
+      expect_that(as.character(result$wells), is_identical_to("A01"))
+      expect_that(result$values, is_identical_to("singleton"))
+   })
+   
    ################################################################################
    context("testing add_plate-wrong_wells_error_message()")
    ################################################################################

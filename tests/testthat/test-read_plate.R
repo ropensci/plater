@@ -42,6 +42,14 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(result$values[1:3], is_identical_to(c("#a", "`abc", "~")))
    })
    
+   test_that("read_plate works with single well", {
+      filename <- paste0(path, "oneWell.csv")
+      
+      result <- read_plate(filename, "wells")
+      
+      expect_that(result$values, is_identical_to("singleton"))
+   })
+   
    ################################################################################
    context("testing read_plate-calculate_number_of_plates()")
    ################################################################################
