@@ -53,7 +53,7 @@ convert_plate_to_column <- function(plate, plate_size) {
 # returns:     a data frame created from the plate
 plate_text_to_data_frame <- function(plate) {
    utils::read.table(textConnection(plate), sep = ",", 
-      na.strings = "", stringsAsFactors = FALSE)
+      na.strings = "", stringsAsFactors = FALSE, comment.char = "")
 }
 
 # requires:    plate is non-null
