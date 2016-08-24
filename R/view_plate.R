@@ -149,7 +149,7 @@ fill_in_missing_well_ids <- function(data, well_ids_column, plate_size) {
    colnames(temp) <- c(original_names, well_ids_column)
    
    # if user provided factor wellIds, make sure full set of levels are there 
-   if (is.factor(data$wells)) {
+   if (is.factor(data[[well_ids_column]])) {
       data[, well_ids_column] <- factor(data[, well_ids_column], levels = complete)
       temp[, well_ids_column] <- factor(temp[, well_ids_column], levels = complete)
    }
