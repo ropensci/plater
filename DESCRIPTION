@@ -10,16 +10,16 @@ Description: Tools for interacting with data in the form of microtiter plates.
     for analysis.
 Depends:
     R (>= 3.1.0)
-License: GPL-3
-LazyData: true
+Imports:
+    utils,
+    dplyr
 Suggests:
     testthat,
     knitr,
     rmarkdown
+License: GPL-3
+LazyData: true
 URL: https://github.com/seaaan/plateR
 BugReports: https://github.com/seaaan/plateR/issues
 VignetteBuilder: knitr
-Imports:
-    utils,
-    dplyr
 RoxygenNote: 5.0.1
