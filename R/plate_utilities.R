@@ -9,8 +9,9 @@ get_well_ids <- function(plate_size) {
    cols <- number_of_columns(plate_size) # stops if not 12, 24, 48, 96, 384
    rows <- number_of_rows(plate_size)
    
-   wells <- sapply(formatC(1:cols, width = 2, flag = "0"), 
-      FUN = function(i) paste(LETTERS[1:rows], i, sep = ""))
+   wells <- vapply(formatC(1:cols, width = 2, flag = "0"), 
+      FUN = function(i) paste(LETTERS[1:rows], i, sep = ""), 
+      FUN.VALUE = rep("character", rows))
    wells <- as.vector(t(wells))
    return(wells)
 }

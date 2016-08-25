@@ -37,8 +37,8 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
       stop("files and plate_names must have the same length.")
    }
    
-   list_of_data_frames <- mapply(
-      FUN = function(file, plate_name) { 
+   list_of_data_frames <- Map(
+      f = function(file, plate_name) { 
          
          tryCatch(
             expr = { 
@@ -52,7 +52,7 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
                stop(e, call. = FALSE)
             })
          
-      }, files, plate_names, SIMPLIFY = FALSE
+      }, files, plate_names
    )
    
    result <- dplyr::bind_rows(list_of_data_frames)

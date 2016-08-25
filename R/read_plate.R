@@ -93,8 +93,7 @@ convert_all_layouts <- function(raw_file_list, plate_size) {
       )
    }
    
-   mapply(FUN = convert, raw_file_list, 1:length(raw_file_list), 
-      SIMPLIFY = FALSE)
+   Map(f = convert, raw_file_list, 1:length(raw_file_list))
 }
 
 # Calculate the number of plates contained in the file.
@@ -163,7 +162,8 @@ get_list_of_plate_layouts <- function(file, plate_size) {
 # @return result with any duplicated names replaced
 check_unique_plate_names <- function(result) {
    # get plate names
-   plate_names <- sapply(result, FUN = function(x) colnames(x)[2])
+   plate_names <- vapply(result, FUN = function(x) colnames(x)[2], 
+      FUN.VALUE = "character")
    
    if(any(duplicated(plate_names))) {
       duplicates <- which(duplicated(plate_names))
