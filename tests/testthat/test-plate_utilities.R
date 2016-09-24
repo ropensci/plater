@@ -224,3 +224,86 @@ test_that("invalid single column",
 test_that("invalid double column", 
    expect_error(validate_column_is_in_data(d, c("ColumnD", "ColumnE")), 
       "There are no columns named ColumnD, ColumnE in your data frame."))
+
+################################################################################
+context("testing plate_utilities-check_file_path()")
+################################################################################
+# check_file_path
+test_that("invalid file path", 
+  expect_error(check_file_path("fake_path.csv"), 
+    "Sorry, can't find your file 'fake_path.csv'."))
+
+test_that("NULL file path", 
+  expect_error(check_file_path(NULL), 
+    "Sorry, can't find your file ''."))
+
+test_that("bad file extension", 
+  expect_error(check_file_path("testData/file-path-tests/bad_extension"),
+    "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
+
+test_that("valid file", 
+  expect_silent(check_file_path("testData/96/allWellIds.csv")))
+
+# these valid file paths are not valid CSV files so should only be checked with
+# check_file_path, not with read_plate, etc, because they'll fail later checks
+test_that("valid files with various extensions", 
+  expect_silent(c(
+    check_file_path("testData/file-path-tests/good_extension.CSV"),
+    check_file_path("testData/file-path-tests/good_extension.CsV"),
+    check_file_path("testData/file-path-tests/good_extension.csv"))))
+
+# check_file_path in context of read_plate
+test_that("invalid file path with read_plate", 
+  expect_error(read_plate("fake_path.csv"), 
+    "Sorry, can't find your file 'fake_path.csv'."))
+
+test_that("NULL file path with read_plate", 
+  expect_error(read_plate(NULL), 
+    "Sorry, can't find your file ''."))
+
+test_that("bad file extension with read_plate", 
+  expect_error(read_plate("testData/file-path-tests/bad_extension"),
+    "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
+
+test_that("valid file with read_plate", 
+  expect_silent(read_plate("testData/96/allWellIds.csv")))
+
+# check_file_path in context of read_plates
+test_that("invalid file path with read_plates", 
+  expect_error(read_plates(c("fake_path.csv", "testData/96/allWellIds.csv")), 
+    "Sorry, can't find your file 'fake_path.csv'."))
+
+test_that("invalid file path with read_plates reverse order", 
+  expect_error(read_plates(c("testData/96/allWellIds.csv", "fake_path.csv")), 
+    "Sorry, can't find your file 'fake_path.csv'."))
+
+test_that("bad file extension with read_plates", 
+  expect_error(
+    read_plates(c("testData/file-path-tests/bad_extension", "testData/96/allWellIds.csv")),
+    "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
+
+test_that("bad file extension with read_plates reverse order", 
+  expect_error(
+    read_plates(c("testData/96/allWellIds.csv", "testData/file-path-tests/bad_extension")),
+    "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
+
+test_that("valid file with read_plates", 
+  expect_silent(read_plates(c("testData/96/allWellIds.csv", "testData/96/allWellIds.csv"))))
+
+# check_file_path in context of add_plate
+add_plate_dummy_df <- data.frame(wells = get_well_ids(96))
+
+test_that("invalid file path with add_plate", 
+  expect_error(add_plate(add_plate_dummy_df, "fake_path.csv"), 
+    "Sorry, can't find your file 'fake_path.csv'."))
+
+test_that("NULL file path with add_plate", 
+  expect_error(add_plate(add_plate_dummy_df, NULL), 
+    "Sorry, can't find your file ''."))
+
+test_that("bad file extension with add_plate", 
+  expect_error(add_plate(add_plate_dummy_df, "testData/file-path-tests/bad_extension"),
+    "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
+
+test_that("valid file with add_plate", 
+  expect_silent(add_plate(add_plate_dummy_df, "testData/96/allWellIds.csv", "wells")))

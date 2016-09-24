@@ -139,3 +139,19 @@ guess_plate_size <- function(file) {
    
    get_plate_size_from_number_of_columns(number_of_columns)
 }
+
+# Check if the file exists
+#
+# Throws an error if the file doesn't exist or doesn't in with csv (regardless of
+# capitalization).
+#
+check_file_path <- function(file) {
+  if (is.null(file) || !file.exists(file)) {
+    stop(paste0("Sorry, can't find your file '", file, "'."), call. = FALSE)
+  }
+  
+  if (!(grepl("[Cc][Ss][Vv]$", file))) {
+    stop(paste0("Sorry, '", file, "' doesn't have a proper CSV file extension."),
+      call. = FALSE)
+  }
+}

@@ -29,6 +29,9 @@
 #' # Data from both plates are tidy and in the same data frame
 #' head(data)
 read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
+   # check that all file paths are valid
+   lapply(files, check_file_path)
+  
    if(is.null(plate_names)) {
       plate_names <- generate_plate_names(files)
    }
