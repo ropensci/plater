@@ -55,6 +55,7 @@
 #' head(data)
 read_plate <- function(file, well_ids_column = "Wells") {
    check_file_path(file)
+   check_well_ids_column_name(well_ids_column)
   
    plate_size <- guess_plate_size(file)
    

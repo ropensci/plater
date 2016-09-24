@@ -307,3 +307,48 @@ test_that("bad file extension with add_plate",
 
 test_that("valid file with add_plate", 
   expect_silent(add_plate(add_plate_dummy_df, "testData/96/allWellIds.csv", "wells")))
+
+################################################################################
+context("testing plate_utilities-check_well_ids_column_name()")
+################################################################################
+test_that("invalid well ids column name", 
+  expect_error(check_well_ids_column_name(""), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(check_well_ids_column_name(NULL), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(read_plate("testData/96/allWellIds.csv", well_ids_column = NULL), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(read_plate("testData/96/allWellIds.csv", well_ids_column = ""), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(add_plate(data.frame(xyz = 1), 
+    "testData/96/allWellIds.csv", well_ids_column = ""), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(add_plate(data.frame(xyz = 1), "testData/96/allWellIds.csv", 
+    well_ids_column = NULL), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(read_plates("testData/96/allWellIds.csv", well_ids_column = ""), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(read_plates("testData/96/allWellIds.csv", well_ids_column = NULL), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(view_plate(data.frame(test = 1), "", "zing"), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))
+
+test_that("invalid well ids column name", 
+  expect_error(view_plate(data.frame(test = 1), NULL, "zing"), 
+    "Sorry, well_ids_column must not be NULL or an empty string."))

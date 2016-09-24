@@ -26,6 +26,7 @@
 view_plate <- function(data, well_ids_column, column_to_display, 
                       plate_size = 96) {
    # validate column names
+   check_well_ids_column_name(well_ids_column)
    validate_column_is_in_data(data, c(well_ids_column, column_to_display))
 
    n_rows <- number_of_rows(plate_size) # stops if not 12, 24, 48, 96 or 384

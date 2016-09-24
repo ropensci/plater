@@ -47,6 +47,7 @@ add_plate <- function(data, file, well_ids_column) {
    class(data) <- class(data)[!(class(data) %in% c("tbl_df", "tbl"))]
    
    # validate well_ids_column
+   check_well_ids_column_name(well_ids_column)
    validate_column_is_in_data(data, well_ids_column)
    
    # validate well IDs

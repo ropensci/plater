@@ -31,7 +31,9 @@
 read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    # check that all file paths are valid
    lapply(files, check_file_path)
-  
+   
+  check_well_ids_column_name(well_ids_column)
+    
    if(is.null(plate_names)) {
       plate_names <- generate_plate_names(files)
    }

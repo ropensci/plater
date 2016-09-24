@@ -155,3 +155,13 @@ check_file_path <- function(file) {
       call. = FALSE)
   }
 }
+
+# Check if well_ids_column is a valid string
+#
+# Throws an error if well_ids_column is null or an empty string
+check_well_ids_column_name <- function(well_ids_column) {
+  if (is.null(well_ids_column) || well_ids_column == "") {
+    stop("Sorry, well_ids_column must not be NULL or an empty string.",
+      call. = FALSE)
+  }
+}
