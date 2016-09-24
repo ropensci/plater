@@ -56,7 +56,8 @@
 read_plate <- function(file, well_ids_column = "Wells") {
    check_file_path(file)
    check_well_ids_column_name(well_ids_column)
-  
+   check_that_file_is_non_empty(file)
+   
    plate_size <- guess_plate_size(file)
    
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)

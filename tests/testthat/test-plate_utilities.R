@@ -352,3 +352,26 @@ test_that("invalid well ids column name",
 test_that("invalid well ids column name", 
   expect_error(view_plate(data.frame(test = 1), NULL, "zing"), 
     "Sorry, well_ids_column must not be NULL or an empty string."))
+
+################################################################################
+context("testing plate_utilities-check_that_file_is_non_empty()")
+################################################################################
+test_that("empty file should fail", 
+  expect_error(check_that_file_is_non_empty("testData/file-path-tests/good_extension.csv"), 
+    "is empty and must not be."))
+
+test_that("empty file should fail", 
+  expect_error(read_plate("testData/file-path-tests/good_extension.csv"), 
+    "is empty and must not be."))
+
+test_that("empty file should fail", 
+  expect_error(read_plates(c("testData/file-path-tests/good_extension.csv", "testData/96/allWellIds.csv")), 
+    "is empty and must not be."))
+
+test_that("empty file should fail", 
+  expect_error(read_plates(c("testData/96/allWellIds.csv", "testData/file-path-tests/good_extension.csv")), 
+    "is empty and must not be."))
+
+test_that("empty file should fail", 
+  expect_error(add_plate(data.frame(x = 1), "testData/file-path-tests/good_extension.csv", "wells"), 
+    "is empty and must not be."))

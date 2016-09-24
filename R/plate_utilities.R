@@ -165,3 +165,12 @@ check_well_ids_column_name <- function(well_ids_column) {
       call. = FALSE)
   }
 }
+
+# Check if the file is empty.
+#
+# Throws an error if the file is empty.
+check_that_file_is_non_empty <- function(file) {
+  if (length(readLines(file)) == 0) {
+    stop(paste0("Sorry, '", file, "' is empty and must not be."), call. = FALSE)
+  }
+}
