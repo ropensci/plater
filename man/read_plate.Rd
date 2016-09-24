@@ -39,8 +39,7 @@ ColName      \tab \strong{1} \tab \strong{2} \tab \strong{3} \tab \strong{...}\c
 
 In this example, the cells within the plate contain the well IDs ("A01", 
 "A02"), but they may contain arbitrary characters: numbers, letters, or 
-punctuation, excepting the R comment character "#". Any cell may also be 
-blank.
+punctuation. Any cell may also be blank.
 
 Note that Microsoft Excel will sometimes include cells that appear to be 
 blank in the .csv files it produces, so the files may have spurious columns
