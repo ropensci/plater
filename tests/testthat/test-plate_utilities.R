@@ -375,3 +375,18 @@ test_that("empty file should fail",
 test_that("empty file should fail", 
   expect_error(add_plate(data.frame(x = 1), "testData/file-path-tests/good_extension.csv", "wells"), 
     "is empty and must not be."))
+
+################################################################################
+context("testing plate_utilities-check_that_file_is_non_empty()")
+################################################################################
+test_that("only one file is provided", 
+  expect_error(check_that_only_one_file_is_provided(c("testData/96/allWellIds.csv", "testData/96/allWellIds.csv")), 
+    "Sorry, only one file should be provided"))
+
+test_that("only one file is provided", 
+  expect_error(read_plate(c("testData/96/allWellIds.csv", "testData/96/allWellIds.csv")), 
+    "Sorry, only one file should be provided"))
+
+test_that("only one file is provided", 
+  expect_error(add_plate(data.frame(x = 1), c("testData/96/allWellIds.csv", "testData/96/allWellIds.csv")), 
+    "Sorry, only one file should be provided"))

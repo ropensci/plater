@@ -174,3 +174,13 @@ check_that_file_is_non_empty <- function(file) {
     stop(paste0("Sorry, '", file, "' is empty and must not be."), call. = FALSE)
   }
 }
+
+# Check if more than one file is provided
+#
+# Throws an error if multiple files are provided
+check_that_only_one_file_is_provided <- function(file) {
+  if (length(file) > 1) {
+    stop(paste0("Sorry, only one file should be provided, but you provided ", 
+                "multiple. Maybe you wanted read_plates()?"), call. = FALSE)
+  }
+}
