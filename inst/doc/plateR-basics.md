@@ -43,6 +43,8 @@ The format is pretty simple:
 
 You can use `plateR` format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
 
+While creating a file in `plateR` format, it can be helpful to check whether you're doing it right. For that purpose, you can pass the path of the file to `check_plateR_format()`, which will check that the format is correct and diagnose any problems.
+
 Step 2: Read in the data
 ------------------------
 

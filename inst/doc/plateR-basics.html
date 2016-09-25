@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-09-24" />
+<meta name="date" content="2016-09-25" />
 
 <title>Getting started with plateR</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-09-24</em></h4>
+<h4 class="date"><em>2016-09-25</em></h4>
 </div>
 
 
@@ -94,6 +94,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>One line between layouts (This row should appear as blank in a spreadsheet editor, but as a row of commas when viewed as plain text.)</li>
 </ul>
 <p>You can use <code>plateR</code> format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it’s omitted. If it’s blank in some but not others, it’ll get <code>NA</code> where it’s blank.</p>
+<p>While creating a file in <code>plateR</code> format, it can be helpful to check whether you’re doing it right. For that purpose, you can pass the path of the file to <code>check_plateR_format()</code>, which will check that the format is correct and diagnose any problems.</p>
 </div>
 <div id="step-2-read-in-the-data" class="section level2">
 <h2>Step 2: Read in the data</h2>
@@ -121,15 +122,13 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
 <span class="co">#&gt;  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...</span>
 
 <span class="kw">head</span>(data)
-<span class="co">#&gt; # A tibble: 6 x 5</span>
-<span class="co">#&gt;   Wells  Drug Concentration Bacteria Killing</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1   A01     A       100.000  E. coli      98</span>
-<span class="co">#&gt; 2   A02     A        20.000  E. coli      95</span>
-<span class="co">#&gt; 3   A03     A         4.000  E. coli      92</span>
-<span class="co">#&gt; 4   A04     A         0.800  E. coli      41</span>
-<span class="co">#&gt; 5   A05     A         0.160  E. coli      17</span>
-<span class="co">#&gt; 6   A06     A         0.032  E. coli       2</span></code></pre>
+<span class="co">#&gt;   Wells Drug Concentration Bacteria Killing</span>
+<span class="co">#&gt; 1   A01    A       100.000  E. coli      98</span>
+<span class="co">#&gt; 2   A02    A        20.000  E. coli      95</span>
+<span class="co">#&gt; 3   A03    A         4.000  E. coli      92</span>
+<span class="co">#&gt; 4   A04    A         0.800  E. coli      41</span>
+<span class="co">#&gt; 5   A05    A         0.160  E. coli      17</span>
+<span class="co">#&gt; 6   A06    A         0.032  E. coli       2</span></code></pre>
 <p>So what happened? <code>read_plate()</code> read in the <code>plateR</code> format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named “Wells” with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.</p>
 </div>
 <div id="step-2-again-combine-a-one-well-per-row-file-and-a-plater-format-file-with-add_plate" class="section level3">
@@ -169,15 +168,13 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 <span class="co">#&gt;  $ Bacteria     : chr  &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; ...</span>
 
 <span class="kw">head</span>(data2)
-<span class="co">#&gt; # A tibble: 6 x 5</span>
-<span class="co">#&gt;    Wells Killing  Drug Concentration Bacteria</span>
-<span class="co">#&gt;   &lt;fctr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1    A01      98     A       100.000  E. coli</span>
-<span class="co">#&gt; 2    A02      95     A        20.000  E. coli</span>
-<span class="co">#&gt; 3    A03      92     A         4.000  E. coli</span>
-<span class="co">#&gt; 4    A04      41     A         0.800  E. coli</span>
-<span class="co">#&gt; 5    A05      17     A         0.160  E. coli</span>
-<span class="co">#&gt; 6    A06       2     A         0.032  E. coli</span></code></pre>
+<span class="co">#&gt;   Wells Killing Drug Concentration Bacteria</span>
+<span class="co">#&gt; 1   A01      98    A       100.000  E. coli</span>
+<span class="co">#&gt; 2   A02      95    A        20.000  E. coli</span>
+<span class="co">#&gt; 3   A03      92    A         4.000  E. coli</span>
+<span class="co">#&gt; 4   A04      41    A         0.800  E. coli</span>
+<span class="co">#&gt; 5   A05      17    A         0.160  E. coli</span>
+<span class="co">#&gt; 6   A06       2    A         0.032  E. coli</span></code></pre>
 <p><code>add_plate</code> then makes it easy to store data in a mix of formats, in some cases tidy and in some cases plate-shaped, which is the reality of many experiments.</p>
 </div>
 </div>

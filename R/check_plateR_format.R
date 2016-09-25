@@ -1,0 +1,45 @@
+#' Check whether a file is in plateR format. 
+#' 
+#' Runs the provided file through a number of diagnostics to determine whether
+#' it is a valid plateR format file and displays information about any 
+#' deficiencies found. 
+#' 
+#' @param file The path of the file to check
+#' @return Displays a number of messages as it checks the file. Will stop with
+#' a descriptive error message if the file is not formatted correctly. 
+#' 
+#' @export
+#' @examples 
+#' file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+#' 
+#' data <- check_plateR_format(file_path)
+check_plateR_format <- function(file) {
+  check <- function(description, f) {
+    message(paste0("* ", description, " ... ", collapse = ""), appendLF = FALSE)
+    result <- tryCatch(
+      expr = f(), 
+      error = function(e) {
+        # new line
+        message("problem.")
+        stop(e)
+      })
+    message("good!")
+    result
+  }
+  
+  check("Checking file path", function() check_file_path(file))
+  
+  check("Checking that file is not empty", 
+    function() check_that_file_is_non_empty(file))
+  
+  plate_size <- check("Checking valid column labels", 
+    function() guess_plate_size(file))
+  
+  raw_file_list <- check("Checking file length and number of plate layouts",
+    function() get_list_of_plate_layouts(file, plate_size))
+  
+  result <- check("Checking plate dimensions and row labels", 
+    function() convert_all_layouts(raw_file_list, plate_size))
+  
+  message("Success!")
+}
