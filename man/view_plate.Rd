@@ -4,7 +4,7 @@
 \alias{view_plate}
 \title{Displays the data in the form of a microtiter plate.}
 \usage{
-view_plate(data, well_ids_column, column_to_display, plate_size = 96)
+view_plate(data, well_ids_column, columns_to_display, plate_size = 96)
 }
 \arguments{
 \item{data}{A data frame containing the data}
@@ -12,13 +12,14 @@ view_plate(data, well_ids_column, column_to_display, plate_size = 96)
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
 
-\item{column_to_display}{The column containing the data to display.}
+\item{columns_to_display}{A vector of the names of one or more columns you'd
+like to display.}
 
 \item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
 384. Default 96.}
 }
 \value{
-A depiction of the data in \code{column_to_display} as 
+A depiction of the data in \code{columns_to_display} as 
 though laid out on a microtiter plate with \code{plate_size} wells.
 }
 \description{
@@ -31,10 +32,8 @@ Species = rep(c("Alien", "Human", "Cat"), 4),
 OxygenProduction = round(rnorm(12), 3))
 head(data)
 
-# See which had cells from which species
-view_plate(data, "Wells", "Species", 12)
-
-# See oxygen production from the different wells
-view_plate(data, "Wells", "OxygenProduction", 12)
+# See which wells had cells from which species and the amount of oxygen 
+# produced for each well
+view_plate(data, "Wells", c("Species", "OxygenProduction"), 12)
 }
 

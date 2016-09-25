@@ -2,13 +2,14 @@
 #'
 #' @inheritParams read_plate
 #' @param data A data frame containing the data
-#' @param column_to_display The column containing the data to display.
+#' @param columns_to_display A vector of the names of one or more columns you'd
+#' like to display.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
 #' @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
 #'  384. Default 96.
 #' @inheritParams read_plate
-#' @return A depiction of the data in \code{column_to_display} as 
+#' @return A depiction of the data in \code{columns_to_display} as 
 #' though laid out on a microtiter plate with \code{plate_size} wells.
 #' @export
 #' @examples 
@@ -18,40 +19,50 @@
 #' OxygenProduction = round(rnorm(12), 3))
 #' head(data)
 #' 
-#' # See which had cells from which species
-#' view_plate(data, "Wells", "Species", 12)
-#' 
-#' # See oxygen production from the different wells
-#' view_plate(data, "Wells", "OxygenProduction", 12)
-view_plate <- function(data, well_ids_column, column_to_display, 
+#' # See which wells had cells from which species and the amount of oxygen 
+#' # produced for each well
+#' view_plate(data, "Wells", c("Species", "OxygenProduction"), 12)
+view_plate <- function(data, well_ids_column, columns_to_display, 
                       plate_size = 96) {
    # validate column names
    check_well_ids_column_name(well_ids_column)
-   validate_column_is_in_data(data, c(well_ids_column, column_to_display))
+   validate_column_is_in_data(data, c(well_ids_column, columns_to_display))
 
    n_rows <- number_of_rows(plate_size) # stops if not 12, 24, 48, 96 or 384
    n_columns <- number_of_columns(plate_size)
    
    # convert well IDs to character; if factor, order can be wrong
-   data[ , well_ids_column] <- as.character(data[ , well_ids_column])
+   data[ , well_ids_column] <- as.character(data[[well_ids_column]])
    
    # ensure the well IDs are correct
    data <- ensure_correct_well_ids(data, well_ids_column, plate_size)
    
-   # transform
-   # sort by wellIds 
-   data <- data[order(data[ , well_ids_column]), ]
+   # display one layout
+   result <- lapply(columns_to_display, function(x) {
+      display_one_layout(data, well_ids_column, x, n_rows, n_columns)
+    })
    
-   # get data to display and replace NA with '.'
-   to_display <- as.character(data[[column_to_display]])
-   to_display <- ifelse(is.na(to_display), ".", to_display)
+   names(result) <- columns_to_display
    
-   # create result and name rows and columns
-   result <- data.frame(matrix(to_display, nrow = n_rows, byrow = TRUE))
-   rownames(result) <- LETTERS[1:n_rows]
-   colnames(result) <- 1:n_columns
-   
-   return(result)
+   result
+}
+
+display_one_layout <- function(data, well_ids_column, column_to_display, 
+    n_rows, n_columns) {
+  # transform
+  # sort by wellIds 
+  data <- data[order(data[[well_ids_column]]), ]
+  
+  # get data to display and replace NA with '.'
+  to_display <- as.character(data[[column_to_display]])
+  to_display <- ifelse(is.na(to_display), ".", to_display)
+  
+  # create result and name rows and columns
+  result <- data.frame(matrix(to_display, nrow = n_rows, byrow = TRUE))
+  rownames(result) <- LETTERS[1:n_rows]
+  colnames(result) <- 1:n_columns
+  
+  result
 }
 
 # Returns \code{data} with updated well IDs if needed.
