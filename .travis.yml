@@ -1,7 +1,10 @@
 language: r
 warnings_are_errors: true
-sudo: required
+sudo: false
 cache: packages
+r: 
+  - release
+  - devel
 
 r_packages:
-   - rmarkdown
+  - rmarkdown
