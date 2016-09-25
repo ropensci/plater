@@ -56,3 +56,10 @@ str(data)
 
 head(data)
 
+## ------------------------------------------------------------------------
+view_plate(
+  data = data2, 
+  well_ids_column = "Wells", 
+  columns_to_display = c("Concentration", "Killing")
+)
+

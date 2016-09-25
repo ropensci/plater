@@ -160,8 +160,7 @@ str(data)
 #>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
 
 head(data)
-#> Source: local data frame [6 x 6]
-#> 
+#> # A tibble: 6 x 6
 #>          Plate Wells  Drug Concentration Bacteria Killing
 #>          <chr> <chr> <chr>         <dbl>    <chr>   <dbl>
 #> 1 Experiment 1   A01     A       100.000  E. coli      98
@@ -170,4 +169,40 @@ head(data)
 #> 4 Experiment 1   A04     A         0.800  E. coli      41
 #> 5 Experiment 1   A05     A         0.160  E. coli      17
 #> 6 Experiment 1   A06     A         0.032  E. coli       2
+```
+
+Viewing plate-shaped data
+-------------------------
+
+Sometimes it's useful to look back at the data in plate shape. Was there something weird about that one column? Was there contamination all in one corner of the plate?
+
+For this, use `view_plate()` which takes a tidy data frame and displays columns from it as plate layouts.
+
+``` r
+view_plate(
+  data = data2, 
+  well_ids_column = "Wells", 
+  columns_to_display = c("Concentration", "Killing")
+)
+#> $Concentration
+#>     1  2 3   4    5     6      7       8        9       10        11 12
+#> A 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> B 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> C 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> D 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> E 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> F 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> G 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> H 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0
+#> 
+#> $Killing
+#>     1   2   3   4   5   6   7   8   9  10  11  12
+#> A  98  95  92  41  17   2 1.5 1.8   1 0.5 0.5 0.3
+#> B  15   8   3 1.2 1.1 0.8 1.2 0.4 0.6 0.1 0.2 0.4
+#> C  72  21   7 1.1 0.8 1.3 0.2 1.8   1 0.2 0.4 0.2
+#> D 0.4 0.2 0.1 0.5 0.3 0.2 0.1 0.1 0.5 0.5 0.3 0.4
+#> E  37   7   2 0.3 0.2 0.4 0.6 0.1   1 0.2 0.4 0.2
+#> F  99  99  99  99  99  61   5 2.2 1.3 0.2 0.3 0.2
+#> G  99  33   4 0.5 0.3 0.2 0.2 0.3 0.2 0.2 0.4 0.2
+#> H  98  99  99  97  98  99  98  97  65  22   8 0.5
 ```

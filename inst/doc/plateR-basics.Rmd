@@ -137,3 +137,17 @@ str(data)
 
 head(data)
 ```
+
+## Viewing plate-shaped data
+
+Sometimes it's useful to look back at the data in plate shape. Was there something weird about that one column? Was there contamination all in one corner of the plate? 
+
+For this, use `view_plate()` which takes a tidy data frame and displays columns from it as plate layouts. 
+
+```{r}
+view_plate(
+  data = data2, 
+  well_ids_column = "Wells", 
+  columns_to_display = c("Concentration", "Killing")
+)
+```

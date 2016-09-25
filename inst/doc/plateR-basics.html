@@ -10,7 +10,7 @@
 
 <meta name="author" content="Sean Hughes" />
 
-<meta name="date" content="2016-08-18" />
+<meta name="date" content="2016-09-24" />
 
 <title>Getting started with plateR</title>
 
@@ -18,41 +18,23 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -61,7 +43,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </style>
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -72,7 +54,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Getting started with <code>plateR</code></h1>
 <h4 class="author"><em>Sean Hughes</em></h4>
-<h4 class="date"><em>2016-08-18</em></h4>
+<h4 class="date"><em>2016-09-24</em></h4>
 </div>
 
 
@@ -122,7 +104,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="step-2-read-a-single-plater-format-file-with-read_plate" class="section level3">
 <h3>Step 2: Read a single <code>plateR</code> format file with <code>read_plate()</code></h3>
 <p>Here is how it works. (Note that below we use <code>system.file()</code> here to get the file path of the example file, but for your own files you would specify the file path without using <code>system.file()</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">file_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-1.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+<pre class="sourceCode r"><code class="sourceCode r">file_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-1.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
    
 data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
       <span class="dt">file =</span> file_path,             <span class="co"># full path to the .csv file</span>
@@ -137,23 +119,20 @@ data &lt;-<span class="st"> </span><span class="kw">read_plate</span>(
 <span class="co">#&gt;  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...</span>
 
 <span class="kw">head</span>(data)
-<span class="co">#&gt; Source: local data frame [6 x 5]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Wells  Drug Concentration Bacteria Killing</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1   A01     A       100.000  E. coli      98</span>
-<span class="co">#&gt; 2   A02     A        20.000  E. coli      95</span>
-<span class="co">#&gt; 3   A03     A         4.000  E. coli      92</span>
-<span class="co">#&gt; 4   A04     A         0.800  E. coli      41</span>
-<span class="co">#&gt; 5   A05     A         0.160  E. coli      17</span>
-<span class="co">#&gt; 6   A06     A         0.032  E. coli       2</span></code></pre></div>
+<span class="co">#&gt;   Wells Drug Concentration Bacteria Killing</span>
+<span class="co">#&gt; 1   A01    A       100.000  E. coli      98</span>
+<span class="co">#&gt; 2   A02    A        20.000  E. coli      95</span>
+<span class="co">#&gt; 3   A03    A         4.000  E. coli      92</span>
+<span class="co">#&gt; 4   A04    A         0.800  E. coli      41</span>
+<span class="co">#&gt; 5   A05    A         0.160  E. coli      17</span>
+<span class="co">#&gt; 6   A06    A         0.032  E. coli       2</span></code></pre>
 <p>So what happened? <code>read_plate()</code> read in the <code>plateR</code> format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named “Wells” with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.</p>
 </div>
 <div id="step-2-again-combine-a-one-well-per-row-file-and-a-plater-format-file-with-add_plate" class="section level3">
 <h3>Step 2 (again): Combine a one-well-per-row file and a <code>plateR</code> format file with <code>add_plate()</code></h3>
 <p>In the previous example, we assumed that the killing data was provided by the instrument in plate-shaped form, so it could just be pasted into the <code>plateR</code> format file. Sometimes, though, you’ll get data back formatted with one well per row.</p>
 <p><code>add_plate()</code> is set up to help in this situation. You provide a tidy data frame including well IDs and then you provide a <code>plateR</code> format file with the other information and <code>add_plate()</code> knits them together well-by-well. Here’s an example using the other two files installed along with <code>plateR</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">file2A &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-part-A.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
+<pre class="sourceCode r"><code class="sourceCode r">file2A &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-2-part-A.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(file2A)
 
 <span class="kw">str</span>(data2)
@@ -186,16 +165,13 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 <span class="co">#&gt;  $ Bacteria     : chr  &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; &quot;E. coli&quot; ...</span>
 
 <span class="kw">head</span>(data2)
-<span class="co">#&gt; Source: local data frame [6 x 5]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Wells Killing  Drug Concentration Bacteria</span>
-<span class="co">#&gt;   &lt;fctr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1    A01      98     A       100.000  E. coli</span>
-<span class="co">#&gt; 2    A02      95     A        20.000  E. coli</span>
-<span class="co">#&gt; 3    A03      92     A         4.000  E. coli</span>
-<span class="co">#&gt; 4    A04      41     A         0.800  E. coli</span>
-<span class="co">#&gt; 5    A05      17     A         0.160  E. coli</span>
-<span class="co">#&gt; 6    A06       2     A         0.032  E. coli</span></code></pre></div>
+<span class="co">#&gt;   Wells Killing Drug Concentration Bacteria</span>
+<span class="co">#&gt; 1   A01      98    A       100.000  E. coli</span>
+<span class="co">#&gt; 2   A02      95    A        20.000  E. coli</span>
+<span class="co">#&gt; 3   A03      92    A         4.000  E. coli</span>
+<span class="co">#&gt; 4   A04      41    A         0.800  E. coli</span>
+<span class="co">#&gt; 5   A05      17    A         0.160  E. coli</span>
+<span class="co">#&gt; 6   A06       2    A         0.032  E. coli</span></code></pre>
 <p><code>add_plate</code> then makes it easy to store data in a mix of formats, in some cases tidy and in some cases plate-shaped, which is the reality of many experiments.</p>
 </div>
 </div>
@@ -203,7 +179,7 @@ data2 &lt;-<span class="st"> </span><span class="kw">add_plate</span>(
 <h2>Multiple plates</h2>
 <p>Say you were happy with the tests of you antibiotics, so you decided to do a second experiment, testing some other common pathogenic bacteria. Now you have data from two separate plates. Rather than handling them separately, you can combine them all into a common data frame with the <code>read_plates()</code> function.</p>
 <p>Just like before, you create one <code>plateR</code> file per plate, with all the information describing the experiment. In this case, you’ll have two files, one from each experiment. Then, just read them in with <code>read_plates()</code>. You can specify names for each plate, which will become a column in the output identifying which plate the well was on. By default it’ll use the file names.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># same file as above</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># same file as above</span>
 file1 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-1.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;plateR&quot;</span>)
 
 <span class="co"># new file</span>
@@ -224,8 +200,7 @@ data &lt;-<span class="st"> </span><span class="kw">read_plates</span>(
 <span class="co">#&gt;  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...</span>
 
 <span class="kw">head</span>(data)
-<span class="co">#&gt; Source: local data frame [6 x 6]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt;          Plate Wells  Drug Concentration Bacteria Killing</span>
 <span class="co">#&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;chr&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Experiment 1   A01     A       100.000  E. coli      98</span>
@@ -233,7 +208,38 @@ data &lt;-<span class="st"> </span><span class="kw">read_plates</span>(
 <span class="co">#&gt; 3 Experiment 1   A03     A         4.000  E. coli      92</span>
 <span class="co">#&gt; 4 Experiment 1   A04     A         0.800  E. coli      41</span>
 <span class="co">#&gt; 5 Experiment 1   A05     A         0.160  E. coli      17</span>
-<span class="co">#&gt; 6 Experiment 1   A06     A         0.032  E. coli       2</span></code></pre></div>
+<span class="co">#&gt; 6 Experiment 1   A06     A         0.032  E. coli       2</span></code></pre>
+</div>
+<div id="viewing-plate-shaped-data" class="section level2">
+<h2>Viewing plate-shaped data</h2>
+<p>Sometimes it’s useful to look back at the data in plate shape. Was there something weird about that one column? Was there contamination all in one corner of the plate?</p>
+<p>For this, use <code>view_plate()</code> which takes a tidy data frame and displays columns from it as plate layouts.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">view_plate</span>(
+  <span class="dt">data =</span> data2, 
+  <span class="dt">well_ids_column =</span> <span class="st">&quot;Wells&quot;</span>, 
+  <span class="dt">columns_to_display =</span> <span class="kw">c</span>(<span class="st">&quot;Concentration&quot;</span>, <span class="st">&quot;Killing&quot;</span>)
+)
+<span class="co">#&gt; $Concentration</span>
+<span class="co">#&gt;     1  2 3   4    5     6      7       8        9       10        11 12</span>
+<span class="co">#&gt; A 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; B 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; C 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; D 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; E 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; F 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; G 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; H 100 20 4 0.8 0.16 0.032 0.0064 0.00128 0.000256 5.12e-05 1.024e-05  0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Killing</span>
+<span class="co">#&gt;     1   2   3   4   5   6   7   8   9  10  11  12</span>
+<span class="co">#&gt; A  98  95  92  41  17   2 1.5 1.8   1 0.5 0.5 0.3</span>
+<span class="co">#&gt; B  15   8   3 1.2 1.1 0.8 1.2 0.4 0.6 0.1 0.2 0.4</span>
+<span class="co">#&gt; C  72  21   7 1.1 0.8 1.3 0.2 1.8   1 0.2 0.4 0.2</span>
+<span class="co">#&gt; D 0.4 0.2 0.1 0.5 0.3 0.2 0.1 0.1 0.5 0.5 0.3 0.4</span>
+<span class="co">#&gt; E  37   7   2 0.3 0.2 0.4 0.6 0.1   1 0.2 0.4 0.2</span>
+<span class="co">#&gt; F  99  99  99  99  99  61   5 2.2 1.3 0.2 0.3 0.2</span>
+<span class="co">#&gt; G  99  33   4 0.5 0.3 0.2 0.2 0.3 0.2 0.2 0.4 0.2</span>
+<span class="co">#&gt; H  98  99  99  97  98  99  98  97  65  22   8 0.5</span></code></pre>
 </div>
 
 
