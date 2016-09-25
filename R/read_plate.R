@@ -112,15 +112,15 @@ convert_all_layouts <- function(raw_file_list, plate_size) {
 #
 # @return the number of plates in the file
 calculate_number_of_plates <- function(raw_file, number_of_rows) {
-   result <- (length(raw_file) + 1) / (number_of_rows + 2)
+   is_integer <- function(x) x %% 1 == 0 
    
-   is_integer <- function(x) x %% 1 == 0
+   result <- (length(raw_file) + 1) / (number_of_rows + 2)
    if (is_integer(result)) {
       return(result)
    } else {
-      # try not adding one (in case a blank line ends raw_file)
+      # file might end in blank line in which case we shouldn't add one
       result <- (length(raw_file)) / (number_of_rows + 2)
-      if (is_integer(result)) {
+      if (raw_file[length(raw_file)] == "" || is_integer(result)) {
          return(result)
       } else {
          stop(paste0("File length is incorrect. Must be a multiple of the ", 
