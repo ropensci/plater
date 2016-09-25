@@ -248,8 +248,8 @@ test_that("valid file",
 # check_file_path, not with read_plate, etc, because they'll fail later checks
 test_that("valid files with various extensions", 
   expect_silent(c(
-    check_file_path("testData/file-path-tests/good_extension.CSV"),
-    check_file_path("testData/file-path-tests/good_extension.CsV"),
+    check_file_path("testData/file-path-tests/good_extension_3.CSV"),
+    check_file_path("testData/file-path-tests/good_extension_2.CsV"),
     check_file_path("testData/file-path-tests/good_extension.csv"))))
 
 # check_file_path in context of read_plate
