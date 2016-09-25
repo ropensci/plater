@@ -9,10 +9,12 @@
 plateR defines a simple, plate-shaped file format for data storage, so it's 
 easy to remember the experimental design. The package provides functions to 
 seamlessly convert between that format and a tidy data frame that's optimal 
-for analysis.\cr\cr You can work with purely plate-shaped data 
-(\code{\link[plateR]{read_plate}} and \code{\link[plateR]{read_plates}}), as 
-well as with a combination of plate-shaped data and tidy data
-(\code{\link[plateR]{add_plate}}). It further allows easy plate-shaped 
-visualization of tidy data (\code{\link[plateR]{view_plate}}).
+for analysis. \code{\link[plateR]{check_plateR_format}} is provided to help 
+you manage plate-shaped files. \cr\cr You can work with purely plate-shaped 
+data (\code{\link[plateR]{read_plate}} and 
+\code{\link[plateR]{read_plates}}), as well as with a combination of 
+plate-shaped data and tidy data (\code{\link[plateR]{add_plate}}). It further
+allows easy plate-shaped visualization of tidy data 
+(\code{\link[plateR]{view_plate}}).
 }
 
