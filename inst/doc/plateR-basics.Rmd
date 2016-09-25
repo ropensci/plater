@@ -50,6 +50,10 @@ The first step is to create a file for the experiment. `plateR` format is design
 
 A `plateR` format file for the example experiment came with the package. Load `plateR` (i.e. run `library(plateR)`) and then run `system.file("extdata", package = "plateR")`. Open the folder listed there and then open `example-1.csv` in a spreadsheet editor. 
 
+An abbreviated version of that file is shown below: 
+
+![plateR format example](plateR-format-image.png)
+
 The format is pretty simple: 
 
 * .csv file
