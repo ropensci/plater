@@ -31,7 +31,7 @@ A `plateR` format file for the example experiment came with the package. Load `p
 
 An abbreviated version of that file is shown below:
 
-![plateR format example](plateR-format-image.png)
+![plateR format example](../../vignettes/plateR-format-image.png)
 
 The format is pretty simple:
 
