@@ -75,7 +75,7 @@ get_plate_size_from_number_of_columns <- function(columns) {
    
    if (length(n) == 0) {
       stop(paste0("Could not guess plate size from number of columns. ", 
-                     "Invalid number of columns: ", columns))
+                     "Invalid number of columns: ", columns), call. = FALSE)
    }
    
    n
