@@ -137,7 +137,18 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(as.character(result$wells), is_identical_to("A01"))
       expect_that(result$values, is_identical_to("singleton"))
    })
+
+   test_that("add_plate returns same class as input", {
+      filename <- paste0(path, "allWellIds.csv")
+      complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
+      class(complete) <- c(class(complete), "arbitrary")
+      
+      result <- add_plate(complete, filename, "wells")
+      expect_is(result, 
+         "arbitrary")
+   })
    
+      
    ################################################################################
    context("testing add_plate-wrong_wells_error_message()")
    ################################################################################

@@ -40,11 +40,10 @@ add_plate <- function(data, file, well_ids_column) {
       file <- temp
    }
    
-   to_add <- read_plate(file, "wellIds")
+   # save for later use
+   original_class <- class(data)
    
-   # make it not a tbl_df in order to get out a vector instead of 
-   # a column when a single colname is provided below
-   class(data) <- class(data)[!(class(data) %in% c("tbl_df", "tbl"))]
+   to_add <- read_plate(file, "wellIds")
    
    # validate well_ids_column
    check_well_ids_column_name(well_ids_column)
@@ -72,9 +71,10 @@ add_plate <- function(data, file, well_ids_column) {
          result[[well_ids_column]], 
          data[[well_ids_column]]))
    
-   class(result) <- c("tbl_df", "tbl", "data.frame")
    result <- result[user_order, ]
    
+   # add to class (use union bc it might have other classes eg grouped_df)
+   class(result) <- union(original_class, c("tbl_df", "tbl", "data.frame"))
    result
 }
 
