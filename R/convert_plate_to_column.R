@@ -33,7 +33,12 @@ convert_plate_to_column <- function(plate, plate_size) {
    cols <- ncol(plate)
    
    # convert to vector
-   plate <- as.vector(t(plate))
+   plate <- unlist(lapply(1:nrow(plate), function(i) unname(plate[i, ])))
+   # as.vector(t(plate)) is simpler, but t() calls as.matrix() and when you have 
+   # a plate layout with one numeric column and one character column, all are
+   # converted to character, but numeric goes to character via format() which 
+   # adds white space to numeric columns to right-align numbers
+   # see: as.matrix(data.frame(Numeric = c(1, 20), Character = "a"))   
    
    # generate well labels,
    wells <- get_well_ids(rows * cols)
