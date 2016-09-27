@@ -1,5 +1,5 @@
 ---
-title: 'plateR: Tools to Make it Easy to Work with Microtiter Plate-Shaped Data'
+title: 'plateR: Tools to Make it Easy to Work with Data from Microtiter Plates'
 tags:
  - data import
  - R
@@ -7,7 +7,7 @@ authors:
 - name: Sean M Hughes
   orcid: 0000-0002-9409-9405
   affiliation: University of Washington
-date: 19 August 2016
+date: 27 September 2016
 bibliography: paper.bib
 ---
 
@@ -17,6 +17,6 @@ plateR is an R [@R] package that makes it easy to work with data from experiment
 
 Many scientific instruments (such as plate readers and qPCR machines) produce data in tabular form that mimics a microtiter plate: each cell corresponds to a well as physically laid out on the plate. For experiments like this, it's often easiest to keep records of what was what (control vs. treatment, concentration, sample type, etc.) in a similar plate layout form. 
 
-plateR defines a simple, plate-shaped file format for data storage, so it's easy to remember the experimental design, and provides functions to seamlessly convert between that format and a tidy [@tidy] data frame that's optimal for analysis. 
+plateR defines a simple, plate-shaped file format for data storage, so it's easy to remember the experimental design, and provides functions to seamlessly convert between that format and a tidy [@tidy] data frame that's optimal for analysis. When the instrument produces data that's already tidy, plateR helps combine that data with plate-shaped experimental metadata. Once the data is tidy, it's sometimes useful to look back at it in plate shape, so plateR makes that easy, too. 
 
 # References

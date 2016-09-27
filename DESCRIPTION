@@ -1,13 +1,11 @@
 Package: plateR
-Title: Tools to Make it Easy to Work with Microtiter Plate-Shaped Data
 Version: 0.2.1
+Title: Tools to Make it Easy to Work with Data from Microtiter Plates
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
     role = c("aut", "cre"))
-Description: Tools for interacting with data in the form of microtiter plates.
-    plateR defines a simple, plate-shaped file format for data storage, so it's 
-    easy to remember the experimental design. The package provides functions to 
-    seamlessly convert between that format and a tidy data frame that's optimal 
-    for analysis.
+Description: Tools for interacting with data from experiments done in microtiter
+    plates. Easily read in plate-shaped data and convert it to tidy format, 
+    combine plate-shaped data with tidy data, and view tidy data in plate shape.  
 Depends:
     R (>= 3.1.0)
 Imports:
