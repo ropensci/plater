@@ -1,11 +1,12 @@
-# plateR 0.2.2 (24 Aug 2016)
+# plateR 1.0.0 (27 Sep 2016)
 * Changes in response to rOpenSci reviewers
-* Reorder arguments of add_plate for better pipelining
+* Reorder arguments of `add_plate()` for better pipelining
+* add `check_plateR_format()` to help with preparing files
 
 # plateR 0.2.1
 * Reorganize parameters for consistency
 * Add defaults for parameters
-* Add read_plates()
+* Add `read_plates()`
 
 # plateR 0.2
 * Introduce new data format with multiple plate layouts per .csv file (replacing multiple files at once)
