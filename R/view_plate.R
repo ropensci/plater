@@ -144,7 +144,7 @@ fill_in_missing_well_ids <- function(data, well_ids_column, plate_size) {
    }
    
    # find which are missing
-   wells <- as.character(data[, well_ids_column])
+   wells <- as.character(data[[well_ids_column]])
    complete <- get_well_ids(plate_size)
    missing <- !(complete %in% wells)
 
@@ -162,8 +162,8 @@ fill_in_missing_well_ids <- function(data, well_ids_column, plate_size) {
    
    # if user provided factor wellIds, make sure full set of levels are there 
    if (is.factor(data[[well_ids_column]])) {
-      data[, well_ids_column] <- factor(data[, well_ids_column], levels = complete)
-      temp[, well_ids_column] <- factor(temp[, well_ids_column], levels = complete)
+      data[[well_ids_column]] <- factor(data[[well_ids_column]], levels = complete)
+      temp[[well_ids_column]] <- factor(temp[[well_ids_column]], levels = complete)
    }
    
    return(rbind(data, temp))
@@ -196,7 +196,7 @@ correct_leading_zeroes <- function(data, well_ids_column, plate_size) {
    was_factor <- FALSE
    if(is.factor(data[[well_ids_column]])) {
       was_factor <- TRUE
-      data[, well_ids_column] <- as.character(data[, well_ids_column]) 
+      data[[well_ids_column]] <- as.character(data[[well_ids_column]]) 
    }   
    
    # build lookup table

@@ -94,7 +94,7 @@ plate_dimensions <- function(get, from, value) {
                Rows      = c(3, 4, 6, 8, 16), 
               PlateSize  = c(12, 24, 48, 96, 384))
    
-   which_row <- which(dimensions[, from] == value)
+   which_row <- which(dimensions[[from]] == value)
    
    dimensions[which_row, get]
 }

@@ -59,7 +59,7 @@ add_plate <- function(data, file, well_ids_column) {
    }
    
    # ensure data has all wells that the file does
-   if(!(all(to_add$wellIds %in% data[ , well_ids_column]))) {
+   if(!(all(to_add$wellIds %in% data[[well_ids_column]]))) {
       stop(wrong_wells_error_message(data, well_ids_column, to_add))
    }
    
@@ -68,14 +68,13 @@ add_plate <- function(data, file, well_ids_column) {
       all.x = TRUE) # all.x adds NA rows for wells missing from file
    
    # maintain order provided by user
-   result <- result[order(
-      match(
-         result[ , well_ids_column], 
-         data[ , well_ids_column]
-      )
-   ), ]
+   user_order <- order(match(
+         result[[well_ids_column]], 
+         data[[well_ids_column]]))
    
    class(result) <- c("tbl_df", "tbl", "data.frame")
+   result <- result[user_order, ]
+   
    result
 }
 
@@ -92,7 +91,7 @@ add_plate <- function(data, file, well_ids_column) {
 # @return An error message describing which wells are missing.
 wrong_wells_error_message <- function(data, well_ids_column, annotations) {
    missing <- annotations$wellIds[!(annotations$wellIds %in% 
-         data[ , well_ids_column])]
+         data[[well_ids_column]])]
    if(length(missing) == 0) {
       stop("No wells are missing.")
    }
@@ -112,12 +111,12 @@ wrong_wells_error_message <- function(data, well_ids_column, annotations) {
 # @return TRUE if leading zeroes are missing or FALSE if all leading zeroes are
 # missing.  
 are_leading_zeroes_missing <- function(data, well_ids_column, plate_size) {
-   if ((all(data[ , well_ids_column] %in% get_well_ids(plate_size)))) {
+   if ((all(data[[well_ids_column]] %in% get_well_ids(plate_size)))) {
       return(FALSE)
    } else {
       if (!are_leading_zeroes_valid(data, well_ids_column, plate_size)) {
          # leading zeroes are invalid
-         if(!(all(data[, well_ids_column] %in% 
+         if(!(all(data[[well_ids_column]] %in% 
                get_well_ids_without_leading_zeroes(plate_size)))) {
             # some missing leading zeroes, some not, give up
             stop("Invalid well IDs--some have leading zeroes and some don't.", 
