@@ -89,4 +89,18 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(plate$values, is_identical_to(plate$wellIds))
    })
    
+   # as.matrix converts numeric columns to character via format() which adds 
+   # white space to right-align the digits, so when some columns are numeric and
+   # some columns are character AND there are different numbers of digits (or 
+   # digits and number of chars in NA), some numbers will have white space added
+   # which is undesireable. as.matrix() is called by t(), which is how 
+   # convert_plate_to_column() used to work. This was fixed in commit 
+   # 0bc010b66ef98281a47caf94a39b70417969da3f by no longer using a matrix 
+   # intermediate. This test is to ensure that this bug is not accidentally 
+   # reintroduced
+   test_that("convert_plate_to_column() doesn't add unwanted white space", {
+      # every well present, all have own ID as contents
+      plate <- convert_plate_to_column(getFileForConvertPlate("dontAddWhiteSpace.csv"), i)   
+      expect_that(plate$values, is_identical_to(c("1", "A", "20", "B")))
+   })
 }
