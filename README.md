@@ -38,7 +38,7 @@ Sometimes it's useful to map your data back onto a plate (are the weird outliers
 Vignette
 --------
 
-For a detailed example of how to use `plater`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plater-basics.md>
+For a detailed example of how to use `plater`, check out <https://github.com/seaaan/plater/blob/master/inst/doc/plater-basics.md>
 
 Code of conduct
 ---------------
