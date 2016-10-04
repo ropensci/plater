@@ -1,12 +1,12 @@
-# Initial submission, version 1.0.0, 27 Sep 2016
+# Initial submission, version 1.0.0, 04 Oct 2016
 
 ## Test environments
-* ubuntu 12.04 on travis-ci:  devel   r71384 (2016-09-27) 
+* ubuntu 12.04 on travis-ci:  devel   r71446 (2016-10-04) 
                               release 3.3.1  (2016-06-21)
-* win-builder:                devel   r71370 (2016-09-26) 
+* win-builder:                devel   r71437 (2016-10-02) 
                               release 3.3.1  (2016-06-21)
 * local Windows 7:            release 3.2.3  (2015-12-10)
-* local Ubuntu 14.04          release 3.3.1  (2016-09-27)
+* local Ubuntu 15.10          release 3.3.1  (2016-06-21)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
