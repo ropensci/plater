@@ -1,14 +1,14 @@
-How `plateR` helps you
+How `plater` helps you
 ----------------------
 
-`plateR` makes it easy to work with data from experiments performed in plates.
+`plater` makes it easy to work with data from experiments performed in plates.
 
-Many scientific instruments (such as plate readers and qPCR machines) produce data in tabular form that mimics a microtiter plate: each cell corresponds to a well as physically laid out on the plate. For experiments like this, it's often easiest to keep records of what was what (control vs. treatment, concentration, sample type, etc.) in a similar plate layout form. But while plate-shaped data is easy to think about, it's not easy to analyze. The point of `plateR` is to seamlessly convert plate-shaped data (easy to think about) into tidy data (easy to analyze). It does this by defining a simple, systematic format for storing information in plate layouts. Then it painlessly rearranges data that intuitive format into a tidy data frame.
+Many scientific instruments (such as plate readers and qPCR machines) produce data in tabular form that mimics a microtiter plate: each cell corresponds to a well as physically laid out on the plate. For experiments like this, it's often easiest to keep records of what was what (control vs. treatment, concentration, sample type, etc.) in a similar plate layout form. But while plate-shaped data is easy to think about, it's not easy to analyze. The point of `plater` is to seamlessly convert plate-shaped data (easy to think about) into tidy data (easy to analyze). It does this by defining a simple, systematic format for storing information in plate layouts. Then it painlessly rearranges data that intuitive format into a tidy data frame.
 
 There are just two steps:
 
-1.  Put the data in a file in `plateR` format
-2.  Read in the data `plateR` functions
+1.  Put the data in a file in `plater` format
+2.  Read in the data `plater` functions
 
 The example
 -----------
@@ -22,16 +22,16 @@ Imagine you've invented two new antibiotics. To show how well they work, you fil
 
 The first three items are variables you chose in setting up the experiment. The fourth item is what you measured.
 
-Step 1: Put the data in `plateR` format
+Step 1: Put the data in `plater` format
 ---------------------------------------
 
-The first step is to create a file for the experiment. `plateR` format is designed to store all the information about an experiment in one file. It's simply a .csv file representing a single plate, containing one or more plate layouts. Each layout maps to a variable, so for the example experiment, there are four layouts in the file: Drug, Concentration, Bacteria, and Killing.
+The first step is to create a file for the experiment. `plater` format is designed to store all the information about an experiment in one file. It's simply a .csv file representing a single plate, containing one or more plate layouts. Each layout maps to a variable, so for the example experiment, there are four layouts in the file: Drug, Concentration, Bacteria, and Killing.
 
-A `plateR` format file for the example experiment came with the package. Load `plateR` (i.e. run `library(plateR)`) and then run `system.file("extdata", package = "plateR")`. Open the folder listed there and then open `example-1.csv` in a spreadsheet editor.
+A `plater` format file for the example experiment came with the package. Load `plater` (i.e. run `library(plater)`) and then run `system.file("extdata", package = "plater")`. Open the folder listed there and then open `example-1.csv` in a spreadsheet editor.
 
 An abbreviated version of that file is shown below:
 
-![plateR format example](../../vignettes/plateR-format-image.png)
+![plater format example](../../vignettes/plateR-format-image.png)
 
 The format is pretty simple:
 
@@ -41,9 +41,9 @@ The format is pretty simple:
 -   The rest of the left column is the row names (A:H for a 96-well plate)
 -   One line between layouts (This row should appear as blank in a spreadsheet editor, but as a row of commas when viewed as plain text.)
 
-You can use `plateR` format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
+You can use `plater` format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
 
-While creating a file in `plateR` format, it can be helpful to check whether you're doing it right. For that purpose, you can pass the path of the file to `check_plateR_format()`, which will check that the format is correct and diagnose any problems.
+While creating a file in `plater` format, it can be helpful to check whether you're doing it right. For that purpose, you can pass the path of the file to `check_plater_format()`, which will check that the format is correct and diagnose any problems.
 
 Step 2: Read in the data
 ------------------------
@@ -55,12 +55,12 @@ We will analyze this experiment two different ways to illustrate two common data
 1.  Assuming the instrument gives back the killing data shaped like a plate, we'll create one file with all four variables and read it in with `read_plate()`.
 2.  Assuming the instrument gives back tidy data (one-well-per-row), we'll create two files--one with the data and one with the three variables--and then combine the files with `add_plate()`.
 
-### Step 2: Read a single `plateR` format file with `read_plate()`
+### Step 2: Read a single `plater` format file with `read_plate()`
 
 Here is how it works. (Note that below we use `system.file()` here to get the file path of the example file, but for your own files you would specify the file path without using `system.file()`).
 
 ``` r
-file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+file_path <- system.file("extdata", "example-1.csv", package = "plater")
    
 data <- read_plate(
       file = file_path,             # full path to the .csv file
@@ -84,16 +84,16 @@ head(data)
 #> 6   A06    A         0.032  E. coli       2
 ```
 
-So what happened? `read_plate()` read in the `plateR` format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named "Wells" with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.
+So what happened? `read_plate()` read in the `plater` format file you created and turned each layout into a column, using the name of the layout specified in the file. So you have four columns: Drug, Concentration, Bacteria, and Killing. It additionally creates a column named "Wells" with the well identifiers for each well. Now, each well is represented by a single row, with the values indicated in the file for each column.
 
-### Step 2 (again): Combine a one-well-per-row file and a `plateR` format file with `add_plate()`
+### Step 2 (again): Combine a one-well-per-row file and a `plater` format file with `add_plate()`
 
-In the previous example, we assumed that the killing data was provided by the instrument in plate-shaped form, so it could just be pasted into the `plateR` format file. Sometimes, though, you'll get data back formatted with one well per row.
+In the previous example, we assumed that the killing data was provided by the instrument in plate-shaped form, so it could just be pasted into the `plater` format file. Sometimes, though, you'll get data back formatted with one well per row.
 
-`add_plate()` is set up to help in this situation. You provide a tidy data frame including well IDs and then you provide a `plateR` format file with the other information and `add_plate()` knits them together well-by-well. Here's an example using the other two files installed along with `plateR`.
+`add_plate()` is set up to help in this situation. You provide a tidy data frame including well IDs and then you provide a `plater` format file with the other information and `add_plate()` knits them together well-by-well. Here's an example using the other two files installed along with `plater`.
 
 ``` r
-file2A <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+file2A <- system.file("extdata", "example-2-part-A.csv", package = "plater")
 data2 <- read.csv(file2A)
 
 str(data2)
@@ -110,7 +110,7 @@ head(data2)
 #> 5   A05      17
 #> 6   A06       2
 
-meta <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
+meta <- system.file("extdata", "example-2-part-B.csv", package = "plater")
 data2 <- add_plate(
       data = data2,               # data frame to add to 
       file = meta,                # full path to the .csv file
@@ -142,14 +142,14 @@ Multiple plates
 
 Say you were happy with the tests of you antibiotics, so you decided to do a second experiment, testing some other common pathogenic bacteria. Now you have data from two separate plates. Rather than handling them separately, you can combine them all into a common data frame with the `read_plates()` function.
 
-Just like before, you create one `plateR` file per plate, with all the information describing the experiment. In this case, you'll have two files, one from each experiment. Then, just read them in with `read_plates()`. You can specify names for each plate, which will become a column in the output identifying which plate the well was on. By default it'll use the file names.
+Just like before, you create one `plater` file per plate, with all the information describing the experiment. In this case, you'll have two files, one from each experiment. Then, just read them in with `read_plates()`. You can specify names for each plate, which will become a column in the output identifying which plate the well was on. By default it'll use the file names.
 
 ``` r
 # same file as above
-file1 <- system.file("extdata", "example-1.csv", package = "plateR")
+file1 <- system.file("extdata", "example-1.csv", package = "plater")
 
 # new file
-file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+file2 <- system.file("extdata", "more-bacteria.csv", package = "plater")
 
 data <- read_plates(
    files = c(file1, file2),

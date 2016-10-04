@@ -1,6 +1,6 @@
-#' Read a plateR-formatted file and turn it into a tidy data frame.
+#' Read a plater-formatted file and turn it into a tidy data frame.
 #' 
-#' Converts data from \code{plateR} format to a data frame with one well 
+#' Converts data from \code{plater} format to a data frame with one well 
 #' per row identified by well name.
 #'
 #' @param file The path of a .csv file formatted as described below.
@@ -11,7 +11,7 @@
 #' There will be as many additional columns as layouts in \code{file}. Empty 
 #' wells are omitted.
 #' 
-#' @section \code{plateR} format:
+#' @section \code{plater} format:
 #' The .csv file should be formatted as a microtiter plate. The top-left most 
 #' cell contains the name to use for the column representing that plate. For 
 #' example, for a 96-well plate, the subsequent wells in the top row should be 
@@ -44,7 +44,7 @@
 #'
 #' @export
 #' @examples 
-#' file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+#' file_path <- system.file("extdata", "example-1.csv", package = "plater")
 #' 
 #' # Data are stored in plate-shaped form
 #' data <- read_plate(

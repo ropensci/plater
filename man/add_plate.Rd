@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_plate.R
 \name{add_plate}
 \alias{add_plate}
-\title{Read a plateR-formatted file and combine it with an existing data frame.}
+\title{Read a plater-formatted file and combine it with an existing data frame.}
 \usage{
 add_plate(data, file, well_ids_column)
 }
@@ -21,7 +21,7 @@ Returns data with as many new columns as plates in \code{file}.
 Empty wells are indicated with NA.
 }
 \description{
-Converts data from \code{plateR} format to a data frame with one well 
+Converts data from \code{plater} format to a data frame with one well 
 per row and merges it into an existing data frame by well name.
 }
 \details{
@@ -31,11 +31,11 @@ merged column for those wells. If the file contains more wells than
 }
 \examples{
 # Part of the data is tidy
-file <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+file <- system.file("extdata", "example-2-part-A.csv", package = "plater")
 data <- read.csv(file)
 
 # Part of the data is plate-shaped
-plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
+plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plater")
 
 # Combine the two
 data <- add_plate(

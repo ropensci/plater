@@ -1,6 +1,6 @@
-#' Read a plateR-formatted file and combine it with an existing data frame. 
+#' Read a plater-formatted file and combine it with an existing data frame. 
 #' 
-#' Converts data from \code{plateR} format to a data frame with one well 
+#' Converts data from \code{plater} format to a data frame with one well 
 #' per row and merges it into an existing data frame by well name. 
 #'
 #' If data contains more wells than in \code{file}, NA will be added to the 
@@ -18,11 +18,11 @@
 #' @export
 #' @examples 
 #' # Part of the data is tidy
-#' file <- system.file("extdata", "example-2-part-A.csv", package = "plateR")
+#' file <- system.file("extdata", "example-2-part-A.csv", package = "plater")
 #' data <- read.csv(file)
 #' 
 #' # Part of the data is plate-shaped
-#' plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plateR")
+#' plate_shaped <- system.file("extdata", "example-2-part-B.csv", package = "plater")
 #' 
 #' # Combine the two
 #' data <- add_plate(

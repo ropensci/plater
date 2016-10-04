@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_plate.R
 \name{read_plate}
 \alias{read_plate}
-\title{Read a plateR-formatted file and turn it into a tidy data frame.}
+\title{Read a plater-formatted file and turn it into a tidy data frame.}
 \usage{
 read_plate(file, well_ids_column = "Wells")
 }
@@ -19,10 +19,10 @@ There will be as many additional columns as layouts in \code{file}. Empty
 wells are omitted.
 }
 \description{
-Converts data from \code{plateR} format to a data frame with one well 
+Converts data from \code{plater} format to a data frame with one well 
 per row identified by well name.
 }
-\section{\code{plateR} format}{
+\section{\code{plater} format}{
 
 The .csv file should be formatted as a microtiter plate. The top-left most 
 cell contains the name to use for the column representing that plate. For 
@@ -57,7 +57,7 @@ many plates as necessary can be included in a single file (e.g. data
 measured, subject, treatment, replicate, etc.).
 }
 \examples{
-file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+file_path <- system.file("extdata", "example-1.csv", package = "plater")
 
 # Data are stored in plate-shaped form
 data <- read_plate(

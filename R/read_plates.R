@@ -1,9 +1,9 @@
-#' Read multiple plateR-formatted files and combine result into one data frame.
+#' Read multiple plater-formatted files and combine result into one data frame.
 #' 
 #' A wrapper around \code{read_plate} that handles multiple plates and combines
 #' them all into a single data frame.
 #' 
-#' @param files A character vector with the paths of one or more plateR-formatted
+#' @param files A character vector with the paths of one or more plater-formatted
 #' .csv files.
 #' @param plate_names A character vector the same length as \code{files} with the
 #' names to give the individual plates in the resulting data frame. Defaults to
@@ -17,8 +17,8 @@
 #' @export
 #' @examples 
 #' # Combine multiple files into one tidy data frame
-#' file1 <- system.file("extdata", "example-1.csv", package = "plateR")
-#' file2 <- system.file("extdata", "more-bacteria.csv", package = "plateR")
+#' file1 <- system.file("extdata", "example-1.csv", package = "plater")
+#' file2 <- system.file("extdata", "more-bacteria.csv", package = "plater")
 #' 
 #' # Data are stored in plate-shaped form
 #' data <- read_plates(

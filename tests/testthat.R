@@ -1,2 +1,2 @@
 library(testthat)
-test_check("plateR")
+test_check("plater")

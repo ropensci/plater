@@ -1,4 +1,4 @@
-Package: plateR
+Package: plater
 Title: Tools to Make it Easy to Work with Data from Microtiter Plates
 Version: 1.0.0
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
@@ -17,7 +17,7 @@ Suggests:
     rmarkdown
 License: GPL-3
 LazyData: true
-URL: https://github.com/seaaan/plateR
-BugReports: https://github.com/seaaan/plateR/issues
+URL: https://github.com/seaaan/plater
+BugReports: https://github.com/seaaan/plater/issues
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

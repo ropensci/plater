@@ -1,7 +1,7 @@
-#' Check whether a file is in plateR format. 
+#' Check whether a file is in plater format. 
 #' 
 #' Runs the provided file through a number of diagnostics to determine whether
-#' it is a valid plateR format file and displays information about any 
+#' it is a valid plater format file and displays information about any 
 #' deficiencies found. 
 #' 
 #' @param file The path of the file to check
@@ -10,10 +10,10 @@
 #' 
 #' @export
 #' @examples 
-#' file_path <- system.file("extdata", "example-1.csv", package = "plateR")
+#' file_path <- system.file("extdata", "example-1.csv", package = "plater")
 #' 
-#' data <- check_plateR_format(file_path)
-check_plateR_format <- function(file) {
+#' data <- check_plater_format(file_path)
+check_plater_format <- function(file) {
   check <- function(description, f) {
     message(paste0("* ", description, " ... ", collapse = ""), appendLF = FALSE)
     result <- tryCatch(

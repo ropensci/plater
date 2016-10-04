@@ -1,19 +1,19 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-plateR
+plater
 ======
 
-[![Travis-CI Build Status](https://travis-ci.org/seaaan/plateR.svg?branch=master)](https://travis-ci.org/seaaan/plateR)
+[![Travis-CI Build Status](https://travis-ci.org/seaaan/plater.svg?branch=master)](https://travis-ci.org/seaaan/plater)
 
-plateR makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate based instruments.
+plater makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate-based instruments.
 
 Installation
 ------------
 
-plateR is not currently on CRAN. You can install the latest GitHub version like this:
+plater is not currently on CRAN. You can install the latest GitHub version like this:
 
 ``` r
 install.packages("devtools") # if you don't already have it
-devtools::install_github("seaaan/plateR")
+devtools::install_github("seaaan/plater")
 ```
 
 Getting your data in
@@ -38,9 +38,9 @@ Sometimes it's useful to map your data back onto a plate (are the weird outliers
 Vignette
 --------
 
-For a detailed example of how to use `plateR`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plateR-basics.md>
+For a detailed example of how to use `plater`, check out <https://github.com/seaaan/plateR/blob/master/inst/doc/plater-basics.md>
 
 Code of conduct
 ---------------
 
-`plateR` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms.
+`plater` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms.
