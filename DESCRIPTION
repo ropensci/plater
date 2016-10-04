@@ -17,7 +17,7 @@ Suggests:
     rmarkdown
 License: GPL-3
 LazyData: true
-URL: https://github.com/seaaan/plater
-BugReports: https://github.com/seaaan/plater/issues
+URL: https://github.com/ropenscilabs/plater
+BugReports: https://github.com/ropenscilabs/plater/issues
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

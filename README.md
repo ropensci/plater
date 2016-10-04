@@ -2,7 +2,7 @@
 plater
 ======
 
-[![Travis-CI Build Status](https://travis-ci.org/seaaan/plater.svg?branch=master)](https://travis-ci.org/seaaan/plater)
+[![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/plater.svg?branch=master)](https://travis-ci.org/ropenscilabs/plater)
 
 plater makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate-based instruments.
 
@@ -13,7 +13,7 @@ plater is not currently on CRAN. You can install the latest GitHub version like 
 
 ``` r
 install.packages("devtools") # if you don't already have it
-devtools::install_github("seaaan/plater")
+devtools::install_github("ropenscilabs/plater")
 ```
 
 Getting your data in
@@ -38,9 +38,11 @@ Sometimes it's useful to map your data back onto a plate (are the weird outliers
 Vignette
 --------
 
-For a detailed example of how to use `plater`, check out <https://github.com/seaaan/plater/blob/master/inst/doc/plater-basics.md>
+For a detailed example of how to use `plater`, check out [the vignette.](inst/doc/plater-basics.md)
 
 Code of conduct
 ---------------
 
 `plater` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms.
+
+[![ropensci footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
