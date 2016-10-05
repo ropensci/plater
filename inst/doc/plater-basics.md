@@ -166,7 +166,8 @@ str(data)
 #>  $ Killing      : num  98 95 92 41 17 2 1.5 1.8 1 0.5 ...
 
 head(data)
-#> # A tibble: 6 x 6
+#> Source: local data frame [6 x 6]
+#> 
 #>          Plate Wells  Drug Concentration Bacteria Killing
 #>          <chr> <chr> <chr>         <dbl>    <chr>   <dbl>
 #> 1 Experiment 1   A01     A       100.000  E. coli      98
