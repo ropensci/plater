@@ -10,7 +10,7 @@ Depends:
     R (>= 3.1.0)
 Imports:
     utils,
-    dplyr (>= 0.4.3.9000)
+    dplyr (> 0.4.3)
 Suggests:
     testthat,
     knitr,
