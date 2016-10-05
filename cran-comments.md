@@ -1,4 +1,4 @@
-# Initial submission, version 1.0.0, 04 Oct 2016
+# Initial submission, version 1.0.0, 05 Oct 2016
 
 ## Test environments
 * ubuntu 12.04 on travis-ci:  devel   r71446 (2016-10-04) 

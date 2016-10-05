@@ -1,4 +1,4 @@
-# plater 1.0.0 (4 Oct 2016)
+# plater 1.0.0 (5 Oct 2016)
 * Changes in response to rOpenSci reviewers
 * Reorder arguments of `add_plate()` for better pipelining
 * add `check_plater_format()` to help with preparing files
