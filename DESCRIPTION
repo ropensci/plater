@@ -1,6 +1,6 @@
 Package: plater
 Title: Read, Tidy, and Display Data from Microtiter Plates
-Version: 1.0.0
+Version: 1.0.0.9000
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
     role = c("aut", "cre"))
 Description: Tools for interacting with data from experiments done in microtiter
