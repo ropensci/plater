@@ -48,7 +48,7 @@ Sometimes it's useful to map your data back onto a plate (are the weird outliers
 
 ## Vignette
 
-For a detailed example of how to use `plater`, check out [the vignette.](inst/doc/plater-basics.md)
+For a detailed example of how to use `plater`, check out [the vignette.](https://cran.r-project.org/web/packages/plater/vignettes/plater-basics.html)
 
 ## Code of conduct
 
