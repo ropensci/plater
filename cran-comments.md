@@ -1,3 +1,7 @@
+# Resubmission, version 1.0.0, 06 Oct 2016
+
+* Changed title per Uwe Ligges' suggestion, otherwise same as previous submission
+
 # Initial submission, version 1.0.0, 05 Oct 2016
 
 ## Test environments

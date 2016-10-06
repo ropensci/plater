@@ -1,5 +1,5 @@
 ---
-title: 'plater: Tools to Make it Easy to Work with Data from Microtiter Plates'
+title: 'plater: Read, Tidy, and Display Data from Microtiter Plates'
 tags:
  - data import
  - R
