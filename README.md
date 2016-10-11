@@ -4,6 +4,10 @@ plater
 
 [![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/plater.svg?branch=master)](https://travis-ci.org/ropenscilabs/plater)
 
+[![CRAN version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
+
+[![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](http://cran.rstudio.com/web/packages/plater/index.html)
+
 plater makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate-based instruments.
 
 Installation
