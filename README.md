@@ -13,11 +13,10 @@ plater makes it easy to work with data from experiments performed in plates. It 
 Installation
 ------------
 
-plater is not currently on CRAN. You can install the latest GitHub version like this:
+plater is available through CRAN. Just run:
 
 ``` r
-install.packages("devtools") # if you don't already have it
-devtools::install_github("ropenscilabs/plater")
+install.packages("plater") 
 ```
 
 Getting your data in
