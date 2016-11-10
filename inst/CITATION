@@ -1,0 +1,19 @@
+citHeader("To cite 'plater' in publications, please use:")
+
+citEntry(
+    entry        = "Article",
+    doi          = "10.21105/joss.00106",
+    url          = "http://dx.doi.org/10.21105/joss.00106",
+    year         = "2016",
+    month        = "nov",
+    publisher    = "The Open Journal",
+    volume       = "1",
+    number       = "7",
+    author       = "Sean M Hughes",
+    title        = "plater: Read,  Tidy,  and Display Data from Microtiter Plates",
+    journal      = "The Journal of Open Source Software", 
+    textVersion  = paste("Sean M. Hughes (2016).",
+            "plater: Read,  Tidy,  and Display Data from Microtiter Plates.",
+            "Journal of Open Source Software, 1(7).",
+            "doi:10.21105/joss.00106")
+)
