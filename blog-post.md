@@ -69,6 +69,34 @@ My first step was to google around and figure out a convenient way of converting
 
 So now I could take a `.csv` file with plate-shaped data and convert it into tidy form and connect it with the well ID. It didn't take long for me to start creating `.csv` files with sample and treatment information as well and then merging the data frames together. Now I could create plate maps really easily because they looked just like the plate I did the experiment in. 
 
-With time and feedback from others, I experimented and refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable. I started calling this `plater` format and storing all of my data that way. 
+## A package takes shape
 
-## Is this thing good?
+With time and feedback from others in the lab, I experimented and refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable. I started calling this `plater` format and storing all of my data that way. 
+
+Eventually, I boiled it down to this: 
+
+* `read_plate`: takes a `plater` format file and gives you a tidy data frame
+* `read_plates`: takes multiple `plater` format files and gives you a big tidy data frame
+* `add_plate`: takes a `plater` format file and a tidy data frame and combines them
+* `view_plate`: takes a tidy data frame and displays selected variables from it back in plate shape
+
+## Is this thing any good?
+
+With the package in place, I started getting ready to submit it to CRAN, but I'd heard about this rOpenSci package reviewing thing and that sounded like something for me. I liked the idea of getting feedback and suggestions to improve the package before throwing it out into the wide world. 
+
+It turned out that the improvements started even before the reviews began. As I prepared to submit the package to rOpenSci, I went through their [thorough guide](https://github.com/ropensci/onboarding#how-to-submit-your-package-for-review)  to make sure `plater` met all of the requirements. This process made me aware of best practices and motivated me to handle niggling little details like using consistent `snake_case`, making sure all of the documentation was clear, and creating a code of conduct for contributors. In all, I made 22 commits
+
+Just working through the set of guidelines improved the package, and the review process took it to a whole new level, when two generous reviewers and an editor spent multiple hours reading the code, testing the functions, and thinking about how to make it more useful. Their thoughtful suggestions resulted in many changes to the package (I logged 61 commits responding to the reviews) that made it more robust and useful. Among others: 
+
+* Make `add_plate` more easily pipeable by reordering the arguments
+* Add a function `check_plater_format` to test if a file is formatted correctly
+* Add package-level documentation
+* Brainstorm a Shiny tool for non-R users to use `plater` 
+* Explore alternative visualizations to `view_plate`
+
+The reviewing process made `plater` a much better package and left me feeling confident in putting it up on CRAN with a stable version 1.0.0. 
+
+## Conclusion
+
+Since transferring `plater` over to rOpenSci and putting it onto CRAN, I've used the package all the time, but hardly thought about it at all. It works well and does exactly what I want, seamlessly without my needing to even notice it. This level of convenience and utility is the best testament to the efforts of the reviewers and editors of rOpenSci to making it a better package. 
+
