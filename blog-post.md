@@ -15,15 +15,17 @@ tags:
 - R
 ---
 
-In the lab, almost everything I do, I do in a microtiter plate. The problem was, it was an error-prone mess to work with in R (not to mention Excel). I started out putting one `ifelse` inside of the next to describe which well was which, put with the help of [R Packages](http://r-pkgs.had.co.nz/) and the [amazing](http://deanattali.com/) [reviewers](http://www.juliagustavsen.com/) and [editors](https://scottchamberlain.info/) at rOpenSci, I ended up with a package that makes it so easy you don't even notice. 
+As a lab scientist, I do almost all of my experiments in a microtiter plates. These tools are an efficient means of organizing many parallel experimental conditions. It's not always easy, however, to translate between the physical plate and a useful data structure for analysis. My first attempts to solve this problem--nesting one `ifelse` call inside of the next to describe which well was which--were very unsatisfying. Over time, my attempts at solving the problem grew more sophisticated, and eventually, the `plater` package was born. Here I will tell the story of how with the help of [R Packages](http://r-pkgs.had.co.nz/) and the [amazing](http://deanattali.com/) [reviewers](http://www.juliagustavsen.com/) and [editors](https://scottchamberlain.info/) at rOpenSci, I ended up with a package that makes it so easy to work with plate-based data that you don't even notice. 
 
 ## Plates are great
 
-Microtiter plates are essential in the lab. Basically an ice cube tray about the size of an index card, they have "wells" for between 6 and 384 ice cubes (up to 6144 if you're a robot!). Except instead of freezing water, you can use each well for a different sample or experimental condition. 
+Microtiter plates are essential in the lab. Basically an ice cube tray about the size of an index card, they have "wells" for between 6 and 384 ice cubes (up to 6144 if you're a robot!). Except instead of freezing water, you use each well for a different sample or experimental condition. 
 
-For example, say I have 8 samples and want to test 4 different drugs. Let's also say I want to test each drug on each sample three separate times. A 96-well plate is perfect for this: it's a grid of 12 columns and 8 rows. So each sample would go in its own row. Each drug would then go in a group of three columns, say Drug A in columns 1-3, Drug B in columns 4-6, and so on. 
+For example, say I have 8 samples and want to test 4 different drugs. Each drug should be tested on each sample three separate times. A 96-well plate is perfect for this: it's a grid of 12 columns and 8 rows. So each sample would go in its own row. Each drug would then go in a group of three columns, say Drug A in columns 1-3, Drug B in columns 4-6, and so on. This is shown below, with the numbers 1-8 representing samples and the colors representing groups of wells treated with the same drug. 
 
-Typically, I would make myself a map describing what goes where and take it with me into the lab to do the experiment. The map creates a powerful mental image binding each experimental condition to a particular physical location on the plate. With dramatic treatments, you might even be able to visually see the results of your experiment: all the cells in this column died, or the cells grew like crazy in that row.  
+![Example plate layout](plate-1.png)
+
+Typically, I make myself a map like the image above describing what goes where and take it with me into the lab to do the experiment. The map creates a powerful mental image binding each experimental condition to a particular physical location on the plate. With dramatic treatments, you might even be able to visually see the results of your experiment: all the cells in this column died, or the cells grew like crazy in that row.  
 
 This is very space-efficient and convenient to work with physically and remember mentally.
 
@@ -99,4 +101,3 @@ The reviewing process made `plater` a much better package and left me feeling co
 ## Conclusion
 
 Since transferring `plater` over to rOpenSci and putting it onto CRAN, I've used the package all the time, but hardly thought about it at all. It works well and does exactly what I want, seamlessly without my needing to even notice it. This level of convenience and utility is the best testament to the efforts of the reviewers and editors of rOpenSci to making it a better package. 
-

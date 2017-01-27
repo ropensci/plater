@@ -11,3 +11,5 @@
 ^paper\.bib$
 ^paper\.md$
 ^blog-post\.md$
+^plate-1\.odt$
+^plate-1\.png$
