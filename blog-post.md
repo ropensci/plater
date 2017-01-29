@@ -15,7 +15,7 @@ tags:
 - R
 ---
 
-As a lab scientist, I do almost all of my experiments in a microtiter plates #make this a link to a picture of said plates. These tools are an efficient means of organizing many parallel experimental conditions. It's not always easy, however, to translate between the physical plate and a useful data structure for analysis. My first attempts to solve this problem--nesting one `ifelse` call inside of the next to describe which well was which--were very unsatisfying. Over time, my attempts at solving the problem grew more sophisticated, and eventually, the `plater` package was born. Here I will tell the story of how with the help of [R Packages](http://r-pkgs.had.co.nz/) and the [amazing](http://deanattali.com/) [reviewers](http://www.juliagustavsen.com/) and [editors](https://scottchamberlain.info/) at rOpenSci, I ended up with a package that makes it easy to work with plate-based data. 
+As a lab scientist, I do almost all of my experiments in [microtiter plates](https://en.wikipedia.org/wiki/Microtiter_plate). These tools are an efficient means of organizing many parallel experimental conditions. It's not always easy, however, to translate between the physical plate and a useful data structure for analysis. My first attempts to solve this problem--nesting one `ifelse` call inside of the next to describe which well was which--were very unsatisfying. Over time, my attempts at solving the problem grew more sophisticated, and eventually, the `plater` package was born. Here I will tell the story of how with the help of [R Packages](http://r-pkgs.had.co.nz/) and the [amazing](http://deanattali.com/) [reviewers](http://www.juliagustavsen.com/) and [editors](https://scottchamberlain.info/) at rOpenSci, I ended up with a package that makes it easy to work with plate-based data. 
 
 ## Plates are great
 
@@ -63,11 +63,11 @@ My next strategy was to try to directly make a table and then merge it into the 
 | B01    | Y      | Drug A    |     
 | ...    | ...    | ...       |
 
-While this merges nicely into a data frame and solves the problem of indicating what each well is, it's actually not that easy to create by hand, especially in more realistic experiments with more variables and a more complex plate layout. There is a lot of risk for typo or copy-paste errors. 
+While this merges nicely into a data frame and solves the problem of indicating what each well is, it's actually not that easy to create by hand, especially in more realistic experiments with more variables and a more complex plate layout. Even worse, there is a substantial risk of typos and copy-paste errors. 
 
 ## `plater` to the rescue
 
-The solution came from the plates themselves: store the data and mapping in the shape of the plate, which is how I think of it anyway, and then transform it into a tidy shape. #Put  something in here avbout how you get quantitative data from these experiments by putting it in a machine that reads something, turbidity, light, etc. Scientific instruments often provide data readout in the shape of a plate, in fact: you get back a spreadsheet with a grid of numbers shaped like your plate, with a cell for each well. 
+The solution came from the plates themselves: store the data and mapping in the shape of the plate and then transform it into a tidy shape. Scientific instruments often provide data in the shape of a plate, in fact: you get back a spreadsheet with a grid of numbers shaped like your plate, with a cell for each well. 
 
 My first step was to write a function to convert one of those plate-shaped grids to a data frame with two columns: one of plate IDs and one of the numbers (machine read-out).
 
@@ -75,7 +75,7 @@ So now I could take a `.csv` file with plate-shaped data and convert it into tid
 
 ## A package takes shape
 
-With time and feedback from others in the lab, I refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable (say, Cell Type or Treatment). I started calling this the `plater` format and storing all of my data that way. #Do you need to mention this is an homage to Hadley? [file gives an overview of the experiment]
+With time and feedback from [others in the lab](https://github.com/ClaireLevy), I refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable (say, treatment or sample). I started calling this the `plater` format and storing all of my data that way. These files are especially nice because they give an overview of the whole experiment in a compact format. 
 
 Eventually, I boiled it down to a small set of functions: 
 
@@ -97,7 +97,7 @@ The review process itself led to even more improvement. Two [generous](http://de
 * Brainstorm a Shiny tool for non-R users to use `plater` 
 * Explore alternative visualizations to `view_plate`
 
-The reviewing process made `plater` a much better package and left me feeling confident putting it up on CRAN with a stable version 1.0.0. 
+The reviewing process made `plater` a much better package and left me feeling confident in putting it up on CRAN with a stable version 1.0.0. 
 
 ## Conclusion
 
