@@ -2,7 +2,7 @@
 name: plater-development
 layout: post
 title: From a million nested `ifelse`s to the plater package
-date: 2017-01-25
+date: 2017-01-30
 authors:
   - name: Sean Hughes
     url: https://github.com/seaaan
@@ -25,13 +25,15 @@ For example, say I have 8 samples and want to test 4 different drugs. Each drug 
 
 ![Example plate layout](plate-1.png)
 
-Typically, I make myself a map like the image above describing what goes where and take it with me into the lab to do the experiment. The map creates a powerful mental image binding each experimental condition to a particular physical location on the plate. With dramatic treatments, you might even be able to visually see the results of your experiment: all the cells in this column died, or the cells grew like crazy in that row.  
+Typically, I make myself a map like the image above describing what goes where. I take it with me into the lab to do the experiment. The map creates a powerful mental connection between each experimental condition and its particular physical location on the plate. With large effects, you might even be able to visually see the results of your experiment: all the cells in this column died, or the cells grew like crazy in that row.  
 
-This is very space-efficient and convenient to work with physically and remember mentally.
+This is very convenient to work with physically and remember mentally.
 
 ## Plates are not tidy
 
-The problem is that you can pack a ton of complexity into a small experiment and mapping that back into a [tidy](https://www.jstatsoft.org/article/view/v059i10) framework isn't always easy. Each well has an ID. The top left well is in row A and column 1, so its ID is A01. The well in the third row down and 5th column over is C05. But how do you say that everything in row A is sample X, everything in row B is sample Y, and so on? 
+The problem is that you can pack a ton of complexity into a small experiment and mapping that back into a [tidy](https://www.jstatsoft.org/article/view/v059i10) framework for analysis isn't always easy. 
+
+One way to map from data to plate is through well IDs. Each well has one. For example, the top left well is in row A and column 1, so its ID is A01. The well in the third row down and 5th column over is C05. But how do you say that everything in row A is sample X, everything in row B is sample Y, and so on? 
 
 My first strategy was to put it in the code, with a mess like this: 
 
@@ -46,9 +48,9 @@ data <- dplyr::mutate(data,
             )
 ```
 
-But doing this made me want to cry. 
+But doing it this way made me want to cry. 
 
-My next strategy was to try and directly make a table and then merge it into the data. The table would look something like this: 
+My next strategy was to try to directly make a table and then merge it into the data. The table would look something like this: 
 
 | WellId | Sample | Treatment | 
 | ------ | ------ | --------- | 
@@ -65,17 +67,17 @@ While this merges nicely into a data frame and solves the problem of indicating 
 
 ## `plater` to the rescue
 
-The solution came from the plates themselves: store the data in the shape of the plate and then transform it into a tidy shape. Scientific instruments often provide data in the shape of a plate, in fact: you get back a spreadsheet with a grid of numbers shaped like your plate, with a cell for each well. 
+The solution came from the plates themselves: store the data and mapping in the shape of the plate and then transform it into a tidy shape. Scientific instruments often provide data in the shape of a plate, in fact: you get back a spreadsheet with a grid of numbers shaped like your plate, with a cell for each well. 
 
-My first step was to google around and figure out a convenient way of converting from one of those grids to a data frame with two columns: one of plate IDs and one of the numbers. 
+My first step was to write a function to convert one of those grids to a data frame with two columns: one of plate IDs and one of the numbers. 
 
 So now I could take a `.csv` file with plate-shaped data and convert it into tidy form and connect it with the well ID. It didn't take long for me to start creating `.csv` files with sample and treatment information as well and then merging the data frames together. Now I could create plate maps really easily because they looked just like the plate I did the experiment in. 
 
 ## A package takes shape
 
-With time and feedback from others in the lab, I experimented and refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable. I started calling this `plater` format and storing all of my data that way. 
+With time and feedback from others in the lab, I refined the system. Instead of creating separate files for each variable (treatment, sample, data, ...), everything could go in one `.csv` file, with sequential plate layouts for each variable. I started calling this the `plater` format and storing all of my data that way. 
 
-Eventually, I boiled it down to this: 
+Eventually, I boiled it down to a small set of functions: 
 
 * `read_plate`: takes a `plater` format file and gives you a tidy data frame
 * `read_plates`: takes multiple `plater` format files and gives you a big tidy data frame
@@ -84,15 +86,14 @@ Eventually, I boiled it down to this:
 
 ## Is this thing any good?
 
-With the package in place, I started getting ready to submit it to CRAN, but I'd heard about this rOpenSci package reviewing thing and that sounded like something for me. I liked the idea of getting feedback and suggestions to improve the package before throwing it out into the wide world. 
+With the package in place, I started getting ready to submit it to CRAN, but I wanted to get more feedback first and rOpenSci seemed perfect for that. 
 
-It turned out that the improvements started even before the reviews began. As I prepared to submit the package to rOpenSci, I went through their [thorough guide](https://github.com/ropensci/onboarding#how-to-submit-your-package-for-review)  to make sure `plater` met all of the requirements. This process made me aware of best practices and motivated me to handle niggling little details like using consistent `snake_case`, making sure all of the documentation was clear, and creating a code of conduct for contributors. In all, I made 22 commits
+It turned out that the improvements started even before I got any feedback began. As I prepared to submit the package to rOpenSci, I went through their [thorough guide](https://github.com/ropensci/onboarding#how-to-submit-your-package-for-review)  to make sure `plater` met all of the requirements. This process made me aware of best practices and motivated me to handle niggling little details like using consistent `snake_case`, making sure all of the documentation was clear, and creating a code of conduct for contributors. In all, I made 22 commits preparing for submission.
 
-Just working through the set of guidelines improved the package, and the review process took it to a whole new level, when two generous reviewers and an editor spent multiple hours reading the code, testing the functions, and thinking about how to make it more useful. Their thoughtful suggestions resulted in many changes to the package (I logged 61 commits responding to the reviews) that made it more robust and useful. Among others: 
+The review process itself led to even more improvement. Two [generous](http://deanattali.com/) [reviewers](http://www.juliagustavsen.com/) and an [editor](https://scottchamberlain.info/) spent multiple hours reading the code, testing the functions, and thinking about how to make it more useful. Their thoughtful suggestions resulted in many changes to the package (I made 61 commits responding to the reviews) that made it more robust and useful. Among others: 
 
 * Make `add_plate` more easily pipeable by reordering the arguments
 * Add a function `check_plater_format` to test if a file is formatted correctly
-* Add package-level documentation
 * Brainstorm a Shiny tool for non-R users to use `plater` 
 * Explore alternative visualizations to `view_plate`
 
