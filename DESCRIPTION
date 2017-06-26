@@ -1,6 +1,6 @@
 Package: plater
 Title: Read, Tidy, and Display Data from Microtiter Plates
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
     role = c("aut", "cre"))
 Description: Tools for interacting with data from experiments done in microtiter
@@ -20,4 +20,4 @@ LazyData: true
 URL: https://github.com/ropenscilabs/plater
 BugReports: https://github.com/ropenscilabs/plater/issues
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

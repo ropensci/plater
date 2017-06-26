@@ -1,16 +1,13 @@
-# Resubmission, version 1.0.0, 06 Oct 2016
+# Update, version 1.0.1, 26 Jun 2017
 
-* Changed title per Uwe Ligges' suggestion, otherwise same as previous submission
-
-# Initial submission, version 1.0.0, 05 Oct 2016
+* Fixed a few bugs discovered since initial release last October. Thanks!!
 
 ## Test environments
-* ubuntu 12.04 on travis-ci:  devel   r71446 (2016-10-04) 
-                              release 3.3.1  (2016-06-21)
-* win-builder:                devel   r71437 (2016-10-02) 
-                              release 3.3.1  (2016-06-21)
-* local Windows 7:            release 3.2.3  (2015-12-10)
-* local Ubuntu 15.10          release 3.3.1  (2016-06-21)
+* ubuntu 12.04 on travis-ci:  devel   r72857 (2017-06-26) 
+                              release 3.4.0  (2017-04-21)
+* win-builder:                devel   r72854 (2017-06-25 )
+                              release 3.4.0  (2017-04-21)
+* local Windows 7:            release 3.3.0  (2016-05-03)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
@@ -19,10 +16,9 @@ There was one NOTE:
 
    * checking CRAN incoming feasibility ... NOTE
    Maintainer: 'Sean Hughes <smhughes@uw.edu>'
-   New submission
 
    Possibly mis-spelled words in DESCRIPTION:
-     Microtiter (2:53)
+     Microtiter (2:42)
      microtiter (6:71)
    
    This is a valid spelling of the word (eg         
