@@ -43,8 +43,12 @@ convert_plate_to_column <- function(plate, plate_size) {
    # generate well labels,
    wells <- get_well_ids(rows * cols)
    
-   df <- data.frame(wellIds = wells, ColumnName = plate, 
-         stringsAsFactors = FALSE)
+   # run type.convert here to get correct type for column
+   # this, in combination with change to plate_text_to_data_frame
+   # solves github issue 18
+   # as.is = TRUE means don't convert to factors
+   df <- data.frame(wellIds = wells, 
+       ColumnName = type.convert(plate, as.is = TRUE), stringsAsFactors = FALSE)
    names(df) <- c("wellIds", column_name)
    
    # remove any NA values from the new column
@@ -58,7 +62,10 @@ convert_plate_to_column <- function(plate, plate_size) {
 # returns:     a data frame created from the plate
 plate_text_to_data_frame <- function(plate) {
    utils::read.table(textConnection(plate), sep = ",", 
-      na.strings = "", stringsAsFactors = FALSE, comment.char = "")
+      na.strings = "", stringsAsFactors = FALSE, comment.char = "", 
+      colClasses = "character")
+    # use colClasses = "character" to keep all data the same type for now
+    # see github issue 18
 }
 
 # requires:    plate is non-null
