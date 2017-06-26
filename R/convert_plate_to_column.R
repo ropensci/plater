@@ -47,8 +47,8 @@ convert_plate_to_column <- function(plate, plate_size) {
    # this, in combination with change to plate_text_to_data_frame
    # solves github issue 18
    # as.is = TRUE means don't convert to factors
-   df <- data.frame(wellIds = wells, 
-       ColumnName = type.convert(plate, as.is = TRUE), stringsAsFactors = FALSE)
+   df <- data.frame(wellIds = wells, stringsAsFactors = FALSE,
+       ColumnName = utils::type.convert(plate, as.is = TRUE))
    names(df) <- c("wellIds", column_name)
    
    # remove any NA values from the new column
