@@ -1,6 +1,7 @@
 # plater 1.0.1
 * Eliminate warnings from readLines on files without EOF (Mac issue)
 * Fix issue with numeric formatting in mixed numeric/character layouts
+* Fix issue with grouped tibbles and view_plate
 
 # plater 1.0.0 (5 Oct 2016)
 * Changes in response to rOpenSci reviewers

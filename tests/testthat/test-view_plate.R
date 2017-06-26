@@ -258,3 +258,16 @@ for (i in c(12, 24, 48, 96, 384)) {
       expect_that(are_leading_zeroes_valid(d, "w", i), is_false())   
    })
 }
+
+test_that("view_plate works on grouped tibbles", {
+    data <- dplyr::tibble(well = c("A01", "F12", "G09"), Droplets = 1:3)
+    data <- dplyr::group_by(data, Droplets)
+    
+    # NA means expect no error
+    expect_error(view_plate(data, "well", "Droplets", 96), NA)
+    
+    data <- dplyr::tibble(well = c("A01", "F12", "G09"), Droplets = 1:3)
+    data <- dplyr::group_by(data, well)
+    
+    expect_error(view_plate(data, "well", "Droplets", 96), NA)
+})

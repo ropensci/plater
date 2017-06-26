@@ -24,6 +24,9 @@
 #' view_plate(data, "Wells", c("Species", "OxygenProduction"), 12)
 view_plate <- function(data, well_ids_column, columns_to_display, 
                       plate_size = 96) {
+   # allows it to work with grouped tibbles
+   data <- as.data.frame(data)
+   
    # validate column names
    check_well_ids_column_name(well_ids_column)
    validate_column_is_in_data(data, c(well_ids_column, columns_to_display))
