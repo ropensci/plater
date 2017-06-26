@@ -138,7 +138,7 @@ calculate_number_of_plates <- function(raw_file, number_of_rows) {
 #                   384. Default 96.
 get_list_of_plate_layouts <- function(file, plate_size) {
    # read in file
-   raw_file <- readLines(file)
+   raw_file <- read_lines(file)
    
    # get list of data frames with new columns
    number_of_rows <- number_of_rows(plate_size)

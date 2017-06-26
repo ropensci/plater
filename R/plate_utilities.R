@@ -128,7 +128,7 @@ validate_column_is_in_data <- function(data, col_names) {
 # @param A plate .csv file
 # @return the size of the plate based on the column labels.
 guess_plate_size <- function(file) {
-   first_line <- readLines(file, n = 1)
+   first_line <- read_lines(file, n = 1)
    
    first_line_vector <- strsplit(first_line, ",")[[1]]
    
@@ -170,7 +170,7 @@ check_well_ids_column_name <- function(well_ids_column) {
 #
 # Throws an error if the file is empty.
 check_that_file_is_non_empty <- function(file) {
-  if (length(readLines(file)) == 0) {
+  if (length(read_lines(file)) == 0) {
     stop(paste0("Sorry, '", file, "' is empty and must not be."), call. = FALSE)
   }
 }
@@ -183,4 +183,12 @@ check_that_only_one_file_is_provided <- function(file) {
     stop(paste0("Sorry, only one file should be provided, but you provided ", 
                 "multiple. Maybe you wanted read_plates()?"), call. = FALSE)
   }
+}
+
+# Wrapper around base::readLines
+# Doesn't warn if there's an incomplete final line for the file
+# See github issue 17, where layouts created on Mac created warning
+# https://github.com/ropenscilabs/plater/issues/17
+read_lines <- function(file, n = -1L) {
+    readLines(file, n = n, warn = FALSE)
 }
