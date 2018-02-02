@@ -1,5 +1,5 @@
 ################################################################################
-context("testing view_plate-view_plate (96 well)")
+context("testing view_plate-view_plate")
 ################################################################################
 checkRow <- function(result, rowNumber, startLetter, endLetter, append = NA) {
    result <- as.character(unlist(result[rowNumber, ]))
@@ -69,7 +69,7 @@ for (i in c(24, 48, 96, 384)) {
 ################################################################################
 context("testing view_plate-ensure_correct_well_ids")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) {  
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) {  
    wells <- get_well_ids(i)
    test_that("ensure_correct_well_ids stops if more wells than plate size", {
       expect_that(ensure_correct_well_ids(data.frame(x = 1:97), "x", 96), 
@@ -85,7 +85,7 @@ for (i in c(12, 24, 48, 96, 384)) {
 ################################################################################
 context("testing view_plate-are_well_ids_correct()")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) { 
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
    wells <- get_well_ids(i)
    test_that("are_well_ids_correct() returns false for too short or long", {
       expect_that(are_well_ids_correct(wells[1:(i - 1)], i), is_false())
@@ -113,18 +113,18 @@ for (i in c(12, 24, 48, 96, 384)) {
 ################################################################################
 context("testing view_plate-fill_in_missing_well_ids()")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) { 
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
    # set up data frame
-   if (i == 12) subset = 12 else subset = 24
+   if (i <= 12) subset = i else subset = 24
    text <- paste0(letters[1:subset], LETTERS[26:(26 - subset + 1)])
-   numbers <- sample(1:1000, i)
+   numbers <- sample(1:10000, i)
    data <- data.frame(wells = get_well_ids(i), text = text, numbers = numbers)
    
    # helper function
    validate <- function(result, data, bounds) {
-      expect_that(result$wells, is_identical_to(data$wells))
-      expect_that(result[0:bounds, ], is_identical_to(data[0:bounds, ]))
-      expect_that(colnames(result), is_identical_to(colnames(data)))
+      expect_that(result$wells, is_equivalent_to(data$wells))
+      expect_that(result[0:bounds, ], is_equivalent_to(data[0:bounds, ]))
+      expect_that(colnames(result), is_equivalent_to(colnames(data)))
    }
    
    test_that("fill_in_missing_well_ids() fails with equal or more rows than wells", {
@@ -134,27 +134,27 @@ for (i in c(12, 24, 48, 96, 384)) {
    })
    
    test_that("fill_in_missing_well_ids() works with three columns as factor", {
-      result <- fill_in_missing_well_ids(data[1:10, ], "wells", i)
-      validate(result, data, 10)
+      result <- fill_in_missing_well_ids(data[1:min(i-2, 10), ], "wells", i)
+      validate(result, data, min(i-2, 10))
    })
    
    test_that("fill_in_missing_well_ids() works with three columns as character", {
       d <- data
       d$wells <- as.character(d$wells)
-      result <- fill_in_missing_well_ids(d[1:10, ], "wells", i)
-      validate(result, d, 10)
+      result <- fill_in_missing_well_ids(d[1:min(i-2, 10), ], "wells", i)
+      validate(result, d, min(i-2, 10))
    })
    
    test_that("fill_in_missing_well_ids() works with only well column", {
       # use drop = FALSE to prevent data frame becoming vector
-      result <- fill_in_missing_well_ids(data[1:10, "wells", drop = FALSE], "wells", i)
-      validate(result, data[ , "wells", drop = FALSE], 10)
+      result <- fill_in_missing_well_ids(data[1:min(i-2, 10), "wells", drop = FALSE], "wells", i)
+      validate(result, data[ , "wells", drop = FALSE], min(i-2, 10))
    })
       
    test_that("fill_in_missing_well_ids() works with zero rows, one columns", {
       result <- fill_in_missing_well_ids(data[0, "wells", drop = FALSE], "wells", i)
-      expect_that(result$wells, is_identical_to(data$wells))
-      expect_that(colnames(result), is_identical_to("wells"))   
+      expect_that(result$wells, is_equivalent_to(data$wells))
+      expect_that(colnames(result), is_equivalent_to("wells"))   
    })
    
    test_that("fill_in_missing_well_ids() throws error with missing leading zeroes", {
@@ -165,9 +165,9 @@ for (i in c(12, 24, 48, 96, 384)) {
    
    test_that("fill_in_missing_well_ids() doesn't change if well IDs are invalid", {
       d <- data
-      if (i == 12) subset = 12 else subset = 24
+      if (i <= 12) subset = i else subset = 24
       d$wells <- letters[1:subset]
-      subset <- 10
+      subset <- min(subset - 2, 10)
       result <- fill_in_missing_well_ids(d[1:subset, ], "wells", i)
       validate(result[1:subset, ], d[1:subset, ], subset)
    })
@@ -176,7 +176,7 @@ for (i in c(12, 24, 48, 96, 384)) {
 ################################################################################
 context("testing view_plate-correct_leading_zeroes()")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) { 
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
    with <- data.frame(w = get_well_ids(i), b = 1:i)
    without <- data.frame(w = get_well_ids_without_leading_zeroes(i), b = 1:i)
    
@@ -187,16 +187,16 @@ for (i in c(12, 24, 48, 96, 384)) {
    test_that("correct_leading_zeroes returns same df for correct wells as character", {
       d <- with
       d$w <- as.character(d$w)
-      expect_that(correct_leading_zeroes(d, "w", i), is_identical_to(d))   
+      expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(d))   
    })
    
    test_that("correct_leading_zeroes doesn't change unrelated text", {
       d <- data.frame(w = letters[1:24], b = 1:i)
-      expect_that(correct_leading_zeroes(d, "w", i), is_identical_to(d))   
+      expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(d))   
    })
    
    test_that("correct_leading_zeroes corrects incorrect wells", {
-      expect_that(correct_leading_zeroes(without, "w", i), is_identical_to(with))
+      expect_that(correct_leading_zeroes(without, "w", i), is_equivalent_to(with))
    })
    
    test_that("correct_leading_zeroes corrects incorrect wells as char", {
@@ -205,14 +205,14 @@ for (i in c(12, 24, 48, 96, 384)) {
       d <- without
       d$w <- as.character(d$w)
       expect_that(correct_leading_zeroes(d, "w", i), 
-         is_identical_to(correct))
+         is_equivalent_to(correct))
    })
    
    test_that("correct_leading_zeroes fixes one incorrect well", {
       d <- with
       d$w <- factor(d$w, levels = c(levels(d$w), "A1"))
       d[1, "w"] <- "A1"
-      expect_that(correct_leading_zeroes(d, "w", i), is_identical_to(with))   
+      expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(with))   
    })
    
    test_that("correct_leading_zeroes throws error with incorrect plate size", {
@@ -222,7 +222,7 @@ for (i in c(12, 24, 48, 96, 384)) {
 ################################################################################
 context("testing view_plate-are_leading_zeroes_valid()")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) { 
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
    with <- data.frame(w = get_well_ids(i))
    without <- data.frame(w = get_well_ids_without_leading_zeroes(i))
    

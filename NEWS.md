@@ -1,3 +1,6 @@
+# plater 1.0.1.9000
+* Add support for 6- and 1536-well plates
+
 # plater 1.0.1
 * Eliminate warnings from readLines on files without EOF (Mac issue)
 * Fix issue with numeric formatting in mixed numeric/character layouts

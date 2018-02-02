@@ -15,8 +15,8 @@ well IDs.}
 \item{columns_to_display}{A vector of the names of one or more columns you'd
 like to display.}
 
-\item{plate_size}{The number of wells in the plate. Must be 12, 24, 48, 96 or
-384. Default 96.}
+\item{plate_size}{The number of wells in the plate. Must be 6, 12, 24, 48, 96
+384, or 1536. Default 96.}
 }
 \value{
 A depiction of the data in \code{columns_to_display} as 
@@ -36,4 +36,3 @@ head(data)
 # produced for each well
 view_plate(data, "Wells", c("Species", "OxygenProduction"), 12)
 }
-

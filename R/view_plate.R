@@ -6,8 +6,8 @@
 #' like to display.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
-#' @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
-#'  384. Default 96.
+#' @param plate_size The number of wells in the plate. Must be 6, 12, 24, 48, 96
+#' 384, or 1536. Default 96.
 #' @inheritParams read_plate
 #' @return A depiction of the data in \code{columns_to_display} as 
 #' though laid out on a microtiter plate with \code{plate_size} wells.
@@ -31,7 +31,7 @@ view_plate <- function(data, well_ids_column, columns_to_display,
    check_well_ids_column_name(well_ids_column)
    validate_column_is_in_data(data, c(well_ids_column, columns_to_display))
 
-   n_rows <- number_of_rows(plate_size) # stops if not 12, 24, 48, 96 or 384
+   n_rows <- number_of_rows(plate_size) # stops if not 6, 12, 24, 48, 96, 384, 1536
    n_columns <- number_of_columns(plate_size)
    
    # convert well IDs to character; if factor, order can be wrong
@@ -53,16 +53,17 @@ view_plate <- function(data, well_ids_column, columns_to_display,
 display_one_layout <- function(data, well_ids_column, column_to_display, 
     n_rows, n_columns) {
   # transform
-  # sort by wellIds 
-  data <- data[order(data[[well_ids_column]]), ]
-  
+  # sort by well IDs, in the correct order (so with 1536-well plates, row names
+  # are sorted correctly) 
+  data <- sort_by_well_ids(data, well_ids_column, n_rows * n_columns)
+
   # get data to display and replace NA with '.'
   to_display <- as.character(data[[column_to_display]])
   to_display <- ifelse(is.na(to_display), ".", to_display)
   
   # create result and name rows and columns
   result <- data.frame(matrix(to_display, nrow = n_rows, byrow = TRUE))
-  rownames(result) <- LETTERS[1:n_rows]
+  rownames(result) <- MEGALETTERS(1:n_rows)
   colnames(result) <- 1:n_columns
   
   result
@@ -83,7 +84,7 @@ display_one_layout <- function(data, well_ids_column, column_to_display,
 # @return Data with valid well IDs
 ensure_correct_well_ids <- function(data, well_ids_column, plate_size) {
    wells <- data[[well_ids_column]]
-   true_wells <- get_well_ids(plate_size) # stops if not 12, 24, 48, 96 or 384
+   true_wells <- get_well_ids(plate_size) # stops if not 6, 12, 24, 48, 96, 384, 1536
    if (length(wells) > plate_size) {
       stop(paste0("There are more rows in your data ", 
          "frame than wells in the plate size you specified. In other words, ",
@@ -122,9 +123,8 @@ are_well_ids_correct <- function(wells, plate_size) {
       return(FALSE)
    }
    true_wells <- get_well_ids(plate_size)
-   wells <- wells[order(wells)]
 
-   return(all(wells == true_wells))
+   return(all(wells %in% true_wells) & all(true_wells %in% wells))
 }
 
 # Returns \code{data} with the full set of valid well IDs for its size. 

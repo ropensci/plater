@@ -20,7 +20,7 @@ test_that("generate_plate_names should work with .csv of any case, arbitrary fil
 ################################################################################
 context("testing read_plates-read_plates")
 ################################################################################
-for (i in c(12, 24, 48, 96, 384)) {
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    path <- paste0("testData/", i, "/")
    
    plates <- c("read_plates-validOne", "read_plates-validTwo")

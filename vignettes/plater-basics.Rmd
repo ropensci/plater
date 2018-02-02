@@ -62,7 +62,7 @@ The format is pretty simple:
 * The rest of the left column is the row names (A:H for a 96-well plate)
 * One line between layouts (This row should appear as blank in a spreadsheet editor, but as a row of commas when viewed as plain text.)
 
-You can use `plater` format with any standard plate size (6 to 384 wells). Not every well has to be filled. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
+You can use `plater` format with any standard plate size (6 to 1536 wells). Not every well has to be filled. If a well is blank in every layout in a file, it's omitted. If it's blank in some but not others, it'll get `NA` where it's blank.
 
 While creating a file in `plater` format, it can be helpful to check whether you're doing it right. For that purpose, you can pass the path of the file to `check_plater_format()`, which will check that the format is correct and diagnose any problems.  
 

@@ -111,7 +111,7 @@ are_row_labels_valid <- function(plate, plate_size) {
    
    rowLabels <- trim_white_space(tolower(plate[[1]]))
    
-   return(identical(letters[1:rows], rowLabels)) 
+   return(identical(tolower(MEGALETTERS(1:rows)), rowLabels)) 
 }
 
 # requires:    plate is non-null and has valid dimensions, but the row labels 
@@ -131,8 +131,8 @@ wrong_row_labels_error_message <- function(plate, plate_size) {
    
    rows <- number_of_rows(plate_size)
    
-   lower <- paste(letters[1:rows], collapse = " ")
-   upper <- paste(LETTERS[1:rows], collapse = " ")
+   lower <- paste(tolower(MEGALETTERS(1:rows)), collapse = " ")
+   upper <- paste(MEGALETTERS(1:rows), collapse = " ")
    
    output <- paste("Correct row labels not found. Found '", found, 
       "' but expected '",lower, "' or '", upper, "'.", sep = "")

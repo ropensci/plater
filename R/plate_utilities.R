@@ -1,27 +1,31 @@
-# Returns a character vector of well IDs (e.g. A01..B10..H12) of length 12,  
-#              24, 48, 96, or 384 wells. 
+# Returns a character vector of well IDs (e.g. A01..B10..H12) of length 6, 12,  
+#              24, 48, 96, 384, or 1536 wells. 
 #
-# @param plate_size 12, 24, 48, 96, or 384 wells 
-# @return  A character vector of well IDs (e.g. A01..B05..H12) of length 12,  
-#              24, 48, 96, or 384 
+# @param plate_size 6, 12, 24, 48, 96, 384, or 1536 wells 
+# @return  A character vector of well IDs (e.g. A01..B05..H12) of length 6, 12,  
+#              24, 48, 96, 384, or 1536 
 # @examples get_well_ids(96)
 get_well_ids <- function(plate_size) {
    cols <- number_of_columns(plate_size) # stops if not 12, 24, 48, 96, 384
    rows <- number_of_rows(plate_size)
    
    wells <- vapply(formatC(1:cols, width = 2, flag = "0"), 
-      FUN = function(i) paste(LETTERS[1:rows], i, sep = ""), 
+      FUN = function(i) paste(MEGALETTERS(1:rows), i, sep = ""), 
       FUN.VALUE = rep("character", rows))
    wells <- as.vector(t(wells))
    return(wells)
 }
 
+# 1536-well plate includes row names that are double letters
+# e.g. AB, so can't just use LETTERS
+MEGALETTERS <- function(x) c(LETTERS[1:26], paste0("A", LETTERS[1:26]))[x]
+
 # Returns a character vector of well IDs without leading zeroes (e.g. A1..B10..
-# H12) of length 12, 24, 48, 96, or 384 wells.
+# H12) of length 6, 12, 24, 48, 96, 384, or 1536 wells.
 #
-# @param plate_size 12, 24, 48, 96, or 384 wells 
+# @param plate_size 6, 12, 24, 48, 96, 384, or 1536 wells 
 # @return A character vector of well IDs without leading zeroes (e.g. A1..B10..
-# H12) of length 12, 24, 48, 96, or 384 wells 
+# H12) of length 6, 12, 24, 48, 96, 384, or 1536 wells 
 # @examples get_well_ids_without_leading_zeroes(96)
 get_well_ids_without_leading_zeroes <- function(plate_size) {
    wells <- get_well_ids(plate_size)
@@ -33,25 +37,28 @@ get_well_ids_without_leading_zeroes <- function(plate_size) {
 # @param wells A character vector of well IDs
 # @return wells with leading zeroes removed (e.g. A1 rather than A01)
 remove_leading_zeroes <- function(wells) {
-   wells <- ifelse(substr(wells, 2, 2) == "0", 
-      paste0(substr(wells, 1, 1), substr(wells, 3, 3)), 
-      wells)
+   # if it matches a 0 that is not the last character, remove all 0s from that 
+   # ID (can't have more than one 0)
+   # just str_replace doesn't work on the first regex because it also replaces
+   # the following character
+   wells <- ifelse(grepl("0[^$]", wells), 
+      gsub("0", "", wells), wells)
    return(wells)   
 }
 
 # Returns the number of rows in a plate of a given size. 
 #
-# @param plate_size 12, 24, 48, 96, or 384 wells 
+# @param plate_size 6, 12, 24, 48, 96, 384, or 1536 wells 
 # @return The number of rows in a plate of a given size. 
 # @examples number_of_rows(96)
 number_of_rows <- function(plate_size) {
-   # stops if plate_size not 12, 24, 48, 96, or 384 wells 
+   # stops if plate_size not 6, 12, 24, 48, 96, 384, or 1536 wells 
    return(plate_size / number_of_columns(plate_size))
 }
 
 # Returns the number of columns in a plate of a given size.
 #
-# @param plate_size 12, 24, 48, 96, or 384 wells 
+# @param plate_size 6, 12, 24, 48, 96, 384 or 1536 wells 
 # @return The number of columns in a plate of a given size. 
 # @examples number_of_columns(96)
 number_of_columns <- function(plate_size) {
@@ -59,7 +66,7 @@ number_of_columns <- function(plate_size) {
    
    if (length(n) == 0) {
       stop(paste0("Invalid plate_size: ", plate_size, 
-         ". Must be 12, 24, 48, 96 or 384."), call. = FALSE)
+         ". Must be 6, 12, 24, 48, 96, 384, or 1536."), call. = FALSE)
    }
    
    n
@@ -67,7 +74,7 @@ number_of_columns <- function(plate_size) {
 
 # Returns the size of a plate given the number of columns.
 #
-# @param columns 4, 6, 8, 12, 24
+# @param columns 3, 4, 6, 8, 12, 24, 48
 # @return the size of the plate or throws error if invalid number of columns. 
 # @examples get_plate_size_from_number_of_columns(12)
 get_plate_size_from_number_of_columns <- function(columns) {
@@ -90,9 +97,9 @@ get_plate_size_from_number_of_columns <- function(columns) {
 # @return the corresponding value, or an empty vector if invalid data supplied
 plate_dimensions <- function(get, from, value) {
    dimensions <- data.frame(
-              Columns    = c(4, 6, 8, 12, 24), 
-               Rows      = c(3, 4, 6, 8, 16), 
-              PlateSize  = c(12, 24, 48, 96, 384))
+              Columns    = c(3, 4,  6,  8,  12, 24,  48), 
+               Rows      = c(2, 3,  4,  6,  8,  16,  32), 
+              PlateSize  = c(6, 12, 24, 48, 96, 384, 1536))
    
    which_row <- which(dimensions[[from]] == value)
    
@@ -191,4 +198,10 @@ check_that_only_one_file_is_provided <- function(file) {
 # https://github.com/ropenscilabs/plater/issues/17
 read_lines <- function(file, n = -1L) {
     readLines(file, n = n, warn = FALSE)
+}
+
+# returns data sorted by well ID
+# handles 1536-well plates correctly (i.e. AA01 coming after Z48 not B48)
+sort_by_well_ids <- function(data, well_ids_column, plate_size) {
+   data[order(match(data[[well_ids_column]], get_well_ids(plate_size))), , drop = FALSE]
 }

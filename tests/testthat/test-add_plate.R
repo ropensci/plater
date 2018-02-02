@@ -1,9 +1,9 @@
-for (i in c(12, 24, 48, 96, 384)) {
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    path <- paste0("testData/", i, "/")
    ################################################################################
    context("testing add_plate-add_plate()")
    ################################################################################
-   n_letters <- ifelse(i == 12, 12, 24)
+   n_letters <- ifelse(i <= 12, i, 24)
    
    test_that("add_plate works for complete valid data", {
       filename <- paste0(path, "allWellIds.csv")

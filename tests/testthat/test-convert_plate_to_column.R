@@ -1,4 +1,4 @@
-for (i in c(12, 24, 48, 96, 384)) {
+for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    path <- paste0("testData/", i, "/")
    
    ################################################################################
@@ -67,9 +67,9 @@ for (i in c(12, 24, 48, 96, 384)) {
       message <- wrong_row_labels_error_message(incorrectRowLabels, i)
       
       rows <- number_of_rows(i)
-      wrong <- paste(c("X", LETTERS[2:rows]), collapse = " ")
-      lower <- paste(letters[1:rows], collapse = " ")
-      upper <- paste(LETTERS[1:rows], collapse = " ")
+      wrong <- paste(c("X", MEGALETTERS(2:rows)), collapse = " ")
+      lower <- paste(tolower(MEGALETTERS(1:rows)), collapse = " ")
+      upper <- paste(MEGALETTERS(1:rows), collapse = " ")
       
       expect_that(message, matches(
          paste0("Correct row labels not found. Found '", wrong, "' but ",

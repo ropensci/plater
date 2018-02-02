@@ -65,7 +65,7 @@ read_plate <- function(file, well_ids_column = "Wells") {
    
    result <- convert_all_layouts(raw_file_list, plate_size)
    
-   result <- combine_list_to_dataframe(result)
+   result <- combine_list_to_dataframe(result, plate_size)
    
    # rename well IDs column to whatever user chose
    colnames(result)[colnames(result) == "wellIds"] <- well_ids_column
@@ -82,8 +82,8 @@ read_plate <- function(file, well_ids_column = "Wells") {
 # "Error in layout #x" where x is the number of the layout generating the error.
 #
 # @param raw_file_list The list of containing plates from readLines
-# @param plate_size The number of wells in the plate. Must be 12, 24, 48, 96 or
-#                   384. Default 96.
+# @param plate_size The number of wells in the plate. Must be 6, 12, 24, 48, 96 
+#                   384, or 1536. Default 96.
 # @return A list of two-column data frames of the same length as the input list.
 convert_all_layouts <- function(raw_file_list, plate_size) {
 
@@ -196,7 +196,7 @@ check_unique_plate_names <- function(result) {
 # @return A dataframe merged together from the list elements. Wells are included
 #         if they're non-missing in at least one of the data frames, otherwise
 #         omitted.
-combine_list_to_dataframe <- function(result) {
+combine_list_to_dataframe <- function(result, plate_size) {
    if (length(result) == 1) {
       result <- result[[1]]
    } else {
@@ -210,6 +210,8 @@ combine_list_to_dataframe <- function(result) {
    
    # only return rows which have value for more than the well ID
    keep <- rowSums(!is.na(result)) > 1
+   result <- result[keep, ]
    
-   result[keep, ]
+   # sort by well ID (non-alphabetically) so 1536-well plates work
+   sort_by_well_ids(result, "wellIds", plate_size)
 }
