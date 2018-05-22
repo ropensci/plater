@@ -2,8 +2,7 @@
 plater
 ======
 
-[![Travis-CI Build Status](https://travis-ci.org/ropensci/plater.svg?branch=master)](https://travis-ci.org/ropenscilabs/plater) [![CRAN version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](http://cran.rstudio.com/web/packages/plater/index.html) [![DOI](https://zenodo.org/badge/32951641.svg)](https://zenodo.org/badge/latestdoi/32951641)
-[![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/onboarding/issues/60)
+[![Travis-CI Build Status](https://travis-ci.org/ropensci/plater.svg?branch=master)](https://travis-ci.org/ropensci/plater) [![CRAN version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater) [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](http://cran.rstudio.com/web/packages/plater/index.html) [![DOI](https://zenodo.org/badge/32951641.svg)](https://zenodo.org/badge/latestdoi/32951641) [![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/onboarding/issues/60)
 
 plater makes it easy to work with data from experiments performed in plates. It is aimed at scientists and analysts who deal with microtiter plate-based instruments.
 
