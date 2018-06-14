@@ -4,8 +4,9 @@
 #' per row and merges it into an existing data frame by well name. 
 #'
 #' If data contains more wells than in \code{file}, NA will be added to the 
-#' merged column for those wells. If the file contains more wells than 
-#' \code{data}, an error will result.
+#' merged column(s) for those wells. If the file contains more wells than 
+#' \code{data}, those wells will be added to the bottom of the result with NA
+#' for the columns in \code{data}.
 #'
 #' @param data The data frame to merge the file into. Must contain a column with
 #' well names.
@@ -58,15 +59,18 @@ add_plate <- function(data, file, well_ids_column) {
    }
    
    # ensure data has all wells that the file does
-   if(!(all(to_add$wellIds %in% data[[well_ids_column]]))) {
-      stop(wrong_wells_error_message(data, well_ids_column, to_add))
-   }
+   #if(!(all(to_add$wellIds %in% data[[well_ids_column]]))) {
+    #  stop(wrong_wells_error_message(data, well_ids_column, to_add))
+   #}
    
    # merge new columns with input data frame
    result <- merge(data, to_add, by.x = well_ids_column, by.y = "wellIds", 
-      all.x = TRUE) # all.x adds NA rows for wells missing from file
+      all.x = TRUE, all.y = TRUE) 
+      # all.x adds NA rows for wells missing from file
+      # all.y adds NA rows for wells missing from data
    
    # maintain order provided by user
+   # wells in plate layout but not data frame from user will be appended
    user_order <- order(match(
          result[[well_ids_column]], 
          data[[well_ids_column]]))

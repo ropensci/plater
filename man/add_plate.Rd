@@ -26,8 +26,9 @@ per row and merges it into an existing data frame by well name.
 }
 \details{
 If data contains more wells than in \code{file}, NA will be added to the 
-merged column for those wells. If the file contains more wells than 
-\code{data}, an error will result.
+merged column(s) for those wells. If the file contains more wells than 
+\code{data}, those wells will be added to the bottom of the result with NA
+for the columns in \code{data}.
 }
 \examples{
 # Part of the data is tidy
@@ -46,4 +47,3 @@ data <- add_plate(
 # Now data are tidy
 head(data)
 }
-

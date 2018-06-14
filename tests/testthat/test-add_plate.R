@@ -68,13 +68,18 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       expect_that(all(r), is_true())
    })
    
-   test_that("add_plate stops if wells missing from df", {
+   test_that("add_plate works when plate layout contains wells missing from data and gets order right (rows missing from data at end)", {
       filename <- paste0(path, "allWellIds.csv")
       complete <- data.frame(wells = get_well_ids(i), d = letters[1:n_letters])
       complete$d <- as.character(complete$d)
       
-      expect_that(add_plate(complete[1:(i-1), ], filename, "wells"),
-         throws_error())
+      result <- add_plate(complete[2:i, ], filename, "wells")
+      
+      # missing row from data = well A01, so should be added at end by add_plate
+      expected <- rbind(complete[2:i, ], data.frame(wells = "A01", d = NA))
+      expected$values <- as.character(expected$wells)
+      
+      expect_that(result, equals(expected))
    })
    
    test_that(paste("add_plate stops if some wells are missing",
