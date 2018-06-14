@@ -56,6 +56,7 @@ spreadsheet editor, but as a row of commas when viewed as plain text.) As
 many plates as necessary can be included in a single file (e.g. data 
 measured, subject, treatment, replicate, etc.).
 }
+
 \examples{
 file_path <- system.file("extdata", "example-1.csv", package = "plater")
 
@@ -67,4 +68,3 @@ data <- read_plate(
 # Now data are tidy
 head(data)
 }
-

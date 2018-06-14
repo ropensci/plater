@@ -41,4 +41,3 @@ data <- read_plates(
 # Data from both plates are tidy and in the same data frame
 head(data)
 }
-

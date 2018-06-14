@@ -23,4 +23,3 @@ file_path <- system.file("extdata", "example-1.csv", package = "plater")
 
 data <- check_plater_format(file_path)
 }
-

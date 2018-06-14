@@ -17,4 +17,3 @@ plate-shaped data and tidy data (\code{\link[plater]{add_plate}}). It further
 allows easy plate-shaped visualization of tidy data 
 (\code{\link[plater]{view_plate}}).
 }
-
