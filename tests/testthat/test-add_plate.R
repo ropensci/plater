@@ -79,7 +79,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       expected <- rbind(complete[2:i, ], data.frame(wells = "A01", d = NA))
       expected$values <- as.character(expected$wells)
       
-      expect_that(result, equals(expected))
+      expect_that(result, is_equivalent_to(expected))
    })
    
    test_that(paste("add_plate stops if some wells are missing",
