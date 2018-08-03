@@ -42,7 +42,7 @@ For a detailed example of how to use `plater`, check out [the vignette.](https:/
 Contributing to `plater`
 ------------------------
 
-`plater` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms. Pull requests for changes are accepted with gratitude.
+`plater` is developed under a [Contributor Code of Conduct](CONDUCT.md). To contribute to its development, you must agree to abide by its terms. Pull requests for changes are accepted with gratitude. Please include tests as appropriate with any pull requests.
 
 Requests for new features and reports of bugs or security vulnerabilities can be made [here](https://github.com/ropensci/plater/issues) or emailed to the address listed [here](https://github.com/ropensci/plater/blob/master/DESCRIPTION).
 
