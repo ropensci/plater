@@ -42,4 +42,5 @@ check_plater_format <- function(file) {
     function() convert_all_layouts(raw_file_list, plate_size))
   
   message("Success!")
+  on.exit(closeAllConnections())
 }
