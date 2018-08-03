@@ -61,10 +61,12 @@ convert_plate_to_column <- function(plate, plate_size) {
 # requires:    plate contains a character vector, as specified above
 # returns:     a data frame created from the plate
 plate_text_to_data_frame <- function(plate) {
-   # close connections opened to read.table below
-   on.exit(closeAllConnections())
+   connection <- textConnection(plate)
     
-   utils::read.table(textConnection(plate), sep = ",", 
+    # close connections opened to read.table below
+   on.exit(close.connection(connection))
+    
+   utils::read.table(connection, sep = ",", 
       na.strings = "", stringsAsFactors = FALSE, comment.char = "", 
       colClasses = "character")
     # use colClasses = "character" to keep all data the same type for now
