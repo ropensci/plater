@@ -176,8 +176,8 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
 context("testing view_plate-correct_leading_zeroes()")
 ################################################################################
 for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
-   with <- data.frame(w = get_well_ids(i), b = 1:i)
-   without <- data.frame(w = get_well_ids_without_leading_zeroes(i), b = 1:i)
+   with <- data.frame(w = get_well_ids(i), b = 1:i, stringsAsFactors = FALSE)
+   without <- data.frame(w = get_well_ids_without_leading_zeroes(i), b = 1:i, stringsAsFactors = FALSE)
    
    test_that("correct_leading_zeroes returns same df for correct wells", {
       expect_that(correct_leading_zeroes(with, "w", i), is_identical_to(with))   
@@ -185,12 +185,11 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    
    test_that("correct_leading_zeroes returns same df for correct wells as character", {
       d <- with
-      d$w <- as.character(d$w)
       expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(d))   
    })
    
    test_that("correct_leading_zeroes doesn't change unrelated text", {
-      d <- data.frame(w = letters[1:24], b = 1:i)
+      d <- data.frame(w = letters[1:24], b = 1:i, stringsAsFactors = FALSE)
       expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(d))   
    })
    
@@ -200,17 +199,13 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    
    test_that("correct_leading_zeroes corrects incorrect wells as char", {
       correct <- with
-      correct$w <- as.character(correct$w)
       d <- without
-      d$w <- as.character(d$w)
       expect_that(correct_leading_zeroes(d, "w", i), 
          is_equivalent_to(correct))
    })
    
    test_that("correct_leading_zeroes fixes one incorrect well", {
       d <- with
-      d$w <- factor(d$w, levels = c(levels(d$w), "A1"))
-      d[1, "w"] <- "A1"
       expect_that(correct_leading_zeroes(d, "w", i), is_equivalent_to(with))   
    })
    
