@@ -21,4 +21,4 @@ LazyData: true
 URL: https://docs.ropensci.org/plater, https://github.com/ropensci/plater
 BugReports: https://github.com/ropensci/plater/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2

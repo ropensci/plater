@@ -3,7 +3,6 @@
 \docType{package}
 \name{plater}
 \alias{plater}
-\alias{plater-package}
 \title{Tools to Make it Easy to Work with Microtiter Plate-Shaped Data}
 \description{
 plater defines a simple, plate-shaped file format for data storage, so it's 
