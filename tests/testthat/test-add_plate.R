@@ -49,7 +49,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       
       expect_that(as.character(result$wells), is_identical_to(get_well_ids(i)))
       r <- is.na(result$values) | result$values == as.character(result$wells)
-      expect_that(all(r), is_true())
+      expect_true(all(r))
    })
    
    test_that(paste("add_plate works for missing data from",
@@ -65,7 +65,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
          is_identical_to(factor(get_well_ids_without_leading_zeroes(i))))
       result$values <- remove_leading_zeroes(result$values)
       r <- is.na(result$values) | result$values == as.character(result$wells)
-      expect_that(all(r), is_true())
+      expect_true(all(r))
    })
    
    test_that("add_plate works when plate layout contains wells missing from data and gets order right (rows missing from data at end)", {
@@ -107,7 +107,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       expect_that(result$full, is_identical_to(get_well_ids(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
-      expect_that(all(r), is_true())
+      expect_true(all(r))
    })
    
    test_that("add_plate works for complete valid data", {
@@ -129,7 +129,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       
       expect_that(as.character(result$wells), is_identical_to(get_well_ids(i)))
       r <- is.na(result$values) | result$values == "singleton"
-      expect_that(all(r), is_true())
+      expect_true(all(r))
    })
    
    test_that("add_plate works for plate with single element with single well df", {

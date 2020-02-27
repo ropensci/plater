@@ -88,26 +88,25 @@ context("testing view_plate-are_well_ids_correct()")
 for (i in c(6, 12, 24, 48, 96, 384, 1536)) { 
    wells <- get_well_ids(i)
    test_that("are_well_ids_correct() returns false for too short or long", {
-      expect_that(are_well_ids_correct(wells[1:(i - 1)], i), is_false())
-      expect_that(are_well_ids_correct("A01", i), is_false())   
-      expect_that(are_well_ids_correct(c(wells, "H13"), i), is_false()) 
+      expect_false(are_well_ids_correct(wells[1:(i - 1)], i))
+      expect_false(are_well_ids_correct("A01", i))   
+      expect_false(are_well_ids_correct(c(wells, "H13"), i)) 
    })
    
    test_that("are_well_ids_correct() returns false for repeated wells", {
-      expect_that(are_well_ids_correct(c(wells[1:i - 1], "A01"), i), is_false())
+      expect_false(are_well_ids_correct(c(wells[1:i - 1], "A01"), i))
    })
    
    test_that("are_well_ids_correct() returns false for missing leading zeros", {
-      expect_that(are_well_ids_correct(c(paste0("A", 1:4), wells[1:4]), i), 
-         is_false())
+      expect_false(are_well_ids_correct(c(paste0("A", 1:4), wells[1:4]), i))
    })
    
    test_that("are_well_ids_correct() returns true for correct input", {
-      expect_that(are_well_ids_correct(wells, i), is_true())
+      expect_true(are_well_ids_correct(wells, i))
    })
    
    test_that("are_well_ids_correct() returns true for correct but out of order", {
-      expect_that(are_well_ids_correct(wells[sample(1:i, i)], i), is_true())
+      expect_true(are_well_ids_correct(wells[sample(1:i, i)], i))
    })
 }
 ################################################################################
@@ -227,35 +226,35 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
    without <- data.frame(w = get_well_ids_without_leading_zeroes(i))
    
    test_that("are_leading_zeroes_valid returns TRUE for correct wells", {
-      expect_that(are_leading_zeroes_valid(with, "w", i), is_true())   
+      expect_true(are_leading_zeroes_valid(with, "w", i))   
    })
    
    test_that("are_leading_zeroes_valid returns TRUE for correct wells as char", {
       d <- with
       d$w <- as.character(d$w)
-      expect_that(are_leading_zeroes_valid(d, "w", i), is_true())   
+      expect_true(are_leading_zeroes_valid(d, "w", i))   
    })
    
    test_that("are_leading_zeroes_valid returns TRUE for unrelated text", {
       d <- data.frame(w = 1:i)
-      expect_that(are_leading_zeroes_valid(d, "w", i), is_true())   
+      expect_true(are_leading_zeroes_valid(d, "w", i))   
    })
    
    test_that("are_leading_zeroes_valid returns FALSE for incorrect wells", {
-      expect_that(are_leading_zeroes_valid(without, "w", i), is_false())   
+      expect_false(are_leading_zeroes_valid(without, "w", i))   
    })
    
    test_that("are_leading_zeroes_valid returns FALSE for incorrect wells as char", {
       d <- without
       d$w <- as.character(d$w)
-      expect_that(are_leading_zeroes_valid(d, "w", i), is_false())   
+      expect_false(are_leading_zeroes_valid(d, "w", i))   
    })
    
    test_that("are_leading_zeroes_valid returns FALSE for one incorrect well", {
       d <- with
       d$w <- factor(d$w, levels = c(levels(d$w), "A1"))
       d[1, "w"] <- "A1"
-      expect_that(are_leading_zeroes_valid(d, "w", i), is_false())   
+      expect_false(are_leading_zeroes_valid(d, "w", i))   
    })
 }
 

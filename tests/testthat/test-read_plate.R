@@ -27,7 +27,7 @@ for (i in c(6, 12, 24, 48, 96, 384, 1536)) {
       expect_that(result$full, is_identical_to(get_well_ids(i)))
       expect_that(result$full, is_identical_to(result$wells))
       r <- is.na(result$partial) | result$partial == as.character(result$wells)
-      expect_that(all(r), is_true())
+      expect_true(all(r))
    })
    
    test_that("read_plate returns a tbl_df", {
