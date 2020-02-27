@@ -360,9 +360,6 @@ test_that("bad file extension with read_plates reverse order",
     read_plates(c("testData/96/allWellIds.csv", "testData/file-path-tests/bad_extension")),
     "Sorry, 'testData/file-path-tests/bad_extension' doesn't have a proper CSV file extension."))
 
-test_that("valid file with read_plates", 
-  expect_silent(read_plates(c("testData/96/allWellIds.csv", "testData/96/allWellIds.csv"))))
-
 # check_file_path in context of add_plate
 add_plate_dummy_df <- data.frame(wells = get_well_ids(96))
 
