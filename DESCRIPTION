@@ -1,6 +1,6 @@
 Package: plater
 Title: Read, Tidy, and Display Data from Microtiter Plates
-Version: 1.0.1.9100
+Version: 1.0.2
 Authors@R: person("Sean", "Hughes", email = "smhughes@uw.edu",
     role = c("aut", "cre"), 
     comment = c(ORCID = "0000-0002-9409-9405"))

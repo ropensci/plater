@@ -1,10 +1,9 @@
-# plater 1.0.1.9100
+# plater 1.0.2
 * Changes to tests to comply with new CRAN policy on `data.frame(..., stringsAsFactors = FALSE)`
 
 # plater 1.0.1.9000
 * Add support for 6- and 1536-well plates
 * Change behavior of add_plate so that when the plate layout contains more wells than the input data frame, those wells are appended to the end of the data frame instead of erroring. 
-* Make some changes to comply with CII Best Practices
 
 # plater 1.0.1
 * Eliminate warnings from readLines on files without EOF (Mac issue)
