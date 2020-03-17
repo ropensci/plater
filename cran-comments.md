@@ -1,28 +1,26 @@
-# Update, version 1.0.1, 26 Jun 2017
+# Update, version 1.0.2, 17 Mar 2020
 
-* Fixed a few bugs discovered since initial release last October. Thanks!!
+This is a minor update:
+
+* Changes to tests to comply with new CRAN policy on `data.frame(..., stringsAsFactors = FALSE)`
+* Add support for 6- and 1536-well plates
+* Change behavior of add_plate so that when the plate layout contains more wells than the input data frame, those wells are appended to the end of the data frame instead of erroring. 
 
 ## Test environments
-* ubuntu 12.04 on travis-ci:  devel   r72857 (2017-06-26) 
-                              release 3.4.0  (2017-04-21)
-* win-builder:                devel   r72854 (2017-06-25 )
-                              release 3.4.0  (2017-04-21)
-* local Windows 7:            release 3.3.0  (2016-05-03)
+* ubuntu 16.04 on travis-ci:  devel   r77873 (2020-02-28) 
+                              release 3.6.2  (2017-01-27)
+* win-builder:                devel   r77925 (2020-03-11)
+                              release 3.6.3  (2020-02-29)
+* local Windows 10:           release 3.5.2  (2018-12-20)
+* rhub                        devel   r77917 (2020-03-08)   
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
 There was one NOTE:
 
-   * checking CRAN incoming feasibility ... NOTE
+   * checking CRAN incoming feasibility ... NOTE_to_CRAN_maintainers
    Maintainer: 'Sean Hughes <smhughes@uw.edu>'
 
-   Possibly mis-spelled words in DESCRIPTION:
-     Microtiter (2:42)
-     microtiter (6:71)
-   
-   This is a valid spelling of the word (eg         
-      https://en.wikipedia.org/wiki/Microtiter_plate).
-      
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
