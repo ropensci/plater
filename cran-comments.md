@@ -1,18 +1,19 @@
-# Update, version 1.0.2, 17 Mar 2020
+# Update, version 1.0.3, 4 Jan 2021
 
-This is a minor update:
+This is a minor update: 
 
-* Changes to tests to comply with new CRAN policy on `data.frame(..., stringsAsFactors = FALSE)`
-* Add support for 6- and 1536-well plates
-* Change behavior of add_plate so that when the plate layout contains more wells than the input data frame, those wells are appended to the end of the data frame instead of erroring. 
+* Fix bug where class of some objects was mishandled
+* Replace internal use of deprecated function
 
 ## Test environments
-* ubuntu 16.04 on travis-ci:  devel   r77873 (2020-02-28) 
-                              release 3.6.2  (2017-01-27)
-* win-builder:                devel   r77925 (2020-03-11)
-                              release 3.6.3  (2020-02-29)
-* local Windows 10:           release 3.5.2  (2018-12-20)
-* rhub                        devel   r77917 (2020-03-08)   
+* ubuntu 18.04 on travis-ci:  devel   2021-01-02 r79767 
+                              release 4.0.2 (2020-06-22)
+* win-builder:                devel   2021-01-02 r79767
+                              release 4.0.3 (2020-10-10)
+* rhub                        
+    * ubuntu 16.04            3.6.1
+    * fedora                  2020-10-24 r79367
+    * windows                 2020-12-14 r79633
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
