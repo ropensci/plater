@@ -14,8 +14,8 @@
 #' \code{\link{read_plate}}.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
-#' @return Returns data with as many new columns as plates in \code{file}. 
-#' Empty wells are indicated with NA.
+#' @return Returns data as a tibble with as many new columns as plates in  
+#' \code{file}. Empty wells are indicated with NA.
 #' @export
 #' @examples 
 #' # Part of the data is tidy
@@ -40,9 +40,6 @@ add_plate <- function(data, file, well_ids_column) {
       data <- file
       file <- temp
    }
-   
-   # save for later use
-   original_class <- class(data)
    
    to_add <- read_plate(file, "wellIds")
    
@@ -77,9 +74,7 @@ add_plate <- function(data, file, well_ids_column) {
    
    result <- result[user_order, ]
    
-   # add to class (use union bc it might have other classes eg grouped_df)
-   class(result) <- union(original_class, c("tbl_df", "tbl", "data.frame"))
-   result
+   dplyr::as_tibble(result)
 }
 
 # Returns an error message indicating which wells in annotations are not in

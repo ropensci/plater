@@ -17,8 +17,8 @@ well names.}
 well IDs.}
 }
 \value{
-Returns data with as many new columns as plates in \code{file}. 
-Empty wells are indicated with NA.
+Returns data as a tibble with as many new columns as plates in  
+\code{file}. Empty wells are indicated with NA.
 }
 \description{
 Converts data from \code{plater} format to a data frame with one well 

@@ -1,3 +1,6 @@
+# plater 1.0.3
+* Change `add_plate()` to return a tibble rather than trying to preserve intial class
+
 # plater 1.0.2
 * Changes to tests to comply with new CRAN policy on `data.frame(..., stringsAsFactors = FALSE)`
 * Add support for 6- and 1536-well plates
