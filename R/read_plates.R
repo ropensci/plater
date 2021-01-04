@@ -28,6 +28,7 @@
 #' 
 #' # Data from both plates are tidy and in the same data frame
 #' head(data)
+#' @importFrom rlang .data
 read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    # check that all file paths are valid
    lapply(files, check_file_path)
@@ -65,7 +66,7 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
    rownames(result) <- NULL
    
    # make Plate the first column instead of the last column
-   result <- dplyr::select_(result, "Plate", ~ dplyr::everything())
+   result <- dplyr::select(result, .data$Plate, dplyr::everything())
    
    result
 }
