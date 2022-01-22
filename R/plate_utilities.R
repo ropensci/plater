@@ -132,12 +132,13 @@ validate_column_is_in_data <- function(data, col_names) {
 # Throws an error if the largest column label is not a valid number of columns
 # for a standard plate size.
 #
-# @param A plate .csv file
+# @param file A plate .csv file
+# @param sep The file separator in the input file (e.g. "," or ";").
 # @return the size of the plate based on the column labels.
-guess_plate_size <- function(file) {
+guess_plate_size <- function(file, sep) {
    first_line <- read_lines(file, n = 1)
    
-   first_line_vector <- strsplit(first_line, ",")[[1]]
+   first_line_vector <- strsplit(first_line, sep)[[1]]
    
    # remove title field
    first_line_vector <- first_line_vector[-1]

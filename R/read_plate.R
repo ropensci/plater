@@ -6,6 +6,8 @@
 #' @param file The path of a .csv file formatted as described below.
 #' @param well_ids_column The name to give the column that will contain the well
 #' identifiers. Default "Wells".
+#' @param sep The file separator in the input file (e.g. "," or ";"). Defaults 
+#' to ",".
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{well_ids_column} and contain the well names (A01, A02..). 
 #' There will be as many additional columns as layouts in \code{file}. Empty 
@@ -53,13 +55,13 @@
 #' 
 #' # Now data are tidy
 #' head(data)
-read_plate <- function(file, well_ids_column = "Wells") {
+read_plate <- function(file, well_ids_column = "Wells", sep = ",") {
    check_that_only_one_file_is_provided(file) 
    check_file_path(file)
    check_that_file_is_non_empty(file)
    check_well_ids_column_name(well_ids_column)
    
-   plate_size <- guess_plate_size(file)
+   plate_size <- guess_plate_size(file, sep)
    
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    

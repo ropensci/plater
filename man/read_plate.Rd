@@ -4,13 +4,16 @@
 \alias{read_plate}
 \title{Read a plater-formatted file and turn it into a tidy data frame.}
 \usage{
-read_plate(file, well_ids_column = "Wells")
+read_plate(file, well_ids_column = "Wells", sep = ",")
 }
 \arguments{
 \item{file}{The path of a .csv file formatted as described below.}
 
 \item{well_ids_column}{The name to give the column that will contain the well
 identifiers. Default "Wells".}
+
+\item{sep}{The file separator in the input file (e.g. "," or ";"). Defaults 
+to ",".}
 }
 \value{
 Returns a data frame with each well as a row. One column will be 

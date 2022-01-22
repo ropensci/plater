@@ -4,7 +4,7 @@
 \alias{add_plate}
 \title{Read a plater-formatted file and combine it with an existing data frame.}
 \usage{
-add_plate(data, file, well_ids_column)
+add_plate(data, file, well_ids_column, sep = ",")
 }
 \arguments{
 \item{data}{The data frame to merge the file into. Must contain a column with
@@ -15,6 +15,9 @@ well names.}
 
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
+
+\item{sep}{The file separator in the input file (e.g. "," or ";"). Defaults 
+to ",".}
 }
 \value{
 Returns data as a tibble with as many new columns as plates in  

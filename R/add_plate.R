@@ -14,6 +14,8 @@
 #' \code{\link{read_plate}}.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
+#' @param sep The file separator in the input file (e.g. "," or ";"). Defaults 
+#' to ",".
 #' @return Returns data as a tibble with as many new columns as plates in  
 #' \code{file}. Empty wells are indicated with NA.
 #' @export
@@ -33,7 +35,7 @@
 #' 
 #' # Now data are tidy
 #' head(data)
-add_plate <- function(data, file, well_ids_column) {
+add_plate <- function(data, file, well_ids_column, sep = ",") {
    if ("data.frame" %in% class(file) && class(data) == "character") {
       warning("file and class arguments to add_plate appear to be reversed.")
       temp <- data
@@ -49,7 +51,7 @@ add_plate <- function(data, file, well_ids_column) {
    
    # validate well IDs
    missing_leading_zeroes <- are_leading_zeroes_missing(data, well_ids_column, 
-      guess_plate_size(file))   
+      guess_plate_size(file, sep))   
    
    if(missing_leading_zeroes) {
       to_add$wellIds <- remove_leading_zeroes(to_add$wellIds)

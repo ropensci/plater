@@ -29,7 +29,7 @@
 #' # Data from both plates are tidy and in the same data frame
 #' head(data)
 #' @importFrom rlang .data
-read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
+read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells", sep = ",") {
    # check that all file paths are valid
    lapply(files, check_file_path)
    
@@ -48,7 +48,7 @@ read_plates <- function(files, plate_names = NULL, well_ids_column = "Wells") {
          
          tryCatch(
             expr = { 
-               p <- read_plate(file, well_ids_column)
+               p <- read_plate(file, well_ids_column, sep)
                p$Plate <- plate_name
                p
             }, 
