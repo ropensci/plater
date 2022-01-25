@@ -65,7 +65,7 @@ read_plate <- function(file, well_ids_column = "Wells", sep = ",") {
    
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
-   result <- convert_all_layouts(raw_file_list, plate_size)
+   result <- convert_all_layouts(raw_file_list, plate_size, sep)
    
    result <- combine_list_to_dataframe(result, plate_size)
    
@@ -86,12 +86,13 @@ read_plate <- function(file, well_ids_column = "Wells", sep = ",") {
 # @param raw_file_list The list of containing plates from readLines
 # @param plate_size The number of wells in the plate. Must be 6, 12, 24, 48, 96 
 #                   384, or 1536. Default 96.
+# @param sep The file separator
 # @return A list of two-column data frames of the same length as the input list.
-convert_all_layouts <- function(raw_file_list, plate_size) {
+convert_all_layouts <- function(raw_file_list, plate_size, sep) {
 
    convert <- function(f, layout_number) {
       tryCatch(
-         expr = convert_plate_to_column(f, plate_size), 
+         expr = convert_plate_to_column(f, plate_size, sep), 
          error = function(e) { 
             e <- paste0("Error in layout #", layout_number, ": ", 
                                  e$message)
