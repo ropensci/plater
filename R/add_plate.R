@@ -14,8 +14,8 @@
 #' \code{\link{read_plate}}.
 #' @param well_ids_column The name of the column in \code{data} containing the 
 #' well IDs. 
-#' @param sep The file separator in the input file (e.g. "," or ";"). Defaults 
-#' to ",".
+#' @param sep The character used to separate columns in the file (e.g. "," or ";") 
+#' Defaults to ",".
 #' @return Returns data as a tibble with as many new columns as plates in  
 #' \code{file}. Empty wells are indicated with NA.
 #' @export

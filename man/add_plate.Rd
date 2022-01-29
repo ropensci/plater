@@ -16,8 +16,8 @@ well names.}
 \item{well_ids_column}{The name of the column in \code{data} containing the 
 well IDs.}
 
-\item{sep}{The file separator in the input file (e.g. "," or ";"). Defaults 
-to ",".}
+\item{sep}{The character used to separate columns in the file (e.g. "," or ";") 
+Defaults to ",".}
 }
 \value{
 Returns data as a tibble with as many new columns as plates in  

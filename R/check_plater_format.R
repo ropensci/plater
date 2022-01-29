@@ -4,7 +4,9 @@
 #' it is a valid plater format file and displays information about any 
 #' deficiencies found. 
 #' 
-#' @param file The path of the file to check
+#' @param file The path of the file to check.
+#' @param sep The character used to separate columns in the file (e.g. "," or ";"). 
+#' Defaults to ",".
 #' @return Displays a number of messages as it checks the file. Will stop with
 #' a descriptive error message if the file is not formatted correctly. 
 #' 

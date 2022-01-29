@@ -17,8 +17,8 @@ the file names (stripped of path and .csv).}
 \item{well_ids_column}{The name to give the column that will contain the well
 identifiers. Default "Wells".}
 
-\item{sep}{The file separator in the input file (e.g. "," or ";"). Defaults 
-to ",".}
+\item{sep}{The character used to separate columns in the file (e.g. "," or ";"). 
+Defaults to ",".}
 }
 \value{
 Returns a data frame like that returned by \code{read_plate}, 

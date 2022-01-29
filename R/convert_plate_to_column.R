@@ -7,6 +7,8 @@
 # @param plate A character vector with each element containing a comma-
 # delimited row of a plate
 # @param plate_size The number of wells in the plate
+# @param sep The character used to separate columns in the file (e.g. "," or ";") 
+# Defaults to ",".
 # @return Returns a two-column data frame, with one column called wellIds (A01, 
 #              A02..) and the other containing the values in the indicated 
 #              wells). Empty wells are omitted.  
@@ -59,6 +61,7 @@ convert_plate_to_column <- function(plate, plate_size, sep) {
 }
 
 # requires:    plate contains a character vector, as specified above
+# requires:    The character used to separate columns in the file (e.g. "," or ";")
 # returns:     a data frame created from the plate
 plate_text_to_data_frame <- function(plate, sep) {
    connection <- textConnection(plate)

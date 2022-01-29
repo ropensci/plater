@@ -133,7 +133,7 @@ validate_column_is_in_data <- function(data, col_names) {
 # for a standard plate size.
 #
 # @param file A plate .csv file
-# @param sep The file separator in the input file (e.g. "," or ";").
+# @param sep The character used to separate columns in the file (e.g. "," or ";").
 # @return the size of the plate based on the column labels.
 guess_plate_size <- function(file, sep) {
    first_line <- read_lines(file, n = 1)

@@ -6,8 +6,8 @@
 #' @param file The path of a .csv file formatted as described below.
 #' @param well_ids_column The name to give the column that will contain the well
 #' identifiers. Default "Wells".
-#' @param sep The file separator in the input file (e.g. "," or ";"). Defaults 
-#' to ",".
+#' @param sep The character used to separate columns in the file (e.g. "," or ";"). 
+#' Defaults to ",".
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{well_ids_column} and contain the well names (A01, A02..). 
 #' There will be as many additional columns as layouts in \code{file}. Empty 
@@ -86,7 +86,7 @@ read_plate <- function(file, well_ids_column = "Wells", sep = ",") {
 # @param raw_file_list The list of containing plates from readLines
 # @param plate_size The number of wells in the plate. Must be 6, 12, 24, 48, 96 
 #                   384, or 1536. Default 96.
-# @param sep The file separator
+# @param sep TThe character used to separate columns in the file (e.g. "," or ";").
 # @return A list of two-column data frames of the same length as the input list.
 convert_all_layouts <- function(raw_file_list, plate_size, sep) {
 
