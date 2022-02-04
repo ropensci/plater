@@ -4,7 +4,7 @@
 \alias{read_plates}
 \title{Read multiple plater-formatted files and combine result into one data frame.}
 \usage{
-read_plates(files, plate_names = NULL, well_ids_column = "Wells")
+read_plates(files, plate_names = NULL, well_ids_column = "Wells", sep = ",")
 }
 \arguments{
 \item{files}{A character vector with the paths of one or more plater-formatted
@@ -16,6 +16,9 @@ the file names (stripped of path and .csv).}
 
 \item{well_ids_column}{The name to give the column that will contain the well
 identifiers. Default "Wells".}
+
+\item{sep}{The character used to separate columns in the file (e.g. "," or ";"). 
+Defaults to ",".}
 }
 \value{
 Returns a data frame like that returned by \code{read_plate}, 

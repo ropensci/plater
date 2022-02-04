@@ -4,10 +4,13 @@
 \alias{check_plater_format}
 \title{Check whether a file is in plater format.}
 \usage{
-check_plater_format(file)
+check_plater_format(file, sep = ",")
 }
 \arguments{
-\item{file}{The path of the file to check}
+\item{file}{The path of the file to check.}
+
+\item{sep}{The character used to separate columns in the file (e.g. "," or ";"). 
+Defaults to ",".}
 }
 \value{
 Displays a number of messages as it checks the file. Will stop with

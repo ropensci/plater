@@ -6,6 +6,8 @@
 #' @param file The path of a .csv file formatted as described below.
 #' @param well_ids_column The name to give the column that will contain the well
 #' identifiers. Default "Wells".
+#' @param sep The character used to separate columns in the file (e.g. "," or ";"). 
+#' Defaults to ",".
 #' @return Returns a data frame with each well as a row. One column will be 
 #' named with \code{well_ids_column} and contain the well names (A01, A02..). 
 #' There will be as many additional columns as layouts in \code{file}. Empty 
@@ -53,17 +55,17 @@
 #' 
 #' # Now data are tidy
 #' head(data)
-read_plate <- function(file, well_ids_column = "Wells") {
+read_plate <- function(file, well_ids_column = "Wells", sep = ",") {
    check_that_only_one_file_is_provided(file) 
    check_file_path(file)
    check_that_file_is_non_empty(file)
    check_well_ids_column_name(well_ids_column)
    
-   plate_size <- guess_plate_size(file)
+   plate_size <- guess_plate_size(file, sep)
    
    raw_file_list <- get_list_of_plate_layouts(file, plate_size)
    
-   result <- convert_all_layouts(raw_file_list, plate_size)
+   result <- convert_all_layouts(raw_file_list, plate_size, sep)
    
    result <- combine_list_to_dataframe(result, plate_size)
    
@@ -84,12 +86,13 @@ read_plate <- function(file, well_ids_column = "Wells") {
 # @param raw_file_list The list of containing plates from readLines
 # @param plate_size The number of wells in the plate. Must be 6, 12, 24, 48, 96 
 #                   384, or 1536. Default 96.
+# @param sep TThe character used to separate columns in the file (e.g. "," or ";").
 # @return A list of two-column data frames of the same length as the input list.
-convert_all_layouts <- function(raw_file_list, plate_size) {
+convert_all_layouts <- function(raw_file_list, plate_size, sep) {
 
    convert <- function(f, layout_number) {
       tryCatch(
-         expr = convert_plate_to_column(f, plate_size), 
+         expr = convert_plate_to_column(f, plate_size, sep), 
          error = function(e) { 
             e <- paste0("Error in layout #", layout_number, ": ", 
                                  e$message)
