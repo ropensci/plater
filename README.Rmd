@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # plater
 
-[![Travis-CI Build Status](https://travis-ci.org/ropensci/plater.svg?branch=master)](https://travis-ci.org/ropensci/plater)
+[![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check/badge.svg)](https://github.com/ropenscilabs/plater/actions)
 [![CRAN version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
 [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](http://cran.rstudio.com/web/packages/plater/index.html) [![DOI](https://zenodo.org/badge/32951641.svg)](https://zenodo.org/badge/latestdoi/32951641)
 [![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/onboarding/issues/60)
