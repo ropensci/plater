@@ -1,3 +1,6 @@
+# plater 1.0.4
+* Add an option to allow non-comma delimiters (#27). Thanks to Yorgos Bos @superpuffin
+
 # plater 1.0.3
 * Change `add_plate()` to return a tibble rather than trying to preserve initial class
 * Remove use of deprecated `select_` function

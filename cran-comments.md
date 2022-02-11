@@ -1,19 +1,18 @@
-# Update, version 1.0.3, 4 Jan 2021
+# Update, version 1.0.4, 11 Feb 2022
 
 This is a minor update: 
 
-* Fix bug where class of some objects was mishandled
-* Replace internal use of deprecated function
+* Introduce a new optional argument to specify any character as a delimiter. This change is backwards-compatible. 
 
 ## Test environments
-* ubuntu 18.04 on travis-ci:  devel   2021-01-02 r79767 
-                              release 4.0.2 (2020-06-22)
-* win-builder:                devel   2021-01-02 r79767
-                              release 4.0.3 (2020-10-10)
-* rhub                        
-    * ubuntu 16.04            3.6.1
-    * fedora                  2020-10-24 r79367
-    * windows                 2020-12-14 r79633
+* local         Windows 10      R release 4.0.0 (2020-04-24)    
+* github        macOS 11.6.3    R release 4.1.2 (2021-11-01)
+* github        Windows 10      R release 4.1.2 (2021-11-01)
+* github        Ubuntu 20.04    R release 4.1.2 (2021-11-01)
+* github        Ubuntu 20.04    R release 4.0.5 (2021-03-31)
+* github        Ubuntu 20.04    R devel (2022-02-09 r81690)
+* win-builder   Windows         R release 4.1.2 (2021-11-01)
+* win-builder   Windows         R devel (2022-02-10 r81713 ucrt)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
