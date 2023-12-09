@@ -97,9 +97,9 @@ get_plate_size_from_number_of_columns <- function(columns) {
 # @return the corresponding value, or an empty vector if invalid data supplied
 plate_dimensions <- function(get, from, value) {
    dimensions <- data.frame(
-              Columns    = c(3, 4,  6,  8,  12, 24,  48), 
-               Rows      = c(2, 3,  4,  6,  8,  16,  32), 
-              PlateSize  = c(6, 12, 24, 48, 96, 384, 1536))
+              Columns    = c(3, 4,  5,  6,  8,  12, 24,  48), 
+               Rows      = c(2, 3,  3,  4,  6,  8,  16,  32), 
+              PlateSize  = c(6, 12, 15,  24, 48, 96, 384, 1536))
    
    which_row <- which(dimensions[[from]] == value)
    
