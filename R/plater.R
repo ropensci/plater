@@ -11,6 +11,7 @@
 #' allows easy plate-shaped visualization of tidy data 
 #' (\code{\link[plater]{view_plate}}). 
 #' 
-#' @docType package
-#' @name plater
+#' @keywords internal
+"_PACKAGE"
+
 NULL
