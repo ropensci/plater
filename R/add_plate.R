@@ -36,7 +36,7 @@
 #' # Now data are tidy
 #' head(data)
 add_plate <- function(data, file, well_ids_column, sep = ",") {
-   if ("data.frame" %in% class(file) && class(data) == "character") {
+   if (inherits(file, "data.frame") && inherits(data, "character")) {
       warning("file and class arguments to add_plate appear to be reversed.")
       temp <- data
       data <- file
