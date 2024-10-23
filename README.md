@@ -4,9 +4,9 @@
 
 [![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/plater/actions)
 [![CRAN
-version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
+version](https://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
 [![CRAN
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](https://cran.rstudio.com/web/packages/plater/index.html)
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/plater)](https://cran.rstudio.com/web/packages/plater/index.html)
 [![DOI](https://zenodo.org/badge/32951641.svg)](https://zenodo.org/badge/latestdoi/32951641)
 [![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/software-review/issues/60)
 
@@ -34,10 +34,10 @@ similar plate layout form.
 But data in those dimensions aren’t ideal for analysis. That’s where
 `read_plate()` and `add_plate()` come in.
 
--   `read_plate()` takes data in plate layout form and converts it to a
-    data frame, with one well per row, identified by well name.
--   `add_plate()` does the same thing, but merges the new columns into
-    an existing data frame you provide.
+- `read_plate()` takes data in plate layout form and converts it to a
+  data frame, with one well per row, identified by well name.
+- `add_plate()` does the same thing, but merges the new columns into an
+  existing data frame you provide.
 
 In other words, these functions seamlessly convert plate-shaped data
 (easy to think about) into tidy data (easy to analyze).
