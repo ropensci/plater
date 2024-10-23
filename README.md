@@ -1,22 +1,20 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-plater
-======
+# plater
 
-[![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check/badge.svg)](https://github.com/ropenscilabs/plater/actions)
+[![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/plater/actions)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
 [![CRAN
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](http://cran.rstudio.com/web/packages/plater/index.html)
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/plater)](https://cran.rstudio.com/web/packages/plater/index.html)
 [![DOI](https://zenodo.org/badge/32951641.svg)](https://zenodo.org/badge/latestdoi/32951641)
-[![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/onboarding/issues/60)
+[![](https://badges.ropensci.org/60_status.svg)](https://github.com/ropensci/software-review/issues/60)
 
 plater makes it easy to work with data from experiments performed in
 plates. It is aimed at scientists and analysts who deal with microtiter
 plate-based instruments.
 
-Installation
-------------
+## Installation
 
 plater is available through CRAN. Just run:
 
@@ -24,8 +22,7 @@ plater is available through CRAN. Just run:
 install.packages("plater") 
 ```
 
-Getting your data in
---------------------
+## Getting your data in
 
 Many scientific instruments (such as plate readers and qPCR machines)
 produce data in tabular form that mimics a microtiter plate: each cell
@@ -49,22 +46,19 @@ To make it even easier, if you have multiple plates in an experiment,
 use `read_plates()` to read them all in and combine them into a single
 data frame.
 
-Seeing your data
-----------------
+## Seeing your data
 
 Sometimes it’s useful to map your data back onto a plate (are the weird
 outliers all from the same corner of the plate?). For that, there’s
 `view_plate()`, which takes a data frame with one well per row, and lays
 it out like it’s on a plate.
 
-Vignette
---------
+## Vignette
 
 For a detailed example of how to use `plater`, check out [the
 vignette.](https://cran.r-project.org/web/packages/plater/vignettes/plater-basics.html)
 
-Contributing to `plater`
-------------------------
+## Contributing to `plater`
 
 `plater` is developed under a [Contributor Code of Conduct](CONDUCT.md).
 To contribute to its development, you must agree to abide by its terms.
@@ -78,4 +72,4 @@ address listed
 [here](https://github.com/ropensci/plater/blob/master/DESCRIPTION).
 
 [![ropensci
-footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+footer](https://ropensci.org//public_images/github_footer.png)](https://ropensci.org/)

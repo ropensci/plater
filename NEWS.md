@@ -1,3 +1,6 @@
+# plater 1.0.5
+* Add package \alias to plater.R per CRAN request. Thanks to Maëlle Salmon @maelle
+
 # plater 1.0.4
 * Add an option to allow non-comma delimiters (#27). Thanks to Yorgos Bos @superpuffin
 
