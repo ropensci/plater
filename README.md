@@ -2,7 +2,7 @@
 
 # plater
 
-[![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/plater/actions)
+[![R-CMD-check](https://github.com/ropenscilabs/plater/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/plater/actions)
 [![CRAN
 version](https://www.r-pkg.org/badges/version/plater)](https://cran.r-project.org/package=plater)
 [![CRAN
