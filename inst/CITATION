@@ -1,7 +1,6 @@
-citHeader("To cite 'plater' in publications, please use:")
-
-citEntry(
-    entry        = "Article",
+bibentry(
+    header       = "To cite plater in publications, please use:",
+    bibtype      = "Article",
     doi          = "10.21105/joss.00106",
     url          = "http://dx.doi.org/10.21105/joss.00106",
     year         = "2016",
