@@ -23,4 +23,7 @@ There was one NOTE:
    Maintainer: 'Sean Hughes <smhughes@uw.edu>'
 
 ## Downstream dependencies
-There is one downstream dependency for this package (FAST.R).
+We checked 1 reverse dependency (0 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages

@@ -11,3 +11,4 @@
 ^paper\.bib$
 ^paper\.md$
 ^\.github$
+^revdep$
